@@ -102,7 +102,7 @@ body:not(.pub) .pb{display:none}body.pub{display:block}body.pub header{display:n
 // Mismo proyecto de Supabase que el panel de administración. Lo que el cliente hace aquí (registro,
 // solicitudes, mensajes) aparece en el pipeline del equipo, y sus respuestas y cambios de estado llegan
 // aquí en tiempo real. Requiere haber ejecutado supabase_portal_cliente.sql (está en test-admin).
-const SUPABASE_URL="https://lpflycvomagkudyqsaug.supabase.co",SUPABASE_KEY="sb_publishable_LEkhPHD4mKJJFzIbPXBNeQ_e06arFQx";
+const SUPABASE_URL="https://ufwuvbjrgvphbggkfkuh.supabase.co",SUPABASE_KEY="sb_publishable_qxIupQGDLTM9ZXf4uAB60A_FHyRBws_";
 // storageKey propio: si ambos paneles se publican en el mismo dominio, no comparten la sesión del staff
 let db=null;try{if(window.supabase)db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:"webcare-portal-cliente"}})}catch(_){}
 let U={n:"Laura",d:"panaderialuz.es"},ACC=[],auth=false,cur="Inicio",tip=true,plan="Mantenimiento Pro",demo=true,canal=null,casoSel=null;
