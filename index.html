@@ -100,12 +100,14 @@ body:not(.pub) .pb{display:none}body.pub{display:block}body.pub header{display:n
 <script>
 // ================= CONEXIÓN CON EL PANEL DEL EQUIPO (test-admin) =================
 // Mismo proyecto de Supabase que el panel de administración. Lo que el cliente hace aquí (registro,
-// solicitudes, mensajes) aparece en el pipeline del equipo, y sus respuestas y cambios de estado llegan
-// aquí en tiempo real. Requiere haber ejecutado supabase_portal_cliente.sql (está en test-admin).
+// solicitudes, mensajes) aparece en el pipeline del equipo, y sus respuestas y cambios de estado llegan aquí.
+// Las cuentas de cliente están en la tabla "clientes" (no se usa Supabase Auth). El navegador no lee ninguna
+// tabla: todo pasa por las funciones cliente_* de supabase_completo.sql (en test-admin), que comprueban el token.
 const SUPABASE_URL="https://ufwuvbjrgvphbggkfkuh.supabase.co",SUPABASE_KEY="sb_publishable_qxIupQGDLTM9ZXf4uAB60A_FHyRBws_";
-// storageKey propio: si ambos paneles se publican en el mismo dominio, no comparten la sesión del staff
-let db=null;try{if(window.supabase)db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{storageKey:"webcare-portal-cliente"}})}catch(_){}
-let U={n:"",d:""},ACC=[],auth=false,cur="Inicio",tip=true,plan="Mantenimiento Pro",canal=null,casoSel=null;
+let db=null;try{if(window.supabase)db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false}})}catch(_){}
+const TK="webcare-portal-token",leerTk=()=>{try{return localStorage.getItem(TK)}catch(_){return null}},guardarTk=t=>{try{t?localStorage.setItem(TK,t):localStorage.removeItem(TK)}catch(_){}};
+const SONDEO_MS=5000;   // cada cuánto se miran respuestas y cambios de estado del equipo
+let U={n:"",d:""},ACC=[],auth=false,cur="Inicio",tip=true,plan="Mantenimiento Pro",token=null,sondeo=null,casoSel=null;
 let CASOS=[],MSGS=[];   // casos (tabla reportes) y mensajes (tabla mensajes_caso) del cliente
 const CERR=["Aceptado","Denegado"],lead=()=>CASOS.find(c=>c.tipo_reporte=="Lead"),tickets=()=>CASOS.filter(c=>c.tipo_reporte!="Lead");
 // Registrado desde el portal: el resto del panel se desbloquea cuando el equipo pasa su lead a «Aceptado»
@@ -159,34 +161,28 @@ async function addT(){const x=document.getElementById("tx").value.trim();if(!x)r
 const c={tipo_reporte:TY[ty]||"Cambio",titulo:x.slice(0,60),descripcion:ty+" · Urgencia: "+(ur?"Urgente":"Normal")+"\n\n"+x,estado:"Entrada de leads"};if(ur)c.urgencia=.85;
 if(!await crearCaso(c))return;document.getElementById("tx").value="";render();toast("Recibido. Tu equipo ya está en ello.")}
 // ---------- Datos compartidos con el panel del equipo ----------
-const COLS="id,tipo_reporte,titulo,estado,plan,dominio,urgencia,created_at";
-async function crearCaso(c){const{data,error}=await db.from("reportes").insert({...c,cliente_id:U.uid,usuario_discord:U.nc,email:U.email,dominio:U.dr||null,plan:c.plan||(CASOS.find(x=>x.plan)||{}).plan||null}).select(COLS).single();
-if(error){toast("No se pudo enviar: "+error.message,5000);return false}if(!CASOS.some(x=>x.id==data.id))CASOS.unshift(data);return true}
-async function cargarCasos(){const{data,error}=await db.from("reportes").select(COLS).eq("cliente_id",U.uid).is("eliminado_en",null).order("created_at",{ascending:false});if(error)throw error;CASOS=data;
-const ids=CASOS.map(c=>c.id);if(!ids.length){MSGS=[];return}const r=await db.from("mensajes_caso").select("id,caso_id,autor_tipo,autor,texto,creado_en").in("caso_id",ids).order("creado_en",{ascending:true});if(r.error)throw r.error;MSGS=r.data}
-async function entrarCliente(s){const u=s.user,md=u.user_metadata||{},nc=md.nombre||u.email.split("@")[0];U={uid:u.id,email:u.email,nc,n:esc(nc.split(" ")[0]),dr:md.dominio||"",d:esc(md.dominio||"")};
-try{await cargarCasos();
-// Primer acceso tras registrarse: se crea su lead, que entra en «Entrada de leads» del pipeline del equipo
-if(md.plan&&!md.lead_creado&&!lead()&&await crearCaso({tipo_reporte:"Lead",titulo:"Nuevo cliente · "+md.plan,descripcion:"Se ha registrado desde el portal del cliente y ha elegido "+md.plan+"."+(md.dominio?" Web: "+md.dominio:""),plan:md.plan,estado:"Entrada de leads"}))db.auth.updateUser({data:{lead_creado:true}})}
-catch(err){toast("No se pudieron cargar tus datos: "+err.message,6000)}
-const m=CASOS.find(c=>/^Mantenimiento/.test(c.plan||""));if(m)plan=m.plan;auth=true;suscribir();go(lockeado()?"Chat":"Mi web")}
-function suscribir(){if(canal)db.removeChannel(canal);let antes=false;
-canal=db.channel("portal-"+U.uid)
-.on("postgres_changes",{event:"*",schema:"public",table:"reportes",filter:"cliente_id=eq."+U.uid},p=>{const n=p.new||{},v=CASOS.find(c=>c.id==n.id),bloq=lockeado();
-if(p.eventType=="DELETE"||n.eliminado_en)CASOS=CASOS.filter(c=>c.id!=n.id&&c.id!=(p.old||{}).id);
-else{if(v&&estCli(v.estado)!=estCli(n.estado))toast((n.tipo_reporte=="Lead"?"Tu proyecto":"Tu solicitud #"+n.id)+" ahora está: "+estCli(n.estado),4000);CASOS=v?CASOS.map(c=>c.id==n.id?n:c):[n,...CASOS]}
-if(bloq&&!lockeado())toast("¡Tu proyecto está activo! Ya tienes acceso a todo tu panel.",5000);render()})
-.on("postgres_changes",{event:"INSERT",schema:"public",table:"mensajes_caso"},p=>{const m=p.new;if(!CASOS.some(c=>c.id==m.caso_id)||MSGS.some(x=>x.id==m.id))return;MSGS.push(m);if(m.autor_tipo=="staff")toast("Nuevo mensaje del equipo Webcare",4000);render()})
-.subscribe(st=>{if(st=="SUBSCRIBED"){if(antes)cargarCasos().then(()=>render()).catch(()=>{});antes=true}})}
-async function login(e){e.preventDefault();const m=document.getElementById("em").value.trim().toLowerCase(),p=document.getElementById("pw").value,er=document.getElementById("er");if(!/^\S+@\S+\.\S+$/.test(m)){er.textContent="Escribe un correo válido.";return false}if(p.length<4){er.textContent="La contraseña debe tener al menos 4 caracteres.";return false}
-if(!db){er.textContent="No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.";return false}
-er.textContent="Entrando…";const{data,error}=await db.auth.signInWithPassword({email:m,password:p});
-if(error){er.textContent=/confirm/i.test(error.message)?"Confirma tu correo antes de entrar (revisa tu bandeja de entrada).":"Correo o contraseña incorrectos.";return false}
-er.textContent="";document.getElementById("lg").style.display="none";document.getElementById("pw").value="";await entrarCliente(data.session);toast("Sesión iniciada");return false}
-async function olvide(){const m=document.getElementById("em").value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(m)){document.getElementById("er").textContent="Escribe tu correo y vuelve a pulsar «¿Has olvidado tu contraseña?».";return}
-if(!db)return toast("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.",4000);const{error}=await db.auth.resetPasswordForEmail(m,{redirectTo:location.href.split("#")[0]});toast(error?(/rate limit/i.test(error.message)?"Hemos enviado demasiados correos. Inténtalo de nuevo dentro de un rato.":"No se pudo enviar: "+error.message):"Te hemos enviado un enlace para restablecerla",4000)}
-function cambiarClave(){const p=prompt("Escribe tu nueva contraseña (mínimo 8 caracteres)");if(!p)return;if(p.length<8)return toast("La contraseña debe tener al menos 8 caracteres.",4000);db.auth.updateUser({password:p}).then(({error})=>toast(error?"No se pudo cambiar: "+error.message:"Contraseña actualizada",4000))}
-function out(){if(db){if(canal)db.removeChannel(canal);canal=null;db.auth.signOut()}auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];U={n:"",d:""};render(true);scrollTo(0,0)}
+async function rpc(f,a){if(!db)throw new Error("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.");const{data,error}=await db.rpc(f,a);
+if(error){if(/SESION_CADUCADA/.test(error.message)){if(token)out(true);throw new Error("Tu sesión ha caducado.")}throw new Error(error.message)}return data}
+async function crearCaso(c){try{const r=await rpc("cliente_crear_caso",{p_token:token,p_tipo:c.tipo_reporte,p_titulo:c.titulo,p_descripcion:c.descripcion,p_urgente:!!c.urgencia});if(!CASOS.some(x=>x.id==r.id))CASOS.unshift(r);return true}
+catch(err){toast("No se pudo enviar: "+err.message,5000);return false}}
+// Pone al día casos y mensajes; con avisar=true avisa de lo que haya cambiado el equipo. Devuelve si hubo cambios
+async function cargarCasos(avisar){const d=await rpc("cliente_datos",{p_token:token}),c=d.cliente,bloq=lockeado(),antes=JSON.stringify([CASOS,MSGS]);
+U={uid:c.id,email:c.email,nc:c.nombre,n:esc(c.nombre.split(" ")[0]),dr:c.dominio||"",d:esc(c.dominio||"")};
+if(avisar){for(const n of d.casos){const v=CASOS.find(x=>x.id==n.id);if(v&&estCli(v.estado)!=estCli(n.estado))toast((n.tipo_reporte=="Lead"?"Tu proyecto":"Tu solicitud #"+n.id)+" ahora está: "+estCli(n.estado),4000)}
+if(d.mensajes.some(m=>m.autor_tipo=="staff"&&!MSGS.some(x=>x.id==m.id)))toast("Nuevo mensaje del equipo Webcare",4000)}
+CASOS=d.casos;MSGS=d.mensajes;if(avisar&&bloq&&!lockeado())toast("¡Tu proyecto está activo! Ya tienes acceso a todo tu panel.",5000);return antes!=JSON.stringify([CASOS,MSGS])}
+async function entrarCliente(r){token=r.token;guardarTk(token);
+try{await cargarCasos(false)}catch(err){if(!token)return;toast("No se pudieron cargar tus datos: "+err.message,6000)}
+const m=CASOS.find(c=>/^Mantenimiento/.test(c.plan||""));if(m)plan=m.plan;auth=true;sondear();go(lockeado()?"Chat":"Mi web")}
+// Sin Supabase Auth no hay tiempo real: se consulta cada pocos segundos mientras la pestaña está a la vista
+function sondear(){clearInterval(sondeo);const tick=()=>{if(token&&!document.hidden)cargarCasos(true).then(c=>{if(c)render()}).catch(()=>{})};sondeo=setInterval(tick,SONDEO_MS);sondear.tick=tick}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&sondear.tick)sondear.tick()});
+async function login(e){e.preventDefault();const m=document.getElementById("em").value.trim().toLowerCase(),p=document.getElementById("pw").value,er=document.getElementById("er");if(!/^\S+@\S+\.\S+$/.test(m)){er.textContent="Escribe un correo válido.";return false}if(!p){er.textContent="Escribe tu contraseña.";return false}
+er.textContent="Entrando…";try{const r=await rpc("cliente_entrar",{p_email:m,p_clave:p});er.textContent="";document.getElementById("lg").style.display="none";document.getElementById("pw").value="";await entrarCliente(r);toast("Sesión iniciada")}
+catch(err){er.textContent=err.message}return false}
+function olvide(){toast("Escríbenos y el equipo de Webcare te ayudará a restablecer tu contraseña.",5000)}
+function out(caducada){const t=token;token=null;guardarTk(null);clearInterval(sondeo);if(t&&!caducada&&db)db.rpc("cliente_salir",{p_token:t}).then(()=>{},()=>{});
+auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];U={n:"",d:""};render(true);scrollTo(0,0);if(caducada)toast("Tu sesión ha caducado. Vuelve a iniciar sesión.",4000)}
 const PD=[{n:"Básico",p:"49 €",t:"Para webs sencillas que solo necesitan estar al día y protegidas.",f:["Actualizaciones de seguridad de la web","Copia de seguridad diaria","Vigilancia de caídas las 24 horas","Certificado SSL controlado","2 horas de cambios al mes","Respuesta en 24 horas laborables"]},
 {n:"Pro",p:"89 €",t:"El más elegido: más horas, respuesta rápida y resultados a la vista.",f:["Todo lo del plan Básico","5 horas de cambios al mes","Respuesta en menos de 4 horas","Informe mensual de estado y rendimiento","Optimización básica de velocidad","Panel con seguimiento de tus solicitudes"]},
 {n:"Pro + SEO",p:"189 €",t:"Para webs que quieren crecer en Google mes a mes.",f:["Todo lo del plan Pro","Trabajo SEO mensual: títulos, enlaces y contenidos","Seguimiento de palabras clave","Informe SEO con tráfico y posiciones","Auditoría SEO inicial","Revisión trimestral de objetivos"]}];
@@ -233,13 +229,9 @@ r.innerHTML=`<div class="lf"><b style="font-size:20px"><span style="display:inli
 async function reg(e){e.preventDefault();const v=id=>document.getElementById(id).value.trim(),x=document.getElementById("rx"),n=v("rn"),em=v("re").toLowerCase(),dm=v("rd").replace(/^https?:\/\//,"").replace(/\/.*$/,""),p=document.getElementById("rp").value;
 if(!n){x.textContent="Escribe tu nombre.";return false}if(!/^\S+@\S+\.\S+$/.test(em)){x.textContent="Escribe un correo válido.";return false}if(dm&&!dm.includes(".")){x.textContent="Revisa el dominio, por ejemplo mitienda.com.";return false}if(p.length<8){x.textContent="La contraseña debe tener al menos 8 caracteres.";return false}
 const nm=REG.t=="w"?WP[REG.i].n:"Mantenimiento "+PD[REG.i].n;
-if(!db){x.textContent="No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.";return false}
-x.textContent="Creando tu cuenta…";const{data,error}=await db.auth.signUp({email:em,password:p,options:{data:{nombre:n,dominio:dm,plan:nm},emailRedirectTo:location.href.split("#")[0]}});
-if(error){x.textContent=/registered|already/i.test(error.message)?"Ya existe una cuenta con ese correo. Inicia sesión.":/rate limit/i.test(error.message)?"Ahora mismo no podemos crear más cuentas. Inténtalo de nuevo dentro de un rato.":"No se pudo crear la cuenta: "+error.message;return false}
-document.getElementById("rg").style.display="none";
-if(data.session){await entrarCliente(data.session);toast("Cuenta creada. Ya puedes escribirnos.",3500)}
-else{openLg();document.getElementById("em").value=em;toast("Te hemos enviado un correo para confirmar tu cuenta. Después, inicia sesión.",6000)}
-return false}
+x.textContent="Creando tu cuenta…";try{const r=await rpc("cliente_registrar",{p_email:em,p_clave:p,p_nombre:n,p_dominio:dm,p_plan:nm});
+x.textContent="";document.getElementById("rg").style.display="none";await entrarCliente(r);toast("Cuenta creada. Ya puedes escribirnos.",3500)}
+catch(err){x.textContent=err.message}return false}
 // Conversación de un caso: la misma que el equipo ve en «Chat con el cliente» del panel de administración
 function CHAT(c){if(!c)return `<h1>Mensajes</h1><p class="mu">Todavía no tienes conversaciones. Escríbenos desde <button class="lk" onclick="go('Soporte')">Soporte</button>.</p>`;const ld=c.tipo_reporte=="Lead";
 const L=[{w:"eq",h:fh(c.created_at),t:ld?`¡Hola, ${U.n}! Hemos recibido tu solicitud: ${esc(c.plan||c.titulo||"")}. En breve revisaremos tu caso y te escribiremos por aquí para empezar. Mientras tanto, cuéntanos qué necesitas o si tienes dudas.`:`Hemos recibido tu solicitud #${c.id}. Te responderemos por aquí.`},...msgsDe(c.id).map(m=>({w:m.autor_tipo=="usuario"?"me":"eq",a:m.autor_tipo=="staff"&&m.autor,h:fh(m.creado_en),t:esc(m.texto)}))];
@@ -247,15 +239,15 @@ return `${ld?"":`<p style="margin-bottom:8px"><button class="lk" onclick="go('So
 ${!ld&&CERR.includes(c.estado)?`<p class="mu" style="padding:12px 16px;border-top:1px solid var(--bd)">Esta solicitud está cerrada. Si necesitas algo más, abre una nueva desde Soporte.</p>`:`<div class="cf"><input id="ci" placeholder="Escribe tu mensaje…" onkeydown="if(event.key=='Enter')sendC()"><button class="btn" onclick="sendC()">Enviar</button></div>`}</div>`}
 function verCaso(id){casoSel=id;go("Solicitud")}
 async function sendC(){const i=document.getElementById("ci"),t=i.value.trim(),id=cur=="Solicitud"?casoSel:(lead()||{}).id;if(!t||!id)return;i.value="";const foco=()=>{const e=document.getElementById("ci");if(e)e.focus()};
-const{data,error}=await db.from("mensajes_caso").insert({caso_id:id,autor_tipo:"usuario",texto:t}).select("id,caso_id,autor_tipo,autor,texto,creado_en").single();
-if(error){const e=document.getElementById("ci");if(e&&!e.value)e.value=t;return toast("No se pudo enviar el mensaje: "+error.message,5000)}if(!MSGS.some(m=>m.id==data.id))MSGS.push(data);render();foco()}
+try{const data=await rpc("cliente_enviar_mensaje",{p_token:token,p_caso:id,p_texto:t});if(!MSGS.some(m=>m.id==data.id))MSGS.push(data);render();foco()}
+catch(err){const e=document.getElementById("ci");if(e&&!e.value)e.value=t;toast("No se pudo enviar el mensaje: "+err.message,5000)}}
 const LOCKED=h=>`<div class="lw"><div class="bl" inert aria-hidden="true">${h}</div><div class="lm"><div class="c" style="max-width:380px;text-align:center"><b style="font-size:18px">Esta sección se activará pronto</b><p class="mu" style="margin:8px 0 14px">Tu equipo está preparando tu proyecto. Mientras tanto, escríbenos en el chat.</p><button class="btn" onclick="go('Chat')">Ir al chat</button></div></div></div>`;
 function openLg(){document.getElementById("lg").style.display="grid"}
 function go(k){cur=k;render(true);scrollTo(0,0)}
-// fresh = cambio de vista; si no, se conserva lo que se esté escribiendo (llegan mensajes en tiempo real)
+// fresh = cambio de vista; si no, se conserva lo que se esté escribiendo (las novedades llegan solas)
 function render(fresh){const keep={};if(!fresh)["ci","tx","ty","ur"].forEach(k=>{const e=document.getElementById(k);if(e)keep[k]=[e.value,document.activeElement==e]});
 const lk=lockeado();document.body.classList.toggle("pub",!auth);if(!auth)cur="Inicio";document.getElementById("nav").innerHTML=(lead()?["Chat","Mi web","Soporte","SEO","Facturación"]:["Mi web","Soporte","SEO","Facturación"]).map(k=>`<button class="${k==cur||(k=="Soporte"&&cur=="Solicitud")?"on":""}" onclick="go('${k}')">${k}${lk&&k!="Chat"?'<em>Bloqueado</em>':k=="Soporte"?'<em>'+tickets().filter(t=>!CERR.includes(t.estado)).length+'</em>':""}</button>`).join("");document.getElementById("v").style.maxWidth=cur=="Inicio"?"1080px":"";document.getElementById("v").innerHTML=lk&&cur!="Chat"?LOCKED(V[cur]()):V[cur]();const cb=document.getElementById("cb");if(cb)cb.scrollTop=cb.scrollHeight;document.querySelector(".st").innerHTML=lk?'<span class="dot w"></span>Proyecto en preparación':'<span class="dot"></span>Tu web está online';
 for(const k in keep){const e=document.getElementById(k);if(e){e.value=keep[k][0];if(keep[k][1])e.focus()}}}
 render();
-if(db){db.auth.getSession().then(({data})=>{if(data.session)entrarCliente(data.session)});db.auth.onAuthStateChange(ev=>{if(ev=="PASSWORD_RECOVERY")cambiarClave()})}
+{const t=leerTk();if(t&&db)entrarCliente({token:t})}
 </script></body></html>
