@@ -184,7 +184,7 @@ er.textContent="Entrando…";const{data,error}=await db.auth.signInWithPassword(
 if(error){er.textContent=/confirm/i.test(error.message)?"Confirma tu correo antes de entrar (revisa tu bandeja de entrada).":"Correo o contraseña incorrectos.";return false}
 er.textContent="";document.getElementById("lg").style.display="none";document.getElementById("pw").value="";await entrarCliente(data.session);toast("Sesión iniciada");return false}
 async function olvide(){const m=document.getElementById("em").value.trim().toLowerCase();if(!/^\S+@\S+\.\S+$/.test(m)){document.getElementById("er").textContent="Escribe tu correo y vuelve a pulsar «¿Has olvidado tu contraseña?».";return}
-if(!db)return toast("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.",4000);const{error}=await db.auth.resetPasswordForEmail(m,{redirectTo:location.href.split("#")[0]});toast(error?"No se pudo enviar: "+error.message:"Te hemos enviado un enlace para restablecerla",4000)}
+if(!db)return toast("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.",4000);const{error}=await db.auth.resetPasswordForEmail(m,{redirectTo:location.href.split("#")[0]});toast(error?(/rate limit/i.test(error.message)?"Hemos enviado demasiados correos. Inténtalo de nuevo dentro de un rato.":"No se pudo enviar: "+error.message):"Te hemos enviado un enlace para restablecerla",4000)}
 function cambiarClave(){const p=prompt("Escribe tu nueva contraseña (mínimo 8 caracteres)");if(!p)return;if(p.length<8)return toast("La contraseña debe tener al menos 8 caracteres.",4000);db.auth.updateUser({password:p}).then(({error})=>toast(error?"No se pudo cambiar: "+error.message:"Contraseña actualizada",4000))}
 function out(){if(db){if(canal)db.removeChannel(canal);canal=null;db.auth.signOut()}auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];U={n:"",d:""};render(true);scrollTo(0,0)}
 const PD=[{n:"Básico",p:"49 €",t:"Para webs sencillas que solo necesitan estar al día y protegidas.",f:["Actualizaciones de seguridad de la web","Copia de seguridad diaria","Vigilancia de caídas las 24 horas","Certificado SSL controlado","2 horas de cambios al mes","Respuesta en 24 horas laborables"]},
@@ -235,7 +235,7 @@ if(!n){x.textContent="Escribe tu nombre.";return false}if(!/^\S+@\S+\.\S+$/.test
 const nm=REG.t=="w"?WP[REG.i].n:"Mantenimiento "+PD[REG.i].n;
 if(!db){x.textContent="No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.";return false}
 x.textContent="Creando tu cuenta…";const{data,error}=await db.auth.signUp({email:em,password:p,options:{data:{nombre:n,dominio:dm,plan:nm},emailRedirectTo:location.href.split("#")[0]}});
-if(error){x.textContent=/registered|already/i.test(error.message)?"Ya existe una cuenta con ese correo. Inicia sesión.":"No se pudo crear la cuenta: "+error.message;return false}
+if(error){x.textContent=/registered|already/i.test(error.message)?"Ya existe una cuenta con ese correo. Inicia sesión.":/rate limit/i.test(error.message)?"Ahora mismo no podemos crear más cuentas. Inténtalo de nuevo dentro de un rato.":"No se pudo crear la cuenta: "+error.message;return false}
 document.getElementById("rg").style.display="none";
 if(data.session){await entrarCliente(data.session);toast("Cuenta creada. Ya puedes escribirnos.",3500)}
 else{openLg();document.getElementById("em").value=em;toast("Te hemos enviado un correo para confirmar tu cuenta. Después, inicia sesión.",6000)}
