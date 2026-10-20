@@ -447,11 +447,25 @@ function tarjetaServ(s,extra){const c=catDe(s.nombre)||{},pr=s.precio||c.pr||"";
 return `<div class="c serv"><div class="serv-h"><div style="min-width:0"><b class="serv-n">${esc(s.nombre)}</b>${pr?`<small class="mu">${esc(pr)}</small>`:""}</div>${chipServ(s)}</div>
 ${(c.f||[]).length?`<ul class="ck" style="margin:10px 0 0">${c.f.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}
 ${entregaHTML(s,false)}${s.estado=="activo"&&s.activado_en?`<small class="mu" style="display:block;margin-top:8px">Activo desde el ${new Date(s.activado_en).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"})}</small>`:""}${extra||""}</div>`}
-async function pedirServicio(t,i){const it=ITEM(t,i),tipo=t=="m"?"mantenimiento":TIPO_DE[t];
-try{const r=await rpc("cliente_pedir_servicio",{p_token:token,p_tipo:tipo,p_nombre:it.n,p_precio:it.pr});
+// Los planes de web se piden por presupuesto; el resto se paga en Stripe y el pedido solo se crea cuando Stripe confirma el cobro
+async function pedirServicio(t,i){const it=ITEM(t,i);
+if(t!="w"){closePlan();return irAPagar({nombre:it.n})}
+try{const r=await rpc("cliente_pedir_presupuesto",{p_token:token,p_nombre:it.n,p_precio:it.pr});
 if(!CASOS.some(x=>x.id==r.caso.id))CASOS.unshift(r.caso);SERV.unshift(r.servicio);closePlan();render();avisarEquipo(r.caso.id);
-abrirPago("Pagar: "+it.n,"Hemos registrado tu solicitud. Completa el pago y, cuando el equipo la apruebe, aparecerá como activa en «Servicios».")}
+toast("Hemos recibido tu petición. Te enviaremos el presupuesto por el chat.",5000)}
 catch(err){toast(err.message,5000)}}
+async function irAPagar(datos){if(VISTA)return toast("Estás viendo el portal como el cliente: no se puede pagar.");toast("Abriendo el pago seguro de Stripe…",4000);
+try{const r=await fn("pago",{accion:"crear",token,...datos});location.href=r.url}catch(err){toast(err.message,7000)}}
+function pagarPedido(id){const s=SERV.find(x=>x.id==id);if(!s)return;
+if(s.tipo=="web"){toast("Este pedido se paga por presupuesto: el equipo te enviará el importe por el chat.",5000);return s.caso_id&&verCaso(s.caso_id)}
+irAPagar({servicio_id:id})}
+// Al volver de Stripe: se confirma el cobro con el servidor (si el cliente cierra la página, lo registra el aviso automático de Stripe)
+async function volverDePago(q){if(q.pago=="cancelado")return toast("Pago cancelado. No se ha creado ningún pedido ni se te ha cobrado nada.",6000);
+if(q.pago!="ok"||!q.sesion)return;toast("Confirmando tu pago…",4000);
+for(let n=0;n<4;n++){try{const r=await fn("pago",{accion:"confirmar",token,sesion:q.sesion});
+if(!r.pendiente){await cargarCasos(false);go(perfil()=="puntual"?"Mis pedidos":"Servicios");return toast("¡Pago recibido! Ya tienes tu pedido en marcha.",6000)}}catch(err){return toast(err.message,7000)}
+await new Promise(ok=>setTimeout(ok,2500))}
+toast("Stripe todavía está procesando el pago. Aparecerá aquí en cuanto se confirme.",7000)}
 async function bajaServicio(id){const s=SERV.find(x=>x.id==id);if(!s||!confirm("¿Pedir la baja de «"+s.nombre+"»?"))return;
 try{const c=await rpc("cliente_baja_servicio",{p_token:token,p_servicio:id});if(!CASOS.some(x=>x.id==c.id))CASOS.unshift(c);s.caso_baja_id=c.id;render();avisarEquipo(c.id);toast("Baja solicitada. El equipo te la confirmará.",4000)}
 catch(err){toast(err.message,5000)}}
@@ -498,7 +512,7 @@ return `<div class="c pedido"><div class="serv-h"><div style="min-width:0"><b cl
 ${paso<0?"":`<ol class="pasos" aria-label="Estado del pedido">${PASOS.map((t,i)=>`<li class="${i<=paso?"hecho":""}${i==paso?" ahora":""}">${t}</li>`).join("")}</ol>`}
 ${p.id?entregaHTML(p,paso>=1&&paso<2):""}
 ${(cat.f||[]).length?`<details class="faq" style="margin-top:10px"><summary>Qué incluye</summary><ul class="ck" style="margin:6px 0 0">${cat.f.map(x=>`<li>${x}</li>`).join("")}</ul></details>`:""}
-<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">${c?`<button class="btn${n?"":" s"}" onclick="verCaso(${c.id})">${n?"💬 "+n+(n==1?" mensaje nuevo":" mensajes nuevos"):"Hablar sobre este pedido"}</button>`:""}${paso>=0&&paso<2&&!p.pagado_en&&!ENTR.some(e=>e.servicio_id==p.id)?`<button class="btn s" onclick="abrirPago('Pagar: ${esc(p.nombre).replace(/'/g,"")}','Pago seguro con Stripe.')">Pagar</button>`:""}${paso>=0&&!p.pagado_en&&financiable(p)&&!VISTA?`<button class="btn s fin-btn" onclick="abrirFinanciar(${p.id||p.caso_id})">💳 Financiar</button>`:""}</div></div>`}
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">${c?`<button class="btn${n?"":" s"}" onclick="verCaso(${c.id})">${n?"💬 "+n+(n==1?" mensaje nuevo":" mensajes nuevos"):"Hablar sobre este pedido"}</button>`:""}${paso>=0&&paso<2&&!p.pagado_en&&!ENTR.some(e=>e.servicio_id==p.id)?`<button class="btn s" onclick="${p.id?`pagarPedido(${p.id})`:`verCaso(${p.caso_id})`}">Pagar</button>`:""}${paso>=0&&!p.pagado_en&&financiable(p)&&!VISTA?`<button class="btn s fin-btn" onclick="abrirFinanciar(${p.id||p.caso_id})">💳 Financiar</button>`:""}</div></div>`}
 function pedidosHTML(){const l=pedidos();
 return `<h1>Mis pedidos</h1><p class="mu">Aquí sigues lo que nos has encargado y hablas con el equipo sobre cada pedido.</p>
 <div style="margin-top:16px">${l.length?l.map(pedidoHTML).join(""):`<div class="c"><p class="mu">Todavía no tienes pedidos.</p></div>`}</div>
@@ -509,7 +523,7 @@ return `<h1>Mis pedidos</h1><p class="mu">Aquí sigues lo que nos has encargado 
 const tamTxt=b=>b>=1048576?(b/1048576).toFixed(1).replace(".",",")+" MB":Math.max(1,Math.round((b||0)/1024))+" KB";
 function entregaHTML(s,enCurso){if(!s||!s.id)return "";const l=ENTR.filter(e=>e.servicio_id==s.id);
 if(!l.length)return enCurso?`<p class="mu entrega-vacia">📦 Cuando tu entrega esté lista, podrás descargarla aquí.</p>`:"";
-if(!s.pagado_en)return `<div class="entrega bloq"><b>📦 Tu entrega está lista</b><p class="mu">${l.length} ${l.length==1?"archivo":"archivos"} · se desbloquea${l.length==1?"":"n"} en cuanto completes el pago.</p>${VISTA?"":`<button class="btn" onclick="abrirPago('Pagar: ${esc(s.nombre).replace(/'/g,"")}','Cuando confirmemos el pago podrás descargar tu entrega.')">Pagar y desbloquear</button>${financiable(s)&&pedidos().some(x=>x.id==s.id)?` <button class="btn s" onclick="abrirFinanciar(${s.id})">💳 Financiar</button>`:""}`}</div>`;
+if(!s.pagado_en)return `<div class="entrega bloq"><b>📦 Tu entrega está lista</b><p class="mu">${l.length} ${l.length==1?"archivo":"archivos"} · se desbloquea${l.length==1?"":"n"} en cuanto completes el pago.</p>${VISTA?"":`<button class="btn" onclick="pagarPedido(${s.id})">Pagar y desbloquear</button>${financiable(s)&&pedidos().some(x=>x.id==s.id)?` <button class="btn s" onclick="abrirFinanciar(${s.id})">💳 Financiar</button>`:""}`}</div>`;
 const v=s.caso_id&&valDe(s.caso_id),bajada=l.some(e=>e.descargado_en);
 return `<div class="entrega"><b>📦 Tu entrega</b>${v?`<p class="mu" style="font-size:13px">Tu valoración: <span class="estr-mini">${"★".repeat(v.estrellas)}</span> · ¡Gracias!</p>`:bajada&&s.caso_id&&!VISTA?`<p style="margin:2px 0 4px"><button class="lk" onclick="abrirOpinion(${s.caso_id},'${esc(s.nombre).replace(/'/g,"")}')">⭐ Valorar el proyecto</button></p>`:""}<ul class="l">${l.map(e=>`<li><span style="min-width:0;overflow-wrap:anywhere">${esc(e.nombre)}<br><small class="mu">${tamTxt(e.tamano)}${e.nota?" · "+esc(e.nota):""}</small></span><button class="btn s" onclick="descargarEntrega(${e.id})">⬇ Descargar</button></li>`).join("")}</ul></div>`}
 async function descargarEntrega(id){if(VISTA)return toast("En la vista del equipo no se descarga.");try{const r=await fn("adjuntos",{accion:"entrega",token,id});const f=document.createElement("iframe");f.style.display="none";f.src=r.url;document.body.appendChild(f);setTimeout(()=>f.remove(),60000);const e=ENTR.find(x=>x.id==id);if(e){e.descargado_en=new Date().toISOString();const s=SERV.find(x=>x.id==e.servicio_id);if(s&&s.caso_id&&!valDe(s.caso_id)&&!noValorar(s.caso_id))setTimeout(()=>abrirOpinion(s.caso_id,s.nombre),900);else render()}}catch(err){toast(err.message,5000)}}
@@ -577,7 +591,6 @@ const planPendiente=()=>CASOS.find(c=>c.plan_solicitado&&!CERR.includes(c.estado
 function pedirPlan(i){return pedirServicio("m",i)}
 // Botón de pago de Stripe con los datos del cliente (para identificar el pago en Stripe)
 const botonPago=()=>`<stripe-buy-button buy-button-id="${STRIPE.boton}" publishable-key="${STRIPE.clave}"${U.uid?` client-reference-id="${esc(String(U.uid))}"`:""}${U.email?` customer-email="${esc(U.email)}"`:""}></stripe-buy-button>`;
-function abrirPago(titulo,texto){const m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog" aria-modal="true"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><span class="tag">Pago seguro con Stripe</span><h2 style="margin:12px 0 6px;font-size:22px">${esc(titulo)}</h2>${texto?`<p class="mu" style="margin-bottom:14px">${esc(texto)}</p>`:""}<div style="display:flex;justify-content:center;margin:10px 0">${botonPago()}</div><p class="mu" style="font-size:12px;text-align:center;margin-top:10px">El pago se hace en la página segura de Stripe. Tu tarjeta nunca pasa por nuestra web.</p><p style="text-align:center;margin-top:10px"><button class="lk" onclick="closePlan()">Cerrar</button></p></div>`;m.style.display="grid"}
 function LAND(){const S=[[ico("M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"),"Creación web","Planes Lanzamiento, Negocio y Ecommerce / Citas. Pago único."],[ico("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"),"Mantenimiento y soporte","Planes Esencial y Pro para que tu web esté siempre al día y protegida."],[ico("M7 18a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.3 3.3 0 0117 18z"),"Renting web todo en uno","Creación web, hosting, dominio y mantenimiento en una sola cuota."],[ico("M4 19V5M4 19h16M8 15l3-4 3 2 5-6"),"Branding, marketing y SEO","Servicios extra y packs promocionales para captar más clientes."]];
 return `<section class="hx"><div>
 <span class="eyebrow"><span class="pulse"></span>Webs y mantenimiento para negocios</span>
@@ -713,7 +726,8 @@ if(!n){x.textContent="Escribe tu nombre.";return false}if(!/^\S+@\S+\.\S+$/.test
 if(!document.getElementById("racc").checked){x.textContent="Para crear tu cuenta tienes que aceptar la política de privacidad.";return false}
 const nm=ITEM(REG.t,REG.i).n;
 x.textContent="Creando tu cuenta…";try{const r=await rpc("cliente_registrar",{p_email:em,p_clave:p,p_nombre:n,p_dominio:dm,p_plan:nm,p_acepta:true,p_trampa:document.getElementById("rweb").value});
-x.textContent="";document.getElementById("rg").style.display="none";await entrarCliente(r);toast("Cuenta creada. Ya puedes escribirnos.",3500)}
+x.textContent="";document.getElementById("rg").style.display="none";await entrarCliente(r);toast("Cuenta creada. Ya puedes escribirnos.",3500);
+const sv=REG.t!="w"&&SERV.find(s=>s.nombre==nm&&!s.pagado_en);if(sv)pagarPedido(sv.id)}
 catch(err){x.textContent=err.message}return false}
 // Conversación de un caso: la misma que el equipo ve en «Chat con el cliente» del panel de administración
 function CHAT(c){if(!c)return `<h1>Mensajes</h1><p class="mu">Todavía no tienes conversaciones. Escríbenos desde <button class="lk" onclick="go('Soporte')">Soporte</button>.</p>`;const ld=c.tipo_reporte=="Lead";
@@ -806,5 +820,6 @@ render();avisoCookies();
 {const q=new URLSearchParams(location.search),rec=q.get("recuperar");
 if(rec){history.replaceState(null,"",location.pathname+location.hash);pedirClaveNueva(rec)}
 else if(q.get("vista")){const v=q.get("vista");history.replaceState(null,"",location.pathname+location.hash);if(db)entrarCliente({token:v},true)}
-else{const t=leerTk();if(t&&db)entrarCliente({token:t})}}
+else{const t=leerTk(),pg={pago:q.get("pago"),sesion:q.get("sesion")};if(pg.pago)history.replaceState(null,"",location.pathname+location.hash);
+if(t&&db)entrarCliente({token:t}).then(()=>{if(token&&pg.pago)volverDePago(pg)});else if(pg.pago=="ok")toast("Entra en tu cuenta para ver tu pago.",6000)}}
 </script></body></html>
