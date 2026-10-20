@@ -586,7 +586,7 @@ function pedirPlan(i){return pedirServicio("m",i)}
 const botonPago=()=>`<stripe-buy-button buy-button-id="${STRIPE.boton}" publishable-key="${STRIPE.clave}"${U.uid?` client-reference-id="${esc(String(U.uid))}"`:""}${U.email?` customer-email="${esc(U.email)}"`:""}></stripe-buy-button>`;
 function LAND(){const S=[[ico("M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"),"Creación web","Planes Lanzamiento, Negocio y Ecommerce / Citas. Pago único."],[ico("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"),"Mantenimiento y soporte","Planes Esencial y Pro para que tu web esté siempre al día y protegida."],[ico("M7 18a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.3 3.3 0 0117 18z"),"Renting web todo en uno","Creación web, hosting, dominio y mantenimiento en una sola cuota."],[ico("M4 19V5M4 19h16M8 15l3-4 3 2 5-6"),"Branding, marketing y SEO","Servicios extra y packs promocionales para captar más clientes."]];
 return `<section class="hx"><div>
-<span class="eyebrow"><span class="pulse"></span>Creación de webs para negocios · pago único</span>
+<span class="eyebrow"><span class="pulse"></span>Creación y mantenimiento de webs</span>
 <h1>Tu web, siempre cuidada.<br><span class="grad">Tú, a lo tuyo.</span></h1>
 <p class="lead">Desarrollamos soluciones web profesionales adaptadas a cada fase de tu negocio, garantizando máxima velocidad, diseño atractivo y optimización para captación de clientes.</p>
 <div class="cta"><button class="btn xl" onclick="irSec('precios')">Quiero mi web</button><button class="btn s xl" onclick="openLg()">Ya soy cliente</button></div>
