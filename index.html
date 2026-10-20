@@ -17,7 +17,7 @@ header{display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:sp
 header b{font-size:17px}nav{display:flex;gap:4px;overflow-x:auto}nav button{background:none;border:0;color:var(--mu);font:inherit;padding:8px 12px;border-radius:99px;cursor:pointer;white-space:nowrap}nav button.on{background:var(--acb);color:var(--ac);font-weight:600}
 main{max-width:900px;margin:0 auto;padding:24px}h1{font-size:28px;line-height:1.2;margin:0 0 4px;max-width:20ch}h2{font-size:18px;margin:26px 0 10px}p{margin:0}.mu{color:var(--mu)}
 .hero{display:flex;gap:20px;align-items:center;flex-wrap:wrap;background:var(--ac);color:#fff;border-radius:16px;padding:26px;margin-bottom:18px}
-:root[data-theme="dark"] .hero,.hero{--hc:#fff}.hero .sc{font-size:48px;font-weight:700;line-height:1}.hero p{opacity:.9}
+:root[data-theme="dark"] .hero,.hero{--hc:#fff}.hero p{opacity:.9}
 @media(prefers-color-scheme:dark){.hero{background:#0f4d47}}
 .g{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
 .c{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:16px}.c b{display:block;font-size:22px}.c small{color:var(--mu)}
@@ -31,15 +31,13 @@ ul.l{list-style:none;margin:0;padding:0}ul.l li{padding:10px 0;border-bottom:1px
 input,select,textarea{width:100%;font:inherit;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--sf);color:var(--tx);margin:4px 0 12px}
 .tag{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--acb);color:var(--ac);white-space:nowrap}
 .toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:99px;opacity:0;transition:opacity .2s;pointer-events:none}.toast.on{opacity:1}
-.lp-h{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;padding:34px 0 24px}.lp-h h1{font-size:clamp(34px,5.4vw,56px);line-height:1.04;letter-spacing:-.025em;max-width:14ch;margin-bottom:0}.lead{font-size:18px;color:var(--mu);max-width:44ch;margin:16px 0 24px}
-.vis{background:var(--acb);border-radius:24px;padding:26px}.vis .c{box-shadow:0 10px 28px rgba(15,118,110,.14)}.vis .c+.c{margin-top:12px;margin-left:32px}.vis .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.lead{font-size:18px;color:var(--mu);max-width:44ch;margin:16px 0 24px}
 .principal{margin-top:18px;border:1px solid rgba(124,140,255,.35);background:var(--acb);border-radius:16px;padding:16px}.pr-pasos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.pr-pasos div{display:flex;gap:10px;align-items:flex-start;font-size:14px}.pr-pasos b{flex-shrink:0;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--grad);color:#fff;font-size:13px}@media(max-width:700px){.pr-pasos{grid-template-columns:1fr}}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:30px 0}.stats div{border-left:3px solid var(--ac);padding:2px 0 2px 12px}.stats b{font-size:26px;display:block}.stats span{color:var(--mu);font-size:13px}
 .sec{font-size:26px;letter-spacing:-.015em;margin:48px 0 6px}.ic{width:44px;height:44px;border-radius:12px;background:var(--acb);display:grid;place-items:center;font-size:22px;margin-bottom:12px}.sv b{font-size:18px;margin-bottom:4px}.sv p{color:var(--mu);font-size:14px}
 .stp{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px}.stp .n{width:28px;height:28px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px;margin-bottom:10px}
 .band{background:#0f766e;color:#fff;border-radius:20px;padding:40px 24px;text-align:center;margin:48px 0 12px}.band h2{font-size:28px;margin:0 0 8px}.band p{opacity:.9;margin-bottom:20px}.band .btn{background:#fff;color:#0f4d47}
 @media(prefers-color-scheme:dark){.band{background:#0f4d47}}
-@media(max-width:760px){.lp-h{grid-template-columns:1fr}.vis .c+.c{margin-left:0}}
 @media(max-width:600px){.line span{width:130px}main{padding:16px}}
 :root:root:root{--bg:#0b0e1a;--sf:#121629;--tx:#f1f3ff;--mu:#8a91b4;--bd:#232845;--ac:#a855f7;--acb:rgba(168,85,247,.16);--ok:#34d399;--wa:#fb923c;--wab:rgba(251,146,60,.1);color-scheme:dark}
 body{display:grid;grid-template-columns:240px minmax(0,1fr);font-family:"Exo 2",system-ui,sans-serif;background:radial-gradient(900px 420px at 15% -8%,rgba(168,85,247,.2),transparent),radial-gradient(700px 380px at 100% 0,rgba(251,146,60,.1),transparent),repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 40px),repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 1px,transparent 1px 40px),var(--bg);background-attachment:fixed}
@@ -56,7 +54,6 @@ body .btn{background:linear-gradient(90deg,#8b5cf6,#d946ef);color:#fff;box-shado
 .bar{background:var(--bd)}.bar i,.line i{background:linear-gradient(90deg,#3b82f6,#a855f7,#ef4444)}
 .tip{border:1px solid rgba(251,146,60,.35)}input,select,textarea{background:var(--bg)}
 body .hero,body .band{background:linear-gradient(120deg,#3b1d7a,#86198f 60%,#c2410c);border:1px solid rgba(255,255,255,.12)}body .band .btn{background:#fff;color:#3b1d7a;box-shadow:none}
-.vis{background:radial-gradient(circle at 20% 0,rgba(168,85,247,.3),transparent 60%),var(--sf);border:1px solid var(--bd)}.vis .c{box-shadow:0 10px 28px rgba(0,0,0,.4)}
 .stats div{border-left:3px solid #a855f7}
 @media(max-width:860px){body{grid-template-columns:1fr}header{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:8px}nav{flex-direction:row;overflow-x:auto}.st{display:none}main{padding:18px}}
 :root:root:root{--bg:#0e1118;--sf:#151922;--tx:#e8ebf2;--mu:#8b93a7;--bd:#262c3a;--ac:#7c8bff;--acb:rgba(124,139,255,.14);--ok:#3ecf8e;--wa:#f0a24b;--wab:rgba(240,162,75,.1)}
@@ -74,7 +71,6 @@ body .hero,body .band{background:linear-gradient(120deg,#3b1d7a,#86198f 60%,#c24
 :root:root:root .bar i,:root:root:root .line i{background:var(--ac)}
 :root:root:root .hero,:root:root:root .band{background:linear-gradient(135deg,#1b2147,#151922 75%);border:1px solid var(--bd)}
 :root:root:root .tip{border:1px solid rgba(240,162,75,.3)}
-:root:root:root .vis{background:var(--sf);border:1px solid var(--bd)}:root:root:root .vis .c{background:var(--bg);box-shadow:none}
 :root:root:root .ic{color:var(--ac);border-radius:10px}:root:root:root .stats div{border-left:2px solid var(--ac)}
 :root:root:root .btn.cta{font-size:16px;padding:15px 28px;border-radius:10px;background:linear-gradient(135deg,#9aa5ff,#6d7cff);box-shadow:0 8px 24px rgba(124,139,255,.4);animation:pl 2.4s ease-out infinite;transition:transform .15s}
 :root:root:root .btn.cta:hover{transform:translateY(-2px)}
@@ -93,7 +89,6 @@ body:not(.pub) .pb{display:none}body.pub{display:block}body.pub header{display:n
 .md{position:fixed;inset:0;z-index:55;background:rgba(5,7,12,.72);backdrop-filter:blur(3px);display:grid;place-items:center;padding:20px}.mb{background:var(--sf);border:1px solid var(--bd);border-radius:16px;max-width:460px;width:100%;padding:28px;position:relative;max-height:90vh;overflow:auto}.x{position:absolute;top:10px;right:14px;background:none;border:0;color:var(--mu);font-size:28px;line-height:1;cursor:pointer}
 .ck{list-style:none;padding:0;margin:16px 0 22px}.ck li{padding:8px 0 8px 26px;position:relative;border-bottom:1px solid var(--bd)}.ck li::before{content:"✔";position:absolute;left:0;color:var(--ok)}
 .mb label{display:block;font-size:13px;color:var(--mu)}.mb .err{color:#f87171;font-size:13px;min-height:20px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}.chip{border:1px solid var(--bd);background:transparent;color:var(--tx);border-radius:10px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer;text-align:left}.chip.on{border-color:var(--ac);background:var(--acb)}.chip:hover{border-color:var(--ac)}
 .lw{position:relative;min-height:440px}.bl{filter:blur(9px);opacity:.5;pointer-events:none;user-select:none}.lm{position:absolute;inset:0;display:flex;justify-content:center;align-items:flex-start;padding-top:90px}
 .cb{height:380px;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px}.m{max-width:80%}.m.me{align-self:flex-end;text-align:right}.m small{display:block;margin-bottom:3px}.bu{display:inline-block;padding:10px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--bd);text-align:left}.m.me .bu{background:var(--acb);border-color:transparent}
 .cf{display:flex;gap:8px;padding:12px;border-top:1px solid var(--bd)}.cf input{margin:0;flex:1}.cf .btn{width:auto}
@@ -204,7 +199,6 @@ table.hist{width:100%;border-collapse:collapse;font-size:14px}table.hist th,tabl
 @media(max-width:860px){:root:root:root:root header nav{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch}:root:root:root:root header nav::-webkit-scrollbar{display:none}:root:root:root:root header nav button{flex:none}:root:root:root:root header{width:100%}}
 :root:root:root:root .act>div{min-width:0;flex:1 1 260px}:root:root:root:root .act small{white-space:normal}
 @media(max-width:860px){:root:root:root:root body{grid-template-columns:minmax(0,1fr)}:root:root:root:root main{min-width:0}}
-
 :root:root:root:root .visto{display:block;font-size:11px;color:var(--mu);margin-top:3px}:root:root:root:root .visto.si{color:var(--cy)}
 :root:root:root:root nav em.nuevo{background:var(--cy);color:#04211D}.nuevo-txt{color:var(--cy)}.estr-mini{color:#FBBF24;letter-spacing:1px}
 .val{border-top:1px solid var(--bd);padding:14px 16px;display:grid;gap:10px}.val.hecho{display:block;font-size:14px;color:var(--mu)}.val textarea{margin:0}
@@ -241,11 +235,10 @@ const SONDEO_MS=30000;   // red de seguridad: las novedades llegan al instante p
 // ================= DATOS DE TU NEGOCIO (rellénalos: salen en la política de privacidad y el aviso legal) =================
 const EMPRESA={nombre:"[Nombre de tu empresa o tu nombre si eres autónomo]",nif:"[NIF / CIF]",direccion:"[Dirección postal]",correo:"[correo de contacto]"};
 // Promesas que se muestran a los clientes: pon solo lo que puedas cumplir siempre
-// ================= PAGOS (Stripe Buy Button) =================
-// Un único botón de Stripe para todos los pagos del panel. Ojo: cada Buy Button va ligado a UN producto/precio
-// en Stripe, así que todos los pagos cobran ese importe. «pk_test_…» = modo prueba (no cobra de verdad);
-// para cobrar, crea el botón en modo real en Stripe y pega aquí su ID y su clave «pk_live_…».
-// En Stripe verás cada pago con el ID del cliente (client-reference-id) y su correo.
+// ================= PAGOS =================
+// Los servicios del catálogo se cobran con la función «pago» (Stripe Checkout). Este Buy Button solo se usa en
+// «Facturación» para pagos sueltos y cobra el importe del producto al que va ligado en Stripe.
+// «pk_test_…» = modo prueba; para cobrar de verdad, pon el ID del botón en modo real y su clave «pk_live_…».
 const STRIPE={boton:"buy_btn_1USaJMDHMwXk9gDq0AaRgict",clave:"pk_test_51USa9CDHMwXk9gDqKXEkZnMrDjkKg74xuPuaG2RyjGdMwAJ7vravlV1QgzekonCGsYEQcYAgkwHuMf6PqCzdRbUA001DARoUh8"};
 // Portal de clientes de Stripe (opcional): Stripe > Configuración > Facturación > Portal de clientes > copia el
 // «enlace de inicio de sesión» (https://billing.stripe.com/p/login/…). Ahí el cliente ve sus facturas, cambia su
@@ -274,7 +267,7 @@ const FAQ=[
 {p:"¿Hacéis copias de seguridad?",r:"Sí. Con el Mantenimiento Esencial, copias externas mensuales; con el Mantenimiento Pro, semanales. En «Mi web» ves la última copia y cuántas guardamos.",k:"copia seguridad backup restaurar perder"}];
 const PROMESA={respuesta:"normalmente en el mismo día laborable",respuestaCorta:"Mismo día",disponibilidad:"Vigilancia 24 h"};
 FAQ.forEach(f=>f.r=f.r.replace("${PROMESA_RESP}",PROMESA.respuesta));
-let U={n:"",d:""},ACC=[],auth=false,cur="Inicio",tip=true,plan="Mantenimiento Pro",token=null,sondeo=null,casoSel=null;
+let U={n:"",d:""},auth=false,cur="Inicio",tip=true,plan="Mantenimiento Pro",token=null,sondeo=null,casoSel=null;
 let SERV=[],ENTR=[],VAL=[],RENOV=[],VISTA=false,CASOS=[],MSGS=[],WEB=null,HIST=[],canalRT=null,canalId=null,ADJ=null,ADJT=null;   // casos (reportes), mensajes (mensajes_caso) y ficha de su web (webs_cliente)
 const CERR=["Aceptado","Denegado"],lead=()=>CASOS.find(c=>c.tipo_reporte=="Lead"),tickets=()=>CASOS.filter(c=>c.tipo_reporte!="Lead");
 // Registrado desde el portal: el resto del panel se desbloquea cuando el equipo pasa su lead a «Aceptado»
@@ -350,7 +343,7 @@ const cuando=d=>{const x=new Date(d),hoy=x.toDateString()==new Date().toDateStri
 // Próximamente = lo que escribe el equipo en la ficha + las renovaciones de su calendario
 function proximos(){const w=WEB||{},fd=d=>new Date(d+"T12:00:00").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"});
 return lista(w.proximos).concat(RENOV.map(r=>({texto:r.concepto,cuando:(new Date(r.fecha+"T23:59:59")<new Date()?"Vencida · ":"")+fd(r.fecha)})))}
-// ---------- 8: gráficos de evolución (una serie por gráfico, con tooltip) ----------
+// ---------- Gráficos de evolución (una serie por gráfico, con tooltip) ----------
 function serie(k){const pts=HIST.slice().reverse().map(h=>({x:h.mes,y:(h.datos||{})[k]})).filter(p=>has(p.y));const w=WEB||{};
 const mesAct=new Date();mesAct.setDate(1);const iso=mesAct.toISOString().slice(0,10);if(has(w[k])&&!pts.some(p=>p.x.slice(0,7)==iso.slice(0,7)))pts.push({x:iso,y:w[k],act:true});return pts.slice(-12)}
 function lineaHTML(titulo,pts,fmt,nota){if(pts.length<2)return "";const W=300,H=110,pl=6,pr=8,pt=22,pb=20,ys=pts.map(p=>+p.y);let mn=Math.min(...ys),mx=Math.max(...ys);if(mn==mx){mn-=1;mx+=1}const pad=(mx-mn)*.15;mn-=pad;mx+=pad;
@@ -373,7 +366,7 @@ if(!tip){tip=document.createElement("div");tip.className="gtip";tip.setAttribute
 addEventListener("pointermove",pos,{passive:true});addEventListener("pointerdown",pos,{passive:true});addEventListener("scroll",()=>{if(tip)tip.style.opacity=0},{passive:true})})();
 function horasHTML(){const w=WEB||{};if(!has(w.horas_incluidas)||!(w.horas_incluidas>0))return "";const u=+w.horas_usadas||0;
 return `<h2>Tokens incluidos en tu plan</h2><p class="mu">Has usado ${nf(u,u%1?1:0)} de ${nf(w.horas_incluidas,w.horas_incluidas%1?1:0)} tokens este mes.</p><div class="bar"><i style="width:${Math.min(100,u/w.horas_incluidas*100)}%"></i></div>`}
-// 13: meses anteriores (los guarda el cierre automático de cada mes)
+// Meses anteriores (los guarda el cierre automático de cada mes)
 // ---------- Urgencias (plazos según el plan y WhatsApp) ----------
 function urgenciaHTML(){const e=document.getElementById("ur");if(!e||e.value!="Urgente")return "";const s=SOPORTE[plan]||null;
 const wa=s&&s.whatsapp&&WHATSAPP.numero?`<a class="btn s" style="text-decoration:none;display:inline-block;margin-top:8px" target="_blank" rel="noopener" href="https://wa.me/${encodeURIComponent(WHATSAPP.numero)}?text=${encodeURIComponent("Hola, soy "+(U.nc||"")+" ("+(U.dr||"mi web")+"). Tengo una urgencia: ")}">💬 Escribir por WhatsApp</a>`:"";
@@ -438,7 +431,6 @@ async function borrarAcceso(id){if(!confirm("¿Borrar este acceso de la bóveda?
 
 // ---------- Servicios: plan de web, plan de mantenimiento, extras y packs del cliente ----------
 // La lista vive en la tabla servicios_cliente (la ve y edita también el equipo en el panel).
-const TIPO_DE={w:"web",m:"mantenimiento",r:"renting",p:"pack",x:"extra"};
 const ESTADO_SERV={pendiente:["Pendiente de aprobar","background:var(--wab);color:var(--wa)"],activo:["Activo",""],baja:["De baja","opacity:.7"]};
 const servDe=tipos=>SERV.filter(s=>tipos.includes(s.tipo));
 function catDe(nombre){const w=WP.find(x=>x.n==nombre);if(w)return {pr:w.p+" · pago único",f:w.f};const m=PD.find(x=>x.n==nombre);if(m)return {pr:m.p+"/mes o "+m.a,f:m.f};
@@ -636,7 +628,7 @@ U={uid:c.id,email:c.email,nc:c.nombre,n:esc(c.nombre.split(" ")[0]),dr:c.dominio
 if(avisar){for(const n of d.casos){const v=CASOS.find(x=>x.id==n.id);if(v&&estCli(v.estado)!=estCli(n.estado))toast((n.tipo_reporte=="Lead"?"Tu proyecto":"Tu solicitud #"+n.id)+" ahora está: "+estCli(n.estado),4000)}
 if(d.mensajes.some(m=>m.autor_tipo=="staff"&&!MSGS.some(x=>x.id==m.id))){toast("Nuevo mensaje del equipo Webcare",4000);avisoMovil("Nuevo mensaje del equipo","Tienes una respuesta en tu portal de Webcare.")}}
 const planAntes=plan;CASOS=d.casos;MSGS=d.mensajes;WEB=d.web||null;HIST=d.historial||[];VAL=d.valoraciones||[];RENOV=d.renovaciones||[];SERV=d.servicios||[];ENTR=d.entregas||[];VISTA=!!d.solo_lectura;if(WEB&&WEB.plan)plan=WEB.plan;if(avisar&&plan!=planAntes)toast("Tu plan ahora es "+plan+".",5000);if(avisar&&bloq&&!lockeado())toast("¡Tu proyecto está activo! Ya tienes acceso a todo tu panel.",5000);return antes!=JSON.stringify([CASOS,MSGS,WEB,HIST,VAL,RENOV,SERV,ENTR,U.nc,U.dr,U.tel])}
-// 21: aviso instantáneo cuando el equipo cambia algo (canal secreto de este cliente; solo dice «hay novedades»)
+// Aviso instantáneo cuando el equipo cambia algo (canal secreto de este cliente; solo dice «hay novedades»)
 function escucharCanal(id){if(!db||!id||id===canalId||!db.channel)return;if(canalRT)db.removeChannel(canalRT);canalId=id;
 canalRT=db.channel("portal-"+id).on("broadcast",{event:"cambio"},()=>{clearTimeout(escucharCanal.t);escucharCanal.t=setTimeout(()=>sondear.tick&&sondear.tick(),300)}).subscribe()}
 async function entrarCliente(r,vista){token=r.token;if(vista)VISTA=true;else guardarTk(token);
@@ -663,7 +655,6 @@ auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];WEB=null;HIST=[];VAL=[];RE
 function closePlan(){document.getElementById("md").style.display="none"}
 addEventListener("keydown",e=>{if(e.key=="Escape")closePlan()});
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
-function enter(){closePlan();auth=true;go("Mi web");toast("Bienvenido a tu panel")}
 const ico=d=>"<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='"+d+"'/></svg>";
 // ================= CATÁLOGO · «Propuesta Comercial & Tarifas Web» (Versión 2026) =================
 // Productos y textos del portal. Los PRECIOS se cambian en el panel (Negocio > Precios): se guardan en la tabla
@@ -707,8 +698,6 @@ const PK=[{e:"📍",n:"Pack Presencia Local Total",p:"119 €",f:["Ficha Google 
 {e:"📈",n:"Pack Marketing & Conversión 360°",p:"149 €",f:["Píxeles de seguimiento Meta & TikTok Pixel","Alta en Google Search Console + Envíos Sitemap","Formulario Inteligente de Calificación o Encuesta","Plantilla corporativa para campañas de Emailing"]}];
 const RENT_TXT="Comienza tu proyecto sin desembolso inicial mediante nuestro modelo de suscripción que incluye la creación web, hosting, dominio y mantenimiento en una sola cuota.";
 const NOTA_PACKS="Los Packs Promocionales pueden combinarse con cualquier Plan de Creación Web o Modelo de Renting para maximizar los resultados iniciales del proyecto.";
-// Los precios salen de la tabla «catalogo» de Supabase (se editan en el panel: Negocio > Precios).
-// Los de arriba son solo el respaldo por si no se puede leer; lo que se cobra lo decide siempre el servidor.
 const eur=n=>nf(n,Number(n)%1?2:0)+" €";
 function aplicarCatalogo(l){const P=Object.fromEntries((l||[]).map(x=>[x.nombre,x])),de=(x,n)=>{const c=P[n];if(c)x.off=!c.activo;return c};
 WP.forEach(x=>{const c=de(x,x.n);if(c)x.p=c.precio_hasta?eur(c.precio)+" – "+eur(c.precio_hasta):"desde "+eur(c.precio)});
@@ -728,9 +717,8 @@ function showPlan(i){const d=PD[i];modalItem("m",i,"Mantenimiento y soporte",d.n
 function showRenting(i){const d=RENT[i];modalItem("r",i,"Renting web · todo en uno",d.n,d.p+"/mes",RENT_TXT,d.f,"Quiero este renting")}
 function showPack(i){const d=PK[i];modalItem("p",i,"Pack promocional",d.e+" "+d.n,d.p,NOTA_PACKS,d.f,"Quiero este pack")}
 function showExtra(i){const d=EX[i];modalItem("x",i,d.c+" · "+EXG[d.g],d.k,d.p,"",[d.t],"Solicitar este servicio")}
-// Con sesión: se crea la solicitud y se abre el pago. Sin sesión: se crea la cuenta con lo elegido.
+// Con sesión: se paga o se pide presupuesto. Sin sesión: se crea la cuenta con lo elegido.
 function contratar(t,i){if(!auth)return startReg(t,i);pedirServicio(t,i)}
-const hh=()=>new Date().toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"});
 let REG={};
 function startReg(t,i){closePlan();REG={t,i};const it=ITEM(t,i),d={f:it.f},nm=it.n,pr=it.pr,r=document.getElementById("rg");
 r.innerHTML=`<div class="lf"><b class="brand"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l4 10 4-7 4 7 4-10"/></svg></span>Webcare</b><p class="mu">Has elegido</p><h2>${nm}</h2><b style="font-size:22px">${pr}</b><ul class="l">${d.f.slice(0,5).map(x=>`<li>${x}</li>`).join("")}</ul></div><div class="rt"><form onsubmit="return reg(event)"><h1 style="font-size:26px">Crea tu cuenta</h1><p class="mu" style="margin-bottom:20px">No tienes que pagar nada ahora. Te escribiremos por chat para empezar.</p><label>Nombre<input id="rn" autocomplete="name"></label><label>Correo electrónico<input id="re" type="email" autocomplete="email"></label><label>Dominio de tu web (si ya tienes uno)<input id="rd" placeholder="mitienda.com"></label><label>Crea tu contraseña (mínimo 8 caracteres)<input id="rp" type="password" autocomplete="new-password"></label><label class="trampa" aria-hidden="true">Tu web personal<input id="rweb" tabindex="-1" autocomplete="off"></label><label class="chk"><input type="checkbox" id="racc"><span>He leído y acepto la <button type="button" class="lk" onclick="verLegal('privacidad')">política de privacidad</button>. Usaremos tus datos solo para gestionar tu cuenta y tus solicitudes.</span></label><div class="err" id="rx"></div><button class="btn" type="submit">Crear mi cuenta</button><p style="text-align:center;margin-top:12px"><button type="button" class="lk" onclick="document.getElementById('rg').style.display='none'">Volver a la página principal</button></p></form></div>`;r.style.display="grid"}
@@ -748,7 +736,7 @@ const L=[{w:"eq",h:fh(c.created_at),t:ld?`¡Hola, ${U.n}! Hemos recibido tu soli
 marcarLeido(c.id);
 return `${perfil()=="puntual"?`<p style="margin-bottom:8px"><button class="lk" onclick="go('Mis pedidos')">← Mis pedidos</button></p>`:ld?"":`<p style="margin-bottom:8px"><button class="lk" onclick="go('Soporte')">← Mis solicitudes</button></p>`}<h1>${ld?"Tu caso":"Solicitud #"+c.id}</h1><p class="mu">${esc(ld?c.plan||"Tu proyecto":c.titulo||"")} · Estado: <span class="tag">${estCli(c.estado)}</span></p><div class="c" style="margin-top:16px;padding:0"><div class="cb" id="cb">${L.map(m=>`<div class="m ${m.w}"><small>${m.w=="me"?"Tú":(m.a?esc(bonito(m.a))+" · ":"")+"Equipo Webcare"} · ${m.h}</small><div class="bu">${m.t}</div>${m.v||""}</div>`).join("")}</div>
 ${!ld&&CERR.includes(c.estado)?`<p class="mu" style="padding:12px 16px;border-top:1px solid var(--bd)">Esta solicitud está cerrada. Si necesitas algo más, abre una nueva desde Soporte.</p>${valoracionHTML(c)}`:`<div class="cf"><label class="btn s clip" title="Adjuntar un archivo (máx. 10 MB)" aria-label="Adjuntar archivo">📎<input type="file" hidden accept="${ADJ_TIPOS.join(",")}" onchange="elegirAdj(this,'c')"></label><input id="ci" placeholder="Escribe tu mensaje…" onkeydown="if(event.key=='Enter')sendC()"><button class="btn" id="cs" onclick="sendC()">Enviar</button></div>${ADJ?`<div class="chip-adj">📎 ${esc(ADJ.name)} · ${tam(ADJ.size)} <button class="lk" onclick="ADJ=null;render()">Quitar</button></div>`:""}`}</div>`}
-// ---------- 3: valoración opcional de solicitudes cerradas ----------
+// ---------- Valoración opcional de solicitudes cerradas ----------
 const valDe=id=>VAL.find(v=>v.caso_id==id);
 const noValorar=id=>{try{return localStorage.getItem("webcare-noval-"+id)=="1"}catch(_){return false}};
 let VAL_SEL=0;
@@ -759,14 +747,14 @@ return `<div class="val"><b>¿Qué tal lo hemos hecho?</b> <span class="mu">(opc
 <textarea id="vc" rows="2" maxlength="1000" placeholder="Cuéntanos algo más (opcional)"></textarea><label class="chk" style="margin-bottom:10px"><input type="checkbox" id="vp"><span>${PUB_TXT}.</span></label><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="valorar(${c.id})">Enviar valoración</button><button class="lk" onclick="try{localStorage.setItem('webcare-noval-${c.id}','1')}catch(_){};valoracionHTML.editando=null;render()">Ahora no</button></div></div>`}
 async function valorar(id){if(!VAL_SEL)return toast("Elige de 1 a 5 estrellas.");const com=(document.getElementById("vc")||{}).value||"";
 const pub=!!(document.getElementById("vp")||{}).checked;try{await rpc("cliente_opinar",{p_token:token,p_caso:id,p_estrellas:VAL_SEL,p_comentario:com,p_publica:pub});OPS=null;VAL=VAL.filter(v=>v.caso_id!=id).concat([{caso_id:id,estrellas:VAL_SEL}]);valoracionHTML.editando=null;VAL_SEL=0;render();toast("¡Gracias por tu valoración!",3500)}catch(err){toast(err.message,5000)}}
-// ---------- 5: preguntas frecuentes y sugerencias mientras se escribe ----------
+// ---------- Preguntas frecuentes y sugerencias mientras se escribe ----------
 const sinTildes=t=>String(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
 function faqBuscar(t){const pal=sinTildes(t).split(/[^a-z0-9ñ]+/).filter(w=>w.length>3);if(!pal.length)return [];
 return FAQ.map(f=>{const h=sinTildes(f.p+" "+f.k+" "+f.r);return {f,n:pal.filter(w=>h.includes(w)).length}}).filter(x=>x.n).sort((a,b)=>b.n-a.n).map(x=>x.f)}
 const faqHTML=l=>l.length?l.map(f=>`<details class="faq"><summary>${esc(f.p)}</summary><p>${esc(f.r)}</p></details>`).join(""):`<p class="mu" style="padding:8px 0">No hay resultados. Escríbenos desde el formulario de arriba.</p>`;
 function sugerirFaq(t){const el=document.getElementById("sug");if(!el)return;const l=faqBuscar(t).slice(0,3);el.innerHTML=l.length?`<div class="sug"><b>¿Te sirve alguna de estas respuestas?</b>${faqHTML(l)}</div>`:""}
 function filtrarFaq(t){const el=document.getElementById("faq");if(el)el.innerHTML=faqHTML(t.trim()?faqBuscar(t):FAQ)}
-// ---------- 6: reservar una llamada (Cal.com) ----------
+// ---------- Reservar una llamada (Cal.com) ----------
 function abrirCita(){if(!CITA.url)return;const u=CITA.url+(CITA.url.includes("?")?"&":"?")+"embed=true&theme=dark"+(U.email?"&email="+encodeURIComponent(U.email):"")+(U.nc?"&name="+encodeURIComponent(U.nc):"");
 const m=document.getElementById("md");m.innerHTML=`<div class="mb ancho" role="dialog" aria-modal="true" style="max-width:760px"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><h2 style="margin:0 0 12px;font-size:22px">Reservar una llamada</h2><iframe src="${esc(u)}" title="Calendario de reservas" style="width:100%;height:620px;border:0;border-radius:12px;background:#fff"></iframe></div>`;m.style.display="grid"}
 function verCaso(id){casoSel=id;ADJ=null;go("Solicitud")}
@@ -813,7 +801,7 @@ const ICN={"Chat":ic2('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2
 "Soporte":ic2('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/>'),"SEO":ic2('<path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-6"/>'),
 "Facturación":ic2('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>'),"Mis pedidos":ic2('<path d="M6 2l-2 4v14a2 2 0 002 2h12a2 2 0 002-2V6l-2-4z"/><path d="M4 6h16M16 10a4 4 0 01-8 0"/>'),"Servicios":ic2('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/>'),"Mi cuenta":ic2('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')};
 function irSec(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:"smooth",block:"start"})}
-// ---------- 7: app instalable (PWA) y avisos del sistema ----------
+// ---------- App instalable (PWA) y avisos del sistema ----------
 const PWA={prompt:null};
 addEventListener("beforeinstallprompt",e=>{e.preventDefault();PWA.prompt=e;if(auth)render()});
 async function instalarApp(){if(!PWA.prompt)return;PWA.prompt.prompt();await PWA.prompt.userChoice.catch(()=>{});PWA.prompt=null;render()}
