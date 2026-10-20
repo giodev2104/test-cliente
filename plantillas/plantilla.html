@@ -581,6 +581,10 @@ const E = {
   nombre: "", eslogan: "", telefono: "", ciudad: "", color: "", logo: "",
   ocultas: [],
 };
+// Diseño guardado en el enlace que el cliente envía al pedir presupuesto
+for (const [k, c, n] of [["n", "nombre", 60], ["l", "eslogan", 160], ["t", "telefono", 20], ["c", "ciudad", 60]]) if (q.get(k)) E[c] = q.get(k).slice(0, n);
+if (/^#[0-9a-f]{6}$/i.test(q.get("col") || "")) E.color = q.get("col");
+if (q.get("o")) E.ocultas = q.get("o").split(",").filter(x => ["trabajos", "opiniones", "faq", "cifras", "proceso"].includes(x));
 const COLOR_DEF = { reformas: "#e8590c", estetica: "#c2185b", hosteleria: "#2e7d32", clinica: "#0e7490", tienda: "#7c5c2b", profesional: "#1e3a8a" };
 const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const P = () => S[E.sector];
