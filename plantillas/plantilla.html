@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vista previa · Webcare</title>
+<style>
+:root{--c:#e8590c;--c2:color-mix(in srgb,var(--c) 14%,#fff);--tx:#1d2330;--mu:#5d6676;--bd:#e6e8ee;--bg:#fff;--sf:#f7f8fb}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--tx);background:var(--bg)}
+a{color:inherit}
+button,input,select{font:inherit}
+.w{max-width:1080px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd)}
+.nav{display:flex;align-items:center;gap:16px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;min-width:0}
+.logo i{width:34px;height:34px;border-radius:10px;background:var(--c);display:grid;place-items:center;color:#fff;font-style:normal;flex-shrink:0}
+.logo span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.links{display:flex;gap:18px;margin-left:auto;font-size:15px}
+.links a{text-decoration:none;color:var(--mu)}.links a:hover{color:var(--c)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:12px 18px;background:var(--c);color:#fff;font-weight:700;cursor:pointer;text-decoration:none}
+.btn.s{background:#fff;color:var(--tx);border:1px solid var(--bd)}
+.btn:hover{filter:brightness(1.06)}
+.menu{display:none;background:none;border:0;font-size:24px;cursor:pointer;margin-left:auto}
+.hero{background:linear-gradient(135deg,var(--c2),#fff 70%);padding:64px 0 56px}
+.hero .w{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center}
+.tag{display:inline-block;font-size:13px;font-weight:700;color:var(--c);background:#fff;border:1px solid var(--c2);padding:5px 12px;border-radius:99px}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.08;letter-spacing:-.02em;margin:14px 0}
+h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.01em;margin-bottom:8px}
+.lead{font-size:18px;color:var(--mu);max-width:46ch}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.foto{aspect-ratio:4/3;border-radius:22px;background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 45%,#111));position:relative;overflow:hidden;box-shadow:0 30px 60px -30px color-mix(in srgb,var(--c) 70%,#000)}
+.foto b{position:absolute;inset:0;display:grid;place-items:center;font-size:96px}
+.foto small{position:absolute;left:16px;bottom:14px;background:#fff;color:var(--tx);border-radius:12px;padding:8px 12px;font-weight:600;font-size:14px}
+section.s{padding:64px 0}
+section.alt{background:var(--sf)}
+.mu{color:var(--mu)}
+.g{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:26px}
+.c{background:#fff;border:1px solid var(--bd);border-radius:18px;padding:20px}
+.c .ic{width:44px;height:44px;border-radius:12px;background:var(--c2);display:grid;place-items:center;font-size:22px;margin-bottom:10px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+.tabs button{border:1px solid var(--bd);background:#fff;border-radius:99px;padding:8px 16px;cursor:pointer;font-weight:600}
+.tabs button.on{background:var(--c);border-color:var(--c);color:#fff}
+.fila{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px dashed var(--bd)}
+.fila b{white-space:nowrap}
+.estr{color:#f5a524;letter-spacing:2px}
+.form{display:grid;gap:12px;margin-top:20px}
+.form label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.form input,.form select{border:1px solid var(--bd);border-radius:12px;padding:12px;background:#fff}
+.res{margin-top:14px;padding:16px;border-radius:14px;background:var(--c2);font-weight:700}
+.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.dias button,.horas button{border:1px solid var(--bd);background:#fff;border-radius:12px;padding:10px 4px;cursor:pointer;font-size:13px}
+.dias button.on,.horas button.on{background:var(--c);color:#fff;border-color:var(--c)}
+.horas{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.ad{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;margin-top:24px;background:#ddd}
+.ad div{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;font-size:22px;color:#fff}
+.ad .antes{background:repeating-linear-gradient(45deg,#8d8f94 0 18px,#7d7f84 18px 36px)}
+.ad .despues{background:linear-gradient(135deg,var(--c),color-mix(in srgb,var(--c) 50%,#fff));clip-path:inset(0 0 0 var(--x,50%))}
+.ad input{position:absolute;inset:auto 0 12px;width:80%;margin:0 auto;left:0;right:0}
+.qr{width:150px;height:150px;display:grid;grid-template-columns:repeat(15,1fr);gap:1px;background:#fff;padding:8px;border-radius:12px;border:1px solid var(--bd)}
+.qr i{background:#111}.qr i.v{background:transparent}
+footer{background:#121620;color:#c9ced8;padding:40px 0;font-size:14px}
+footer .w{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between}
+.wa{position:fixed;right:18px;bottom:18px;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:26px;box-shadow:0 10px 24px rgba(0,0,0,.25);text-decoration:none}
+.aviso{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#121620;color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.25s;pointer-events:none}
+.aviso.on{opacity:1}
+@media(max-width:820px){.hero .w{grid-template-columns:1fr}.links{display:none}.menu{display:block}.links.abierto{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:#fff;padding:16px 20px;border-bottom:1px solid var(--bd)}.nav>.btn{display:none}}
+</style>
+</head>
+<body>
+<header><div class="w nav">
+  <div class="logo"><i data-v="inicial">L</i><span data-v="nombre">Tu negocio</span></div>
+  <nav class="links" id="links"></nav>
+  <a class="btn" href="#contacto" data-v="ctaCorta">Contactar</a>
+  <button class="menu" aria-label="Menú" onclick="document.getElementById('links').classList.toggle('abierto')">☰</button>
+</div></header>
+<main id="main"></main>
+<footer><div class="w"><div><b data-v="nombre" style="color:#fff">Tu negocio</b><br><span data-v="ciudad">Tu ciudad</span> · <span data-v="telefono">600 000 000</span></div><div>Aviso legal · Privacidad · Cookies</div><div>Web hecha con ❤ por Webcare</div></div></footer>
+<a class="wa" href="#contacto" aria-label="WhatsApp" onclick="aviso('En tu web, este botón abrirá WhatsApp con tu número.');return false">💬</a>
+<div class="aviso" id="aviso"></div>
+<script>
+// Plantillas de demostración del portal de Webcare. Se personalizan en vivo desde el portal (postMessage).
+const D = { nombre: "", eslogan: "", telefono: "600 123 456", ciudad: "Madrid", color: "" };
+const S = {
+  reformas: {
+    color: "#e8590c", nombre: "Reformas Martín", icono: "🔨", eslogan: "Reformas integrales sin sorpresas: precio cerrado y plazos por escrito.",
+    links: [["Servicios", "#servicios"], ["Trabajos", "#trabajos"], ["Presupuesto", "#contacto"], ["Opiniones", "#opiniones"]], cta: "Pedir presupuesto",
+    html: () => `
+    <section class="hero"><div class="w"><div><span class="tag">⭐ 4,9 en Google · +300 obras en ${v("ciudad")}</span><h1>Reformas en ${v("ciudad")} con <span style="color:var(--c)">precio cerrado</span></h1><p class="lead" data-v="eslogan"></p>
+      <div class="cta"><a class="btn" href="#contacto">Calcular mi presupuesto</a><a class="btn s" href="#trabajos">Ver trabajos</a></div></div>
+      <div class="foto"><b>🏠</b><small>✔ Cocina reformada en 12 días</small></div></div></section>
+    <section class="s" id="servicios"><div class="w"><h2>Qué hacemos</h2><p class="mu">Un solo equipo para toda la obra, con un responsable que te llama cada semana.</p>
+      <div class="g">${[["🍳", "Cocinas", "Diseño, muebles y encimeras a medida."], ["🛁", "Baños", "Platos de ducha, alicatado y fontanería."], ["🎨", "Pintura", "Interior y exterior, sin manchas ni olores."], ["🪵", "Suelos", "Tarima, porcelánico y microcemento."]].map(([i, t, d]) => `<div class="c"><div class="ic">${i}</div><b>${t}</b><p class="mu">${d}</p></div>`).join("")}</div></div></section>
+    <section class="s alt" id="trabajos"><div class="w"><h2>Antes y después</h2><p class="mu">Desliza para ver el cambio.</p>
+      <div class="ad"><div class="antes">ANTES</div><div class="despues" id="desp">DESPUÉS</div><input type="range" min="0" max="100" value="50" aria-label="Comparar antes y después" oninput="document.getElementById('desp').style.setProperty('--x', this.value + '%')"></div></div></section>
+    <section class="s" id="contacto"><div class="w" style="max-width:640px"><h2>Calcula tu presupuesto orientativo</h2><p class="mu">En 30 segundos. Te llamamos para cerrarlo sin compromiso.</p>
+      <div class="form"><label>Tipo de obra<select id="obra" onchange="calcular()"><option value="550">Baño completo</option><option value="420">Cocina</option><option value="18">Pintura (por m²)</option><option value="45">Suelo (por m²)</option></select></label>
+      <label>Metros cuadrados: <span id="m2v">20</span> m²<input id="m2" type="range" min="4" max="120" value="20" oninput="calcular()"></label>
+      <div class="res" id="res"></div><button class="btn" onclick="aviso('¡Solicitud enviada! (en tu web llegará a tu correo)')">Quiero que me llaméis</button></div></div></section>
+    ${opiniones(["La cocina quedó perfecta y en el plazo que nos dijeron.", "Muy limpios y puntuales. Repetiremos con el baño.", "Precio cerrado de verdad, sin sustos al final."])}`,
+  },
+  estetica: {
+    color: "#c2185b", nombre: "Estudio Lúa", icono: "💅", eslogan: "Tratamientos faciales y corporales con cita online en 1 minuto.",
+    links: [["Tratamientos", "#tratamientos"], ["Reservar", "#reservar"], ["Opiniones", "#opiniones"]], cta: "Reservar cita",
+    html: () => `
+    <section class="hero"><div class="w"><div><span class="tag">✨ Centro de estética en ${v("ciudad")}</span><h1>Tu momento para <span style="color:var(--c)">cuidarte</span></h1><p class="lead" data-v="eslogan"></p>
+      <div class="cta"><a class="btn" href="#reservar">Reservar cita</a><a class="btn s" href="#tratamientos">Ver tratamientos</a></div></div>
+      <div class="foto"><b>🌸</b><small>Próximo hueco libre: hoy 17:30</small></div></div></section>
+    <section class="s" id="tratamientos"><div class="w"><h2>Carta de tratamientos</h2><div class="tabs" id="tabs"></div><div id="carta" style="margin-top:10px"></div></div></section>
+    <section class="s alt" id="reservar"><div class="w" style="max-width:680px"><h2>Reserva tu cita</h2><p class="mu">Elige día y hora. Te confirmamos por WhatsApp.</p>
+      <div class="dias" id="dias"></div><div class="horas" id="horas"></div><div class="res" id="cita" style="display:none"></div></div></section>
+    ${opiniones(["Me encanta, salgo siempre como nueva.", "Reservar online es comodísimo.", "Trato súper cercano y profesional."])}
+    <section class="s" id="contacto"><div class="w"><h2>Dónde estamos</h2><p class="mu">${v("ciudad")} · Tel. ${v("telefono")}</p></div></section>`,
+  },
+  hosteleria: {
+    color: "#2e7d32", nombre: "Casa Paco", icono: "🍽️", eslogan: "Cocina casera de mercado. Menú del día de lunes a viernes.",
+    links: [["Carta", "#carta"], ["Menú QR", "#qr"], ["Horario", "#contacto"]], cta: "Llamar",
+    html: () => `
+    <section class="hero"><div class="w"><div><span class="tag">🍷 Restaurante en ${v("ciudad")}</span><h1>Comer bien, <span style="color:var(--c)">como en casa</span></h1><p class="lead" data-v="eslogan"></p>
+      <div class="cta"><a class="btn" href="#carta">Ver la carta</a><a class="btn s" href="#contacto" onclick="aviso('En tu web, este botón llamará al ' + D.telefono)">📞 ${v("telefono")}</a></div></div>
+      <div class="foto"><b>🥘</b><small>Menú del día · 13,50 €</small></div></div></section>
+    <section class="s" id="carta"><div class="w"><h2>Nuestra carta</h2><div class="tabs" id="tabs"></div><div id="cartaL" style="margin-top:10px"></div></div></section>
+    <section class="s alt" id="qr"><div class="w" style="display:flex;gap:28px;align-items:center;flex-wrap:wrap"><div class="qr" id="qrc" aria-label="Código QR de la carta"></div>
+      <div style="flex:1;min-width:220px"><h2>Carta en el móvil</h2><p class="mu">Tus clientes escanean el QR de la mesa y ven la carta siempre actualizada, con alérgenos y precios.</p></div></div></section>
+    <section class="s" id="contacto"><div class="w"><h2>Horario</h2><div class="g">${[["Lunes a viernes", "13:00–16:30 · 20:30–23:30"], ["Sábados", "13:00–17:00"], ["Domingos", "Cerrado"]].map(([d, h]) => `<div class="c"><b>${d}</b><p class="mu">${h}</p></div>`).join("")}</div></div></section>
+    ${opiniones(["El mejor menú del día de la zona.", "Raciones generosas y trato familiar.", "La tortilla, espectacular."])}`,
+  },
+};
+const CARTAS = {
+  estetica: { Facial: [["Limpieza facial profunda", "45 €"], ["Hidratación con ácido hialurónico", "60 €"], ["Peeling químico suave", "55 €"]], Corporal: [["Masaje relajante 60 min", "50 €"], ["Drenaje linfático", "55 €"], ["Exfoliación corporal", "40 €"]], Manos: [["Manicura semipermanente", "22 €"], ["Pedicura completa", "30 €"], ["Uñas de gel", "35 €"]] },
+  hosteleria: { Entrantes: [["Croquetas caseras de jamón", "8,50 €"], ["Ensalada de la huerta", "7,90 €"], ["Pimientos de padrón", "6,50 €"]], Principales: [["Cocido madrileño (miércoles)", "14,00 €"], ["Merluza a la romana", "15,50 €"], ["Entrecot a la brasa", "19,00 €"]], Postres: [["Tarta de queso de la casa", "5,50 €"], ["Arroz con leche", "4,50 €"], ["Flan de huevo", "4,00 €"]] },
+};
+const clave = new URLSearchParams(location.search).get("s") in S ? new URLSearchParams(location.search).get("s") : "reformas";
+const P = S[clave];
+const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const v = k => `<span data-v="${k}">${esc(valor(k))}</span>`;
+const valor = k => k === "nombre" ? (D.nombre || P.nombre) : k === "eslogan" ? (D.eslogan || P.eslogan) : k === "inicial" ? (D.nombre || P.nombre).trim().charAt(0).toUpperCase() : k === "ctaCorta" ? P.cta : D[k];
+function opiniones(l) {
+  return `<section class="s alt" id="opiniones"><div class="w"><h2>Lo que dicen nuestros clientes</h2><div class="g">${l.map((t, i) => `<div class="c"><div class="estr">★★★★★</div><p>«${t}»</p><p class="mu" style="margin-top:8px">— ${["María G.", "Javier R.", "Lucía P."][i]}</p></div>`).join("")}</div></div></section>`;
+}
+function pintarTextos() {
+  document.documentElement.style.setProperty("--c", D.color || P.color);
+  document.querySelectorAll("[data-v]").forEach(e => { e.textContent = valor(e.dataset.v); });
+  document.title = valor("nombre") + " · Vista previa";
+}
+function aviso(t) { const a = document.getElementById("aviso"); a.textContent = t; a.classList.add("on"); clearTimeout(aviso.t); aviso.t = setTimeout(() => a.classList.remove("on"), 2600); }
+function calcular() {
+  const o = document.getElementById("obra"), m = +document.getElementById("m2").value, base = +o.value;
+  document.getElementById("m2v").textContent = m;
+  const total = base < 100 ? base * m : base * Math.max(4, m) / 4;
+  document.getElementById("res").textContent = "Presupuesto orientativo: " + Math.round(total / 10) * 10 + " € (IVA no incluido)";
+}
+function tabsCarta(datos, destino) {
+  const tabs = document.getElementById("tabs"), ks = Object.keys(datos);
+  const ver = k => { tabs.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.textContent === k));
+    document.getElementById(destino).innerHTML = datos[k].map(([n, p]) => `<div class="fila"><span>${n}</span><b>${p}</b></div>`).join(""); };
+  tabs.innerHTML = ks.map(k => `<button type="button">${k}</button>`).join("");
+  tabs.querySelectorAll("button").forEach(b => b.onclick = () => ver(b.textContent));
+  ver(ks[0]);
+}
+function reservas() {
+  const dias = document.getElementById("dias"), horas = document.getElementById("horas"), cita = document.getElementById("cita");
+  const hoy = new Date(); let dia = null;
+  dias.innerHTML = Array.from({ length: 7 }, (_, i) => { const d = new Date(hoy); d.setDate(hoy.getDate() + i); return `<button type="button" data-d="${i}">${d.toLocaleDateString("es-ES", { weekday: "short" })}<br><b>${d.getDate()}</b></button>`; }).join("");
+  dias.querySelectorAll("button").forEach(b => b.onclick = () => {
+    dias.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); dia = b.innerText.replace("\n", " ");
+    horas.innerHTML = ["10:00", "11:30", "13:00", "16:30", "17:30", "19:00"].map(h => `<button type="button">${h}</button>`).join("");
+    horas.querySelectorAll("button").forEach(h => h.onclick = () => { horas.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === h));
+      cita.style.display = "block"; cita.textContent = "✔ Cita reservada (demo): " + dia + " a las " + h.textContent + ". En tu web, el cliente recibirá la confirmación."; });
+  });
+}
+function qr() {
+  let s = 7, h = ""; for (let i = 0; i < 225; i++) { s = (s * 9301 + 49297) % 233280; const f = Math.floor(i / 15), c = i % 15;
+    const marca = (f < 4 && c < 4) || (f < 4 && c > 10) || (f > 10 && c < 4); h += `<i class="${marca ? ((f % 3 === 0 || c % 3 === 0 || f === 14 || c === 14) ? "" : "v") : (s / 233280 > .5 ? "" : "v")}"></i>`; }
+  document.getElementById("qrc").innerHTML = h;
+}
+function montar() {
+  document.getElementById("links").innerHTML = P.links.map(([t, h]) => `<a href="${h}">${t}</a>`).join("");
+  document.getElementById("main").innerHTML = P.html();
+  if (clave === "reformas") calcular();
+  if (clave === "estetica") { tabsCarta(CARTAS.estetica, "carta"); reservas(); }
+  if (clave === "hosteleria") { tabsCarta(CARTAS.hosteleria, "cartaL"); qr(); }
+  pintarTextos();
+}
+// Personalización en vivo desde el portal
+addEventListener("message", e => {
+  if (!e.data || e.data.tipo !== "webcare-preview") return;
+  const d = e.data.datos || {};
+  for (const k of ["nombre", "eslogan", "telefono", "ciudad", "color"]) if (typeof d[k] === "string") D[k] = d[k].slice(0, k === "eslogan" ? 140 : 60);
+  if (D.color && !/^#[0-9a-f]{6}$/i.test(D.color)) D.color = "";
+  pintarTextos();
+});
+montar();
+parent !== window && parent.postMessage({ tipo: "webcare-preview-lista" }, "*");
+</script>
+</body>
+</html>
