@@ -159,7 +159,7 @@ table.hist{width:100%;border-collapse:collapse;font-size:14px}table.hist th,tabl
 :root:root:root:root .ic{background:var(--acb);color:#C6CCFF;border:1px solid rgba(124,140,255,.25);border-radius:12px}
 :root:root:root:root .sv b{font-size:17px}:root:root:root:root .sv p{font-size:14px;line-height:1.55}
 :root:root:root:root .stp .n{background:var(--grad);color:#0B1020;font-weight:800}
-.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))!important}.g2{grid-template-columns:repeat(2,minmax(0,1fr))!important}@media(max-width:700px){.g2{grid-template-columns:1fr!important}}.exg{font-size:15px;font-weight:600;color:var(--mu);margin:22px 0 4px;letter-spacing:.2px}
+.g3{grid-template-columns:repeat(auto-fit,minmax(250px,1fr))!important}.g2{grid-template-columns:repeat(2,minmax(0,1fr))!important}@media(max-width:700px){.g2{grid-template-columns:1fr!important}}.exg{font-size:15px;font-weight:600;color:var(--mu);margin:22px 0 4px;letter-spacing:.2px}:root:root:root:root .mb.ancho{max-width:640px;max-height:calc(100vh - 40px);overflow-y:auto}.serv-h{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}:root:root:root:root .serv .serv-n{font-size:17px;margin-bottom:2px}.serv{margin-bottom:10px}
 :root:root:root:root .pl.top{border:1px solid transparent;background:linear-gradient(var(--sf),var(--sf)) padding-box,var(--grad) border-box;box-shadow:0 26px 60px -30px rgba(124,140,255,.65)}
 :root:root:root:root .precio{display:block;font-size:36px;font-weight:800;margin:4px 0 2px}:root:root:root:root .precio small{font-size:15px;color:var(--mu);font-weight:500}
 .mas{margin-top:12px;color:#AEB7FF;font-weight:600;font-size:14px}
@@ -266,14 +266,14 @@ const FAQ=[
 {p:"¿Cuánto tardáis en responder?",r:"Te respondemos ${PROMESA_RESP}. Si es urgente, márcalo como «Urgente» al enviar la solicitud.",k:"tardar tiempo respuesta urgente cuando"},
 {p:"Mi web no carga o va muy lenta",r:"Vigilamos tu web cada hora: si se cae, abrimos una incidencia automáticamente. Si notas algo raro, envíanos una solicitud «Algo no funciona» con una captura.",k:"caida caída carga lenta no funciona error 500 abre"},
 {p:"¿Cómo cambio la contraseña de mi correo profesional?",r:"Envíanos una solicitud «Tengo una duda» indicando el buzón y te mandamos los pasos o la cambiamos nosotros.",k:"correo email contraseña buzon buzón clave"},
-{p:"¿Puedo cambiar de plan?",r:"Sí. En «Facturación» pulsa «Solicitar este plan». Cuando el equipo lo apruebe, verás el cambio en tu panel.",k:"plan cambiar mejorar subir bajar precio"},
+{p:"¿Puedo cambiar de plan o añadir extras?",r:"Sí. En «Servicios» ves tu plan de web, tu plan de mantenimiento y tus extras. Desde ahí puedes cambiar de plan, añadir extras o packs y pedir la baja. Cuando el equipo lo apruebe, verás el cambio en tu panel.",k:"plan cambiar mejorar subir bajar precio extra pack servicio añadir"},
 {p:"¿Cómo pago o consulto mis facturas?",r:"En «Facturación» tienes el botón de pago seguro con Stripe y la lista de tus facturas.",k:"pago pagar factura tarjeta stripe recibo"},
 {p:"¿Qué son los tokens de mi plan?",r:"Son el saldo de cambios de contenido que incluye el Mantenimiento Pro: 1-2 tokens al mes. Cada tarea consume tokens según su tamaño y te decimos cuántos antes de empezar. En «Mi web» y en «Soporte» ves cuántos llevas usados; se renuevan el día 1 de cada mes.",k:"tokens saldo horas incluye plan mes consumo quedan"},
 {p:"¿Hacéis copias de seguridad?",r:"Sí. Con el Mantenimiento Esencial, copias externas mensuales; con el Mantenimiento Pro, semanales. En «Mi web» ves la última copia y cuántas guardamos.",k:"copia seguridad backup restaurar perder"}];
 const PROMESA={respuesta:"normalmente en el mismo día laborable",respuestaCorta:"Mismo día",disponibilidad:"Vigilancia 24 h"};
 FAQ.forEach(f=>f.r=f.r.replace("${PROMESA_RESP}",PROMESA.respuesta));
 let U={n:"",d:""},ACC=[],auth=false,cur="Inicio",tip=true,plan="Mantenimiento Pro",token=null,sondeo=null,casoSel=null;
-let VAL=[],RENOV=[],VISTA=false,CASOS=[],MSGS=[],WEB=null,HIST=[],canalRT=null,canalId=null,ADJ=null,ADJT=null;   // casos (reportes), mensajes (mensajes_caso) y ficha de su web (webs_cliente)
+let SERV=[],VAL=[],RENOV=[],VISTA=false,CASOS=[],MSGS=[],WEB=null,HIST=[],canalRT=null,canalId=null,ADJ=null,ADJT=null;   // casos (reportes), mensajes (mensajes_caso) y ficha de su web (webs_cliente)
 const CERR=["Aceptado","Denegado"],lead=()=>CASOS.find(c=>c.tipo_reporte=="Lead"),tickets=()=>CASOS.filter(c=>c.tipo_reporte!="Lead");
 // Registrado desde el portal: el resto del panel se desbloquea cuando el equipo pasa su lead a «Aceptado»
 const lockeado=()=>{const l=lead();return!!l&&l.estado!="Aceptado"};
@@ -315,6 +315,7 @@ ${evolucionHTML()}
 ${histHTML()}
 ${proximos().length?`<h2>Próximamente</h2><div class="c"><ul class="l">${proximos().map(x=>`<li>${esc(x.texto)}<span>${esc(x.cuando)}</span></li>`).join("")}</ul></div>`:""}
 ${horasHTML()}`},
+Servicios(){return serviciosHTML()},
 Soporte(){return `<h1>¿En qué te ayudamos?</h1><p class="mu">Te respondemos ${PROMESA.respuesta}.</p>
 <div class="c" style="margin-top:16px"><label>¿Qué necesitas?<select id="ty"><option>Cambiar contenido o imágenes</option><option>Algo no funciona</option><option>Añadir una funcionalidad</option><option>Tengo una duda</option></select></label>
 <label>Cuéntanoslo<textarea id="tx" rows="3" placeholder="Ej.: cambiar el horario de los sábados" oninput="sugerirFaq(this.value)"></textarea></label><div id="sug" aria-live="polite"></div>
@@ -333,15 +334,9 @@ ${g.length?`<div class="g" style="margin-top:16px">${g.map(x=>`<div class="c"><b
 ${pal.length?`<h2>Tus palabras clave</h2><div class="c">${pal.map(k=>{const a=+k.antes,b=+k.ahora;return `<div class="line"><span>${esc(k.palabra)}</span><i style="width:${Math.max(4,(30-Math.min(b||30,30))*4)}px"></i><b>${!a||a===b?"Pos. "+(b||"—"):"Pos. "+a+" → "+b}</b></div>`}).join("")}</div>`:""}
 ${acc.length?`<h2>Lo que hicimos este mes</h2><div class="c"><ul class="l">${acc.map(x=>`<li>${esc(x.texto)}<span>✔</span></li>`).join("")}</ul></div>`:""}
 <p style="margin-top:16px">${inf?`<a class="btn s" style="text-decoration:none;display:inline-block" href="${inf}" target="_blank" rel="noopener noreferrer">Descargar informe</a> `:""}${audit}</p>`},
-Facturación(){const w=WEB||{},fac=lista(w.facturas),pend=planPendiente(),rent=RENT.find(x=>x.n==plan);
-return `<h1>Servicios y facturas</h1><p class="mu">Sin sorpresas ni permanencia: te avisamos antes de cada renovación y puedes cambiar de plan o darte de baja cuando quieras.</p><h2>Tu plan</h2>
-${rent?`<div class="c" style="border-color:var(--ac);border-width:2px;margin-bottom:12px"><b>${rent.p}/mes</b><p>${esc(rent.n)}</p><small>${rent.f.join(" · ")}</small><p style="margin-top:10px"><span class="tag">Tu plan actual</span></p></div>`:""}
-<div class="g">${PD.map((p,i)=>`<div class="c" style="${p.n==plan?"border-color:var(--ac);border-width:2px":""}"><b>${p.p}/mes</b><small style="display:block">o ${p.a}</small><p>${p.n}</p><small>${p.f.join(" · ")}</small><p style="margin-top:10px">${p.n==plan?'<span class="tag">Tu plan actual</span>':pend&&pend.plan_solicitado==p.n?'<span class="tag" style="background:var(--wab);color:var(--wa)">Pendiente de aprobar</span>':pend||rent?"":`<button class="btn s" onclick="pedirPlan(${i})">Solicitar este plan</button>`}</p></div>`).join("")}</div>
-${pend?`<p class="mu" style="margin-top:10px">${pend.plan_solicitado=="Cancelar"?"Has pedido la baja de tu plan. El equipo la confirmará y dejaremos de cobrarte.":"Has pedido pasar a "+esc(pend.plan_solicitado)+". Cuando el equipo lo apruebe, se cambiará solo."} <button class="lk" onclick="verCaso(${pend.id})">Ver la solicitud</button></p>`:""}
-${plan&&WEB&&WEB.plan&&!pend&&!VISTA?`<p class="mu" style="margin-top:10px;font-size:14px">¿Quieres dejarlo? <button class="lk" onclick="abrirBaja()">Darme de baja</button> · sin permanencia ni penalizaciones.</p>`:""}
+Facturación(){const w=WEB||{},fac=lista(w.facturas),pend=planPendiente();
+return `<h1>Servicios y facturas</h1><p class="mu">Sin sorpresas ni permanencia: te avisamos antes de cada renovación y puedes cambiar de plan o darte de baja cuando quieras.</p><h2>Tu plan</h2><div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><div><b style="font-size:17px">${esc(WEB&&WEB.plan?plan:"Sin plan de mantenimiento")}</b>${CUOTAS[plan]&&WEB&&WEB.plan?`<p class="mu" style="font-size:14px">${CUOTAS[plan].p}/mes${CUOTAS[plan].a?" o "+CUOTAS[plan].a:""}</p>`:""}${pend?`<p class="mu" style="font-size:14px;margin-top:4px">${pend.plan_solicitado=="Cancelar"?"Baja solicitada":"Cambio pedido a "+esc(pend.plan_solicitado)}</p>`:""}</div><button class="btn s" onclick="go('Servicios')">Gestionar mis servicios</button></div>
 ${STRIPE_PORTAL?`<p style="margin-top:12px"><a class="btn s" style="text-decoration:none;display:inline-block" href="${esc(STRIPE_PORTAL)}${U.email?"?prefilled_email="+encodeURIComponent(U.email):""}" target="_blank" rel="noopener">Gestionar mi suscripción y facturas</a></p>`:""}
-<h2>Packs promocionales</h2><p class="mu" style="margin-bottom:10px">${NOTA_PACKS}</p><div class="c"><ul class="l">${PK.map((x,i)=>`<li><span>${x.e} ${x.n}<br><small class="mu">${x.p}</small></span><button class="btn s" onclick="showPack(${i})">Ver</button></li>`).join("")}</ul></div>
-<h2>Servicios extra</h2>${EXG.map((g,k)=>`<h3 class="exg">${g}</h3><div class="c"><ul class="l">${EX.filter(x=>x.g==k).map(x=>`<li><span>${x.k}<br><small class="mu">${x.c} · ${x.p}</small></span><button class="btn s" onclick="showExtra(${EX.indexOf(x)})">Ver</button></li>`).join("")}</ul></div>`).join("")}
 <h2>Pagar</h2><div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"><div><b style="font-size:16px">Pago seguro con Stripe</b><p class="mu" style="font-size:14px">Paga tus servicios con tarjeta. Tu tarjeta nunca pasa por nuestra web.</p>${w.metodo_pago?`<p class="mu" style="font-size:13px;margin-top:4px">Método actual: ${esc(w.metodo_pago)}</p>`:""}</div>${botonPago()}</div>
 <h2>Facturas</h2><div class="c">${fac.length?`<ul class="l">${fac.map(f=>`<li><span>${esc(f.numero)} · ${esc(f.fecha)}</span><span>${esc(f.importe)}${url(f.url)?` <a class="lk" href="${url(f.url)}" target="_blank" rel="noopener noreferrer">PDF</a>`:""}</span></li>`).join("")}</ul>`:'<p class="mu">Todavía no tienes facturas.</p>'}</div>`}};
 // ---------- Ficha de la web (la rellena el equipo desde el panel) ----------
@@ -438,6 +433,49 @@ async function verAcceso(id){if(BOV.visto[id]!==undefined){delete BOV.visto[id];
 function copiarClave(id){try{navigator.clipboard.writeText(BOV.visto[id]);toast("Copiada.")}catch(_){toast("No se pudo copiar.")}}
 async function borrarAcceso(id){if(!confirm("¿Borrar este acceso de la bóveda?"))return;try{const r=await fn("boveda",{accion:"borrar",token,id});BOV.lista=r.credenciales;BOV.accesos=r.accesos;delete BOV.visto[id];render()}catch(err){toast(err.message,5000)}}
 
+// ---------- Servicios: plan de web, plan de mantenimiento, extras y packs del cliente ----------
+// La lista vive en la tabla servicios_cliente (la ve y edita también el equipo en el panel).
+const TIPO_DE={w:"web",m:"mantenimiento",r:"renting",p:"pack",x:"extra"};
+const ESTADO_SERV={pendiente:["Pendiente de aprobar","background:var(--wab);color:var(--wa)"],activo:["Activo",""],baja:["De baja","opacity:.7"]};
+const servDe=tipos=>SERV.filter(s=>tipos.includes(s.tipo));
+function catDe(nombre){const w=WP.find(x=>x.n==nombre);if(w)return {pr:w.p+" · pago único",f:w.f};const m=PD.find(x=>x.n==nombre);if(m)return {pr:m.p+"/mes o "+m.a,f:m.f};
+const r=RENT.find(x=>x.n==nombre);if(r)return {pr:r.p+"/mes",f:r.f};const k=PK.find(x=>x.n==nombre);if(k)return {pr:k.p,f:k.f};const e=EX.find(x=>x.c+" · "+x.k==nombre||x.k==nombre);if(e)return {pr:e.p,f:[e.t]};return null}
+const chipServ=s=>{const e=ESTADO_SERV[s.estado]||[s.estado,""];return `<span class="tag" style="${e[1]}">${s.caso_baja_id&&s.estado=="activo"&&CASOS.some(c=>c.id==s.caso_baja_id&&!CERR.includes(c.estado))?"Baja solicitada":e[0]}</span>`};
+function tarjetaServ(s,extra){const c=catDe(s.nombre)||{},pr=s.precio||c.pr||"";
+return `<div class="c serv"><div class="serv-h"><div style="min-width:0"><b class="serv-n">${esc(s.nombre)}</b>${pr?`<small class="mu">${esc(pr)}</small>`:""}</div>${chipServ(s)}</div>
+${(c.f||[]).length?`<ul class="ck" style="margin:10px 0 0">${c.f.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}
+${s.estado=="activo"&&s.activado_en?`<small class="mu" style="display:block;margin-top:8px">Activo desde el ${new Date(s.activado_en).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"})}</small>`:""}${extra||""}</div>`}
+async function pedirServicio(t,i){const it=ITEM(t,i),tipo=t=="m"?"mantenimiento":TIPO_DE[t];
+try{const r=await rpc("cliente_pedir_servicio",{p_token:token,p_tipo:tipo,p_nombre:it.n,p_precio:it.pr});
+if(!CASOS.some(x=>x.id==r.caso.id))CASOS.unshift(r.caso);SERV.unshift(r.servicio);closePlan();render();avisarEquipo(r.caso.id);
+abrirPago("Pagar: "+it.n,"Hemos registrado tu solicitud. Completa el pago y, cuando el equipo la apruebe, aparecerá como activa en «Servicios».")}
+catch(err){toast(err.message,5000)}}
+async function bajaServicio(id){const s=SERV.find(x=>x.id==id);if(!s||!confirm("¿Pedir la baja de «"+s.nombre+"»?"))return;
+try{const c=await rpc("cliente_baja_servicio",{p_token:token,p_servicio:id});if(!CASOS.some(x=>x.id==c.id))CASOS.unshift(c);s.caso_baja_id=c.id;render();avisarEquipo(c.id);toast("Baja solicitada. El equipo te la confirmará.",4000)}
+catch(err){toast(err.message,5000)}}
+// Catálogo para elegir: "w" planes de web · "m" mantenimiento y renting · "x" extras y packs
+function elegirServicio(cat){const ya=n=>SERV.some(s=>s.nombre==n&&(s.estado=="pendiente"||(s.estado=="activo"&&cat!="x"))),
+fila=(t,i,n,pr,ver)=>`<li><span style="min-width:0">${n}<br><small class="mu">${pr}</small></span><span style="display:flex;gap:6px;flex-shrink:0"><button class="lk" onclick="${ver}">Ver</button>${ya(ITEM(t,i).n)?'<span class="tag">Ya lo tienes o está pedido</span>':`<button class="btn s" onclick="pedirServicio('${t}',${i})">${cat=="x"?"Añadir":"Elegir"}</button>`}</span></li>`;
+const cuerpo=cat=="w"?`<ul class="l">${WP.map((x,i)=>fila("w",i,x.e+" "+x.n,x.p+" · pago único",`showWeb(${i})`)).join("")}</ul>`
+:cat=="m"?`<h3 class="exg">Mantenimiento y soporte</h3><ul class="l">${PD.map((x,i)=>fila("m",i,x.n,x.p+"/mes o "+x.a,`showPlan(${i})`)).join("")}</ul><h3 class="exg">Renting web (todo en uno)</h3><ul class="l">${RENT.map((x,i)=>fila("r",i,x.n,x.p+"/mes",`showRenting(${i})`)).join("")}</ul>`
+:`<h3 class="exg">Packs promocionales</h3><ul class="l">${PK.map((x,i)=>fila("p",i,x.e+" "+x.n,x.p,`showPack(${i})`)).join("")}</ul>${EXG.map((g,k)=>`<h3 class="exg">${g}</h3><ul class="l">${EX.map((x,i)=>x.g==k?fila("x",i,x.k,x.c+" · "+x.p,`showExtra(${i})`):"").join("")}</ul>`).join("")}`;
+const m=document.getElementById("md");m.innerHTML=`<div class="mb ancho" role="dialog" aria-modal="true" aria-labelledby="es-h"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><h2 id="es-h" style="margin:0 0 6px;font-size:22px">${cat=="w"?"Planes de web":cat=="m"?"Cambiar tu plan":"Añadir extras o packs"}</h2>
+<p class="mu" style="margin-bottom:10px">${cat=="x"?"Se suman a lo que ya tienes.":"El nuevo plan sustituirá al actual cuando el equipo lo apruebe."}</p>${cuerpo}${modalPie}`;m.style.display="grid"}
+function serviciosHTML(){const web=servDe(["web"]),man=servDe(["mantenimiento","renting"]),ext=servDe(["extra","pack"]),
+act=l=>l.filter(s=>s.estado=="activo"),pen=l=>l.filter(s=>s.estado=="pendiente"),bajas=SERV.filter(s=>s.estado=="baja");
+const manAct=act(man)[0]||(WEB&&WEB.plan?{nombre:WEB.plan,estado:"activo"}:null),pendPlan=planPendiente(),sop=manAct&&SOPORTE[manAct.nombre];
+return `<h1>Mis servicios</h1><p class="mu">Tu plan de web, tu plan de mantenimiento y tus extras. Puedes añadir o cambiar lo que necesites: el equipo lo revisa y te lo confirma por el chat.</p>
+<h2>Tu plan de web</h2>${act(web).map(s=>tarjetaServ(s)).join("")||(pen(web).length?"":`<div class="c"><p class="mu">Todavía no tienes un plan de web contratado con nosotros.</p></div>`)}
+${pen(web).map(s=>tarjetaServ(s)).join("")}
+<p style="margin-top:10px"><button class="btn s" onclick="elegirServicio('w')">${act(web).length?"Cambiar de plan de web":"Elegir un plan de web"}</button></p>
+<h2>Tu plan de mantenimiento</h2>${manAct?tarjetaServ(manAct,sop?`<p class="mu" style="margin-top:8px;font-size:14px">Soporte: ${esc(sop.canal)}</p>`:""):`<div class="c"><p class="mu">No tienes ningún plan de mantenimiento activo.</p></div>`}
+${pen(man).map(s=>tarjetaServ(s)).join("")}
+${pendPlan&&pendPlan.plan_solicitado=="Cancelar"?`<p class="mu" style="margin-top:10px">Has pedido la baja de tu plan. <button class="lk" onclick="verCaso(${pendPlan.id})">Ver la solicitud</button></p>`:""}
+<p style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">${pendPlan?"":`<button class="btn s" onclick="elegirServicio('m')">${manAct?"Cambiar de plan":"Elegir un plan"}</button>`}${manAct&&WEB&&WEB.plan&&!pendPlan&&!VISTA?`<button class="lk" onclick="abrirBaja()">Darme de baja</button><small class="mu">Sin permanencia</small>`:""}</p>
+<h2>Tus extras y packs</h2>${[...act(ext),...pen(ext)].map(s=>tarjetaServ(s,s.estado=="activo"&&!(s.caso_baja_id&&CASOS.some(c=>c.id==s.caso_baja_id&&!CERR.includes(c.estado)))&&!VISTA?`<p style="margin-top:8px"><button class="lk" onclick="bajaServicio(${s.id})">Dar de baja</button></p>`:"")).join("")||`<div class="c"><p class="mu">Todavía no tienes extras ni packs.</p></div>`}
+<p style="margin-top:10px"><button class="btn" onclick="elegirServicio('x')">＋ Añadir extras o packs</button></p>
+${bajas.length?`<details class="faq" style="margin-top:22px"><summary>Servicios dados de baja (${bajas.length})</summary><ul class="l">${bajas.map(s=>`<li><span>${esc(s.nombre)}</span><small class="mu">${s.baja_en?new Date(s.baja_en).toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"}):""}</small></li>`).join("")}</ul></details>`:""}`}
+
 function histHTML(){if(!HIST.length)return "";const mesTxt=m=>new Date(m+"T12:00:00").toLocaleDateString("es-ES",{month:"long",year:"numeric"});const v=(d,k,f)=>has(d[k])?f(d[k]):"—";
 return `<h2>Meses anteriores</h2><div class="c hscroll"><table class="hist"><thead><tr><th>Mes</th><th>Online</th><th>Velocidad</th><th>Ataques bloqueados</th><th>Actualizaciones</th><th>Tokens usados</th><th><span class="sr">Informe</span></th></tr></thead><tbody>${HIST.map(h=>{const d=h.datos||{};return `<tr><td>${esc(bonito(mesTxt(h.mes)))}</td><td>${v(d,"disponibilidad",x=>nf(x,2)+" %")}</td><td>${v(d,"velocidad",x=>nf(x,1)+" s")}</td><td>${v(d,"mes_ataques",x=>nf(x))}</td><td>${v(d,"mes_actualizaciones",x=>nf(x))}</td><td>${v(d,"mes_horas",x=>nf(x,x%1?1:0))}</td><td><button class="lk" onclick="descargarInforme('${esc(h.mes)}')" title="Descargar el informe en PDF">📄 PDF</button></td></tr>`}).join("")}</tbody></table></div>`}
 async function guardarPerfil(){const v=id=>document.getElementById(id).value.trim(),x=document.getElementById("pf-x");if(!v("pf-n"))return x.textContent="Escribe tu nombre.";
@@ -450,9 +488,7 @@ async function pedir(titulo,desc){if(!await crearCaso({tipo_reporte:"Cambio",tit
 // Cambio de plan: al aceptarlo el equipo, la base de datos cambia el plan y aquí se ve solo
 const sinLeerTickets=()=>tickets().reduce((n,t)=>n+noLeidos(t.id),0);
 const planPendiente=()=>CASOS.find(c=>c.plan_solicitado&&!CERR.includes(c.estado));
-async function pedirPlan(i){const n=PD[i].n;
-try{const r=await rpc("cliente_pedir_plan",{p_token:token,p_plan:n});if(!CASOS.some(x=>x.id==r.id))CASOS.unshift(r);render();abrirPago("Pagar el plan "+n,"Hemos registrado tu solicitud. Completa el pago y, cuando el equipo la apruebe, verás aquí tu nuevo plan.")}
-catch(err){toast(err.message,5000)}}
+function pedirPlan(i){return pedirServicio("m",i)}
 // Botón de pago de Stripe con los datos del cliente (para identificar el pago en Stripe)
 const botonPago=()=>`<stripe-buy-button buy-button-id="${STRIPE.boton}" publishable-key="${STRIPE.clave}"${U.uid?` client-reference-id="${esc(String(U.uid))}"`:""}${U.email?` customer-email="${esc(U.email)}"`:""}></stripe-buy-button>`;
 function abrirPago(titulo,texto){const m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog" aria-modal="true"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><span class="tag">Pago seguro con Stripe</span><h2 style="margin:12px 0 6px;font-size:22px">${esc(titulo)}</h2>${texto?`<p class="mu" style="margin-bottom:14px">${esc(texto)}</p>`:""}<div style="display:flex;justify-content:center;margin:10px 0">${botonPago()}</div><p class="mu" style="font-size:12px;text-align:center;margin-top:10px">El pago se hace en la página segura de Stripe. Tu tarjeta nunca pasa por nuestra web.</p><p style="text-align:center;margin-top:10px"><button class="lk" onclick="closePlan()">Cerrar</button></p></div>`;m.style.display="grid"}
@@ -492,11 +528,11 @@ if(error){if(/SESION_CADUCADA/.test(error.message)){if(token)out(true);throw new
 async function crearCaso(c){try{const r=await rpc("cliente_crear_caso",{p_token:token,p_tipo:c.tipo_reporte,p_titulo:c.titulo,p_descripcion:c.descripcion,p_urgente:!!c.urgencia});if(!CASOS.some(x=>x.id==r.id))CASOS.unshift(r);return true}
 catch(err){toast("No se pudo enviar: "+err.message,5000);return false}}
 // Pone al día casos y mensajes; con avisar=true avisa de lo que haya cambiado el equipo. Devuelve si hubo cambios
-async function cargarCasos(avisar){const d=await rpc("cliente_datos",{p_token:token}),c=d.cliente,bloq=lockeado(),antes=JSON.stringify([CASOS,MSGS,WEB,HIST,VAL,RENOV,U.nc,U.dr,U.tel]);
+async function cargarCasos(avisar){const d=await rpc("cliente_datos",{p_token:token}),c=d.cliente,bloq=lockeado(),antes=JSON.stringify([CASOS,MSGS,WEB,HIST,VAL,RENOV,SERV,U.nc,U.dr,U.tel]);
 U={uid:c.id,email:c.email,nc:c.nombre,n:esc(c.nombre.split(" ")[0]),dr:c.dominio||"",d:esc(c.dominio||""),tel:c.telefono||""};escucharCanal(c.canal);
 if(avisar){for(const n of d.casos){const v=CASOS.find(x=>x.id==n.id);if(v&&estCli(v.estado)!=estCli(n.estado))toast((n.tipo_reporte=="Lead"?"Tu proyecto":"Tu solicitud #"+n.id)+" ahora está: "+estCli(n.estado),4000)}
 if(d.mensajes.some(m=>m.autor_tipo=="staff"&&!MSGS.some(x=>x.id==m.id))){toast("Nuevo mensaje del equipo Webcare",4000);avisoMovil("Nuevo mensaje del equipo","Tienes una respuesta en tu portal de Webcare.")}}
-const planAntes=plan;CASOS=d.casos;MSGS=d.mensajes;WEB=d.web||null;HIST=d.historial||[];VAL=d.valoraciones||[];RENOV=d.renovaciones||[];VISTA=!!d.solo_lectura;if(WEB&&WEB.plan)plan=WEB.plan;if(avisar&&plan!=planAntes)toast("Tu plan ahora es "+plan+".",5000);if(avisar&&bloq&&!lockeado())toast("¡Tu proyecto está activo! Ya tienes acceso a todo tu panel.",5000);return antes!=JSON.stringify([CASOS,MSGS,WEB,HIST,VAL,RENOV,U.nc,U.dr,U.tel])}
+const planAntes=plan;CASOS=d.casos;MSGS=d.mensajes;WEB=d.web||null;HIST=d.historial||[];VAL=d.valoraciones||[];RENOV=d.renovaciones||[];SERV=d.servicios||[];VISTA=!!d.solo_lectura;if(WEB&&WEB.plan)plan=WEB.plan;if(avisar&&plan!=planAntes)toast("Tu plan ahora es "+plan+".",5000);if(avisar&&bloq&&!lockeado())toast("¡Tu proyecto está activo! Ya tienes acceso a todo tu panel.",5000);return antes!=JSON.stringify([CASOS,MSGS,WEB,HIST,VAL,RENOV,SERV,U.nc,U.dr,U.tel])}
 // 21: aviso instantáneo cuando el equipo cambia algo (canal secreto de este cliente; solo dice «hay novedades»)
 function escucharCanal(id){if(!db||!id||id===canalId||!db.channel)return;if(canalRT)db.removeChannel(canalRT);canalId=id;
 canalRT=db.channel("portal-"+id).on("broadcast",{event:"cambio"},()=>{clearTimeout(escucharCanal.t);escucharCanal.t=setTimeout(()=>sondear.tick&&sondear.tick(),300)}).subscribe()}
@@ -520,7 +556,7 @@ function pedirClaveNueva(t){const m=document.getElementById("md");m.innerHTML=`<
 async function guardarClaveNueva(t){const a=document.getElementById("nc1").value,b=document.getElementById("nc2").value,x=document.getElementById("ncx");if(a.length<8)return x.textContent="La contraseña debe tener al menos 8 caracteres.";if(a!==b)return x.textContent="Las dos contraseñas no coinciden.";
 x.textContent="Guardando…";try{const r=await rpc("cliente_restablecer_clave",{p_token:t,p_clave:a});closePlan();await entrarCliente(r);toast("Contraseña cambiada. ¡Bienvenido de nuevo!",4000)}catch(err){x.textContent=err.message}}
 function out(caducada){const t=token,eraVista=VISTA;token=null;if(!eraVista)guardarTk(null);clearInterval(sondeo);if(canalRT&&db){db.removeChannel(canalRT);canalRT=null;canalId=null}ADJ=null;ADJT=null;Object.assign(BOV,{cargado:false,lista:[],accesos:[],visto:{},error:""});if(t&&!caducada&&db&&!eraVista)db.rpc("cliente_salir",{p_token:t}).then(()=>{},()=>{});
-auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];WEB=null;HIST=[];VAL=[];RENOV=[];VISTA=false;plan="Mantenimiento Pro";U={n:"",d:""};render(true);scrollTo(0,0);if(caducada)toast("Tu sesión ha caducado. Vuelve a iniciar sesión.",4000)}
+auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];WEB=null;HIST=[];VAL=[];RENOV=[];SERV=[];VISTA=false;plan="Mantenimiento Pro";U={n:"",d:""};render(true);scrollTo(0,0);if(caducada)toast("Tu sesión ha caducado. Vuelve a iniciar sesión.",4000)}
 function closePlan(){document.getElementById("md").style.display="none"}
 addEventListener("keydown",e=>{if(e.key=="Escape")closePlan()});
 const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
@@ -580,9 +616,7 @@ function showRenting(i){const d=RENT[i];modalItem("r",i,"Renting web · todo en 
 function showPack(i){const d=PK[i];modalItem("p",i,"Pack promocional",d.e+" "+d.n,d.p,NOTA_PACKS,d.f,"Quiero este pack")}
 function showExtra(i){const d=EX[i];modalItem("x",i,d.c+" · "+EXG[d.g],d.k,d.p,"",[d.t],"Solicitar este servicio")}
 // Con sesión: se crea la solicitud y se abre el pago. Sin sesión: se crea la cuenta con lo elegido.
-function contratar(t,i){const it=ITEM(t,i);if(!auth)return startReg(t,i);
-if(t=="m")return closePlan(),pedirPlan(i);
-pedir("Contratar: "+it.n,"El cliente quiere contratar «"+it.n+"» ("+it.pr+") desde su portal.").then(()=>abrirPago("Pagar: "+it.n,"Hemos avisado al equipo. Completa el pago para empezar."))}
+function contratar(t,i){if(!auth)return startReg(t,i);pedirServicio(t,i)}
 const hh=()=>new Date().toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"});
 let REG={};
 function startReg(t,i){closePlan();REG={t,i};const it=ITEM(t,i),d={f:it.f},nm=it.n,pr=it.pr,r=document.getElementById("rg");
@@ -663,7 +697,7 @@ const LOCKED=h=>`<div class="lw"><div class="bl" inert aria-hidden="true">${h}</
 const ic2=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICN={"Chat":ic2('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),"Mi web":ic2('<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>'),
 "Soporte":ic2('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/>'),"SEO":ic2('<path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-6"/>'),
-"Facturación":ic2('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>'),"Mi cuenta":ic2('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')};
+"Facturación":ic2('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>'),"Servicios":ic2('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/>'),"Mi cuenta":ic2('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')};
 function irSec(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:"smooth",block:"start"})}
 // ---------- 7: app instalable (PWA) y avisos del sistema ----------
 const PWA={prompt:null};
@@ -677,7 +711,7 @@ function openLg(){document.getElementById("lg").style.display="grid"}
 function go(k){cur=k;render(true);scrollTo(0,0)}
 // fresh = cambio de vista; si no, se conserva lo que se esté escribiendo (las novedades llegan solas)
 function render(fresh){const keep={};if(!fresh)["ci","tx","ty","ur","vc","fq","pf-n","pf-t","pf-d","pc-a","pc-n","pc-r","bv-s","bv-u","bv-url","bv-c","bv-n","bj-m","bj-t"].forEach(k=>{const e=document.getElementById(k);if(e)keep[k]=[e.value,document.activeElement==e]});
-const lk=lockeado();document.body.classList.toggle("pub",!auth);if(!auth)cur="Inicio";document.getElementById("nav").innerHTML=(lead()?["Chat","Mi web","Soporte","SEO","Facturación","Mi cuenta"]:["Mi web","Soporte","SEO","Facturación","Mi cuenta"]).map(k=>`<button class="${k==cur||(k=="Soporte"&&cur=="Solicitud")?"on":""}" onclick="go('${k}')">${ICN[k]||""}<span>${k}</span>${lk&&k!="Chat"&&k!="Mi cuenta"?'<em>Bloqueado</em>':k=="Soporte"?(sinLeerTickets()?'<em class="nuevo" title="Mensajes sin leer">'+sinLeerTickets()+'</em>':'<em>'+tickets().filter(t=>!CERR.includes(t.estado)).length+'</em>'):k=="Chat"&&lead()&&noLeidos(lead().id)?'<em class="nuevo">'+noLeidos(lead().id)+'</em>':""}</button>`).join("");document.getElementById("v").style.maxWidth=cur=="Inicio"?"1160px":"";document.getElementById("v").innerHTML=lk&&cur!="Chat"&&cur!="Mi cuenta"?LOCKED(V[cur]()):V[cur]();const cb=document.getElementById("cb");if(cb)cb.scrollTop=cb.scrollHeight;document.querySelector(".st").innerHTML=lk?'<span class="dot w"></span>Proyecto en preparación':'<span class="dot"></span>Tu web está online';
+const lk=lockeado();document.body.classList.toggle("pub",!auth);if(!auth)cur="Inicio";document.getElementById("nav").innerHTML=(lead()?["Chat","Mi web","Servicios","Soporte","SEO","Facturación","Mi cuenta"]:["Mi web","Servicios","Soporte","SEO","Facturación","Mi cuenta"]).map(k=>`<button class="${k==cur||(k=="Soporte"&&cur=="Solicitud")?"on":""}" onclick="go('${k}')">${ICN[k]||""}<span>${k}</span>${lk&&k!="Chat"&&k!="Mi cuenta"?'<em>Bloqueado</em>':k=="Soporte"?(sinLeerTickets()?'<em class="nuevo" title="Mensajes sin leer">'+sinLeerTickets()+'</em>':'<em>'+tickets().filter(t=>!CERR.includes(t.estado)).length+'</em>'):k=="Chat"&&lead()&&noLeidos(lead().id)?'<em class="nuevo">'+noLeidos(lead().id)+'</em>':""}</button>`).join("");document.getElementById("v").style.maxWidth=cur=="Inicio"?"1160px":"";document.getElementById("v").innerHTML=lk&&cur!="Chat"&&cur!="Mi cuenta"?LOCKED(V[cur]()):V[cur]();const cb=document.getElementById("cb");if(cb)cb.scrollTop=cb.scrollHeight;document.querySelector(".st").innerHTML=lk?'<span class="dot w"></span>Proyecto en preparación':'<span class="dot"></span>Tu web está online';
 let vb=document.getElementById("vistab");if(VISTA&&auth){if(!vb){vb=document.createElement("div");vb.id="vistab";vb.className="vistab";document.body.appendChild(vb)}vb.innerHTML=`<span>👁 Estás viendo el portal de <b>${esc(U.nc||"")}</b> tal y como lo ve el cliente · solo lectura</span><button class="btn s" onclick="out()">Cerrar vista</button>`}else if(vb)vb.remove();
 const us=document.getElementById("usr");if(us)us.innerHTML=auth&&U.nc?`<span class="av">${esc(String(U.nc).trim().charAt(0).toUpperCase())}</span><span style="min-width:0"><b>${esc(U.nc)}</b><small>${U.d||esc(U.email||"")}</small></span>`:"";
 for(const k in keep){const e=document.getElementById(k);if(e){e.value=keep[k][0];if(keep[k][1])e.focus()}}}
