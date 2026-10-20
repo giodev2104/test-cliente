@@ -133,6 +133,7 @@ table.hist{width:100%;border-collapse:collapse;font-size:14px}table.hist th,tabl
 :root:root:root:root .hx h1{font-size:clamp(38px,5.6vw,64px);line-height:1.03;letter-spacing:-.035em;margin:0;max-width:none;font-weight:800}
 .hx .lead{font-size:18px;color:var(--mu);max-width:46ch;margin:20px 0 28px;line-height:1.6}
 .cta{display:flex;gap:10px;flex-wrap:wrap}
+.cta.hcta{display:inline-grid;grid-template-columns:1fr 1fr}.hcta-pv{grid-column:1/-1;justify-self:center}
 .trust{list-style:none;display:flex;gap:8px 20px;flex-wrap:wrap;padding:0;margin:24px 0 0;color:var(--mu);font-size:14px}.trust li::before{content:"✓";color:var(--cy);font-weight:800;margin-right:7px}
 .mock{position:relative;border-radius:20px;border:1px solid var(--bd2);background:linear-gradient(160deg,#151C36,#0E1426);box-shadow:0 40px 80px -30px rgba(0,0,0,.85);overflow:hidden;transform:perspective(1400px) rotateY(-5deg) rotateX(2deg)}
 .mock::before{content:"";position:absolute;right:-20%;top:-35%;width:75%;height:80%;background:radial-gradient(circle,rgba(124,140,255,.35),transparent 65%);pointer-events:none}
@@ -694,7 +695,7 @@ return `<section class="hx"><div>
 <span class="eyebrow"><span class="pulse"></span>Creación y mantenimiento de webs</span>
 <h1>Tu web, siempre cuidada.<br><span class="grad">Tú, a lo tuyo.</span></h1>
 <p class="lead">Desarrollamos soluciones web profesionales adaptadas a cada fase de tu negocio, garantizando máxima velocidad, diseño atractivo y optimización para captación de clientes.</p>
-<div class="cta"><button class="btn xl" onclick="irSec('precios')">Quiero mi web</button><button class="btn s xl" onclick="abrirPreview('reformas')">🎨 Diseña la tuya gratis</button><button class="btn s xl" onclick="openLg()">Ya soy cliente</button></div>
+<div class="cta hcta"><button class="btn xl" onclick="irSec('precios')">Quiero mi web</button><button class="btn s xl" onclick="openLg()">Ya soy cliente</button><button class="btn s xl hcta-pv" onclick="abrirPreview('reformas')">🎨 Diseña la tuya gratis</button></div>
 <ul class="trust"><li>Web desde ${WP[0].p.split(" –")[0].replace("desde ","")} en un solo pago</li><li>Sin cuotas obligatorias: la web es tuya</li><li>Presupuesto cerrado antes de empezar</li></ul></div>
 <div class="mock" aria-hidden="true"><div class="mock-top"><i></i><i></i><i></i><span>panel.webcare</span></div><div class="mock-b">
 <div class="mrow"><div class="ring" style="--p:96"><div><b>96</b><small>/100</small></div></div><div><small class="mu">panaderialuz.es</small><b style="display:block;font-size:18px">Todo en orden</b><span class="ok-pill">● Online · SSL activo</span></div></div>
