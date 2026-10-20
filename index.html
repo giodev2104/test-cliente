@@ -453,11 +453,23 @@ function quieroPreview(){if(!PV)return;const sec=PV_SECTORES.find(x=>x.k==PV.d.s
 // Enlace que reabre exactamente el diseño (el logo no cabe en la URL: va adjunto al mensaje)
 function urlPreview(p){const q=new URLSearchParams({s:p.sector,e:p.estilo});[["n",p.nombre],["l",p.eslogan],["t",p.telefono],["c",p.ciudad],["col",p.color],["o",(p.ocultas||[]).join(",")]].forEach(([k,v])=>{if(v)q.set(k,v)});
 return new URL("plantillas/plantilla.html?"+q,location.href).href}
-// Tras registrarse o pedir presupuesto, el diseño queda guardado en el chat del caso
+// Foto de la web completa (vista de ordenador) para adjuntarla al caso: se pinta en un marco oculto
+function capturaPreview(p){return new Promise((ok,ko)=>{const f=document.createElement("iframe");f.setAttribute("aria-hidden","true");f.tabIndex=-1;
+f.style.cssText="position:fixed;left:-20000px;top:0;width:1280px;height:900px;border:0;pointer-events:none";const fin=r=>{clearTimeout(f.t);f.remove();r instanceof Blob?ok(r):ko(r)};
+f.t=setTimeout(()=>fin(new Error("tiempo")),45000);
+f.onload=async()=>{try{const w=f.contentWindow,d=f.contentDocument;if(p.logo)w.postMessage({tipo:"webcare-preview",datos:{logo:p.logo}},"*");
+const st=d.createElement("style");st.textContent="*{animation:none!important;transition:none!important}.revela{opacity:1!important;transform:none!important}.wa,.aviso,.cesta-b{display:none!important}";d.head.appendChild(st);
+await new Promise((r,e)=>{const sc=d.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js";sc.onload=r;sc.onerror=e;d.head.appendChild(sc)});
+await d.fonts.ready;await new Promise(r=>setTimeout(r,400));const h=Math.min(d.documentElement.scrollHeight,16000);
+const url=await w.htmlToImage.toJpeg(d.documentElement,{quality:.85,pixelRatio:1,width:1280,height:h,backgroundColor:getComputedStyle(d.body).backgroundColor});
+fin(await (await fetch(url)).blob())}catch(err){fin(err)}};f.src=urlPreview(p);document.body.appendChild(f)})}
+// Tras registrarse o pedir presupuesto, el diseño queda guardado en el chat del caso: foto, enlace y logo
 async function enviarPreview(caso){if(!PREVIEW||!token)return;const c=caso||(lead()||{}).id;if(!c)return;const p=PREVIEW;PREVIEW=null;
-let adj=SIN_ADJ;if(p.logo)try{const b=await (await fetch(p.logo)).blob();adj=await subirAdj(c,new File([b],"logo.png",{type:"image/png"}))}catch(_){}
-const t="🖥 He diseñado mi web en la vista previa:"+[["Sector",p.plantilla],["Estilo",p.estilo],["Negocio",p.nombre],["Frase",p.eslogan],["Ciudad",p.ciudad],["Teléfono",p.telefono],["Color",p.color],["Logo",p.logo?(adj.p_adjunto_ruta?"adjunto":"sí, lo envío por el chat"):""],["Secciones quitadas",(p.ocultas||[]).map(o=>(PV_SECCIONES.find(x=>x[0]==o)||[0,o])[1]).join(", ")]].filter(x=>x[1]).map(x=>"\n· "+x[0]+": "+x[1]).join("")+"\n"+urlPreview(p);
-try{await rpc("cliente_enviar_mensaje",{p_token:token,p_caso:c,p_texto:t,...adj});await cargarCasos()}catch(_){}}
+let foto=SIN_ADJ,logo=SIN_ADJ;const nom=(p.nombre||p.plantilla).normalize("NFD").replace(/[^\w]+/g,"-").replace(/^-|-$/g,"").toLowerCase().slice(0,40)||"web";
+try{foto=await subirAdj(c,new File([await capturaPreview(p)],"diseno-"+nom+".jpg",{type:"image/jpeg"}))}catch(_){}
+if(p.logo)try{logo=await subirAdj(c,new File([await (await fetch(p.logo)).blob()],"logo.png",{type:"image/png"}))}catch(_){}
+const t="🖥 He diseñado mi web en la vista previa:"+[["Sector",p.plantilla],["Estilo",p.estilo],["Negocio",p.nombre],["Frase",p.eslogan],["Ciudad",p.ciudad],["Teléfono",p.telefono],["Color",p.color],["Logo",p.logo?(logo.p_adjunto_ruta?"adjunto abajo":"sí, lo envío por el chat"):""],["Secciones quitadas",(p.ocultas||[]).map(o=>(PV_SECCIONES.find(x=>x[0]==o)||[0,o])[1]).join(", ")]].filter(x=>x[1]).map(x=>"\n· "+x[0]+": "+x[1]).join("")+"\n"+urlPreview(p);
+try{await rpc("cliente_enviar_mensaje",{p_token:token,p_caso:c,p_texto:t,...foto});if(logo.p_adjunto_ruta)await rpc("cliente_enviar_mensaje",{p_token:token,p_caso:c,p_texto:"📎 logo.png",...logo});await cargarCasos()}catch(_){}}
 // En el chat, el enlace del diseño se muestra como botón
 const textoMsg=t=>esc(t).replace(/https:\/\/[^\s<]+/g,u=>!u.startsWith(esc(new URL("plantillas/plantilla.html?",location.href).href))?u:`<a class="btn s" style="display:inline-block;margin-top:6px;padding:6px 12px;font-size:13px" href="${u}" target="_blank" rel="noopener">🖥 Ver mi diseño</a>`);
 // ---------- Recomienda y gana: 1 token de regalo por cada recomendado que contrata ----------
