@@ -86,10 +86,10 @@ body .hero,body .band{background:linear-gradient(120deg,#3b1d7a,#86198f 60%,#c24
 body:not(.pub) .pb{display:none}body.pub{display:block}body.pub header{display:none}
 @media(max-width:600px){.pb{padding:12px 16px}}
 .pl{cursor:pointer;transition:border-color .15s}.pl:hover{border-color:var(--ac)}
-.pl{position:relative}.oferta{position:absolute;top:-12px;right:18px;width:54px;height:116px;z-index:2;pointer-events:none;transform-origin:50% 0;animation:balanceo 3.4s ease-in-out infinite;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
-.oferta svg{width:100%;height:100%;display:block}.oferta.peq{width:40px;height:86px;top:-10px;right:12px}.mb .oferta{top:0;right:58px}
-@keyframes balanceo{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}@media (prefers-reduced-motion:reduce){.oferta{animation:none;transform:rotate(-3deg)}}
-.pl.of>.tag,.pl.of>p{margin-right:58px}.pl.of>small.mu,.pl.of>small.mu+b,.pl.of>small.mu+b+small{margin-right:40px}
+.pl{position:relative}.oferta{position:absolute;top:-7px;right:16px;width:58px;height:116px;z-index:2;pointer-events:none;transform-origin:50% 0;animation:balanceo 3.4s ease-in-out infinite;filter:drop-shadow(0 5px 6px rgba(0,0,0,.4))}
+.oferta svg{width:100%;height:100%;display:block}.oferta.peq{width:50px;height:100px;top:-6px;right:12px}.mb .oferta{top:0;right:58px}
+@keyframes balanceo{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}@media (prefers-reduced-motion:reduce){.oferta{animation:none;transform:rotate(-3deg)}}
+.pl.of>.tag,.pl.of>p{margin-right:58px}.pl.of>small.mu,.pl.of>small.mu+b{margin-right:50px}.pl.of>small.mu+b+small{margin-right:34px}
 s.antes{display:block;margin-top:8px;color:var(--mu);font-size:15px;font-weight:600;text-decoration:line-through 2px #e53935}.mb s.antes{display:inline;font-size:16px}.pl b s.antes{display:inline;margin:0 6px 0 0;font-size:13px}
 .tk-ex{display:block;margin-top:2px;font-size:12px}
 .md{position:fixed;inset:0;z-index:55;background:rgba(5,7,12,.72);backdrop-filter:blur(3px);display:grid;place-items:center;padding:20px}.mb{background:var(--sf);border:1px solid var(--bd);border-radius:16px;max-width:460px;width:100%;padding:28px;position:relative;max-height:90vh;overflow:auto}.x{position:absolute;top:10px;right:14px;background:none;border:0;color:var(--mu);font-size:28px;line-height:1;cursor:pointer}
@@ -847,11 +847,12 @@ RENT.forEach(x=>{const c=de(x,x.n);if(c)[x.p,x.po]=dos(c,k=>eur(k(c.precio)))});
 PK.forEach(x=>{const c=de(x,x.n);if(c)[x.p,x.po]=dos(c,k=>eur(k(c.precio)))});
 EX.forEach(x=>{const c=de(x,x.c+" · "+x.k);if(c){const cada=c.cada==1?" / mes":c.cada==3?" / trim.":c.cada?" / "+c.cada+" meses":"";[x.p,x.po]=dos(c,k=>eur(k(c.precio))+cada);x.tk=+c.precio_tokens||0}})}
 // Etiqueta colgante «X% OFF» sobre las tarjetas con oferta
-const tagOferta=(x,peq)=>x.of?`<span class="oferta${peq?" peq":""}" role="img" aria-label="Oferta: ${x.of}% de descuento${x.ofh?" hasta el "+new Date(x.ofh+"T12:00").toLocaleDateString("es-ES",{day:"numeric",month:"long"}):""}"><svg viewBox="0 0 70 150" aria-hidden="true"><defs><linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ef3b36"/><stop offset="1" stop-color="#b3191a"/></linearGradient></defs>
-<path d="M35 0 C31 12 39 20 35 32 C33 38 36 44 35 50" fill="none" stroke="#a07c4f" stroke-width="2.6" stroke-linecap="round"/><path d="M35 0 C39 12 31 20 35 32 C37 38 34 44 35 50" fill="none" stroke="#c9a576" stroke-width="2.2" stroke-linecap="round"/>
-<path d="M12 58 L24 42 H46 L58 58 V140 Q58 146 52 146 H18 Q12 146 12 140 Z" fill="url(#og)"/><path d="M16 59.5 L26.5 46 H43.5 L54 59.5 V139 Q54 142 51 142 H19 Q16 142 16 139 Z" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="1.1" stroke-dasharray="3 2.4"/>
-<circle cx="35" cy="54" r="5.5" fill="#d9d9d9" stroke="#8a8a8a" stroke-width="1.4"/><circle cx="35" cy="54" r="2.8" fill="#4a1010"/>
-<text x="35" y="${x.of>9?96:98}" text-anchor="middle" fill="#fff" font-family="'Arial Black','Arial',sans-serif" font-weight="900" font-size="${x.of>9?18:22}" letter-spacing="-.5">${x.of}%</text><text x="35" y="121" text-anchor="middle" fill="#fff" font-family="'Arial Black','Arial',sans-serif" font-weight="900" font-size="17">OFF</text></svg></span>`:"";
+const tagOferta=(x,peq)=>x.of?`<span class="oferta${peq?" peq":""}" role="img" aria-label="Oferta: ${x.of}% de descuento${x.ofh?" hasta el "+new Date(x.ofh+"T12:00").toLocaleDateString("es-ES",{day:"numeric",month:"long"}):""}"><svg viewBox="0 0 80 160" aria-hidden="true"><defs><linearGradient id="og" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0443d"/><stop offset="1" stop-color="#c21f1f"/></linearGradient></defs>
+<path d="M40 6 C36 18 44 30 40 42 C38 48 41 52 40 56" fill="none" stroke="#9c7748" stroke-width="2.4" stroke-linecap="round"/><path d="M40 6 C44 18 36 30 40 42 C42 48 39 52 40 56" fill="none" stroke="#d2b07f" stroke-width="2" stroke-linecap="round"/>
+<circle cx="40" cy="5" r="3.6" fill="#e6e6e6" stroke="#9a9a9a" stroke-width="1.2"/>
+<path d="M10 66 L27 48 H53 L70 66 V150 Q70 156 64 156 H16 Q10 156 10 150 Z" fill="url(#og)"/><path d="M14.5 67.5 L29 52.5 H51 L65.5 67.5 V149 Q65.5 151.5 63 151.5 H17 Q14.5 151.5 14.5 149 Z" fill="none" stroke="#fff" stroke-opacity=".8" stroke-width="1.2" stroke-dasharray="3.2 2.6"/>
+<circle cx="40" cy="61" r="5.8" fill="#ececec" stroke="#8d8d8d" stroke-width="1.5"/><circle cx="40" cy="61" r="2.9" fill="#5a1414"/>
+<text x="40" y="${x.of>9?108:110}" text-anchor="middle" fill="#fff" font-family="'Arial Black','Arial',sans-serif" font-weight="900" font-size="${x.of>9?25:31}" ${x.of>9?'textLength="44" lengthAdjust="spacingAndGlyphs"':""}>${x.of}%</text><text x="40" y="137" text-anchor="middle" fill="#fff" font-family="'Arial Black','Arial',sans-serif" font-weight="900" font-size="21" textLength="44" lengthAdjust="spacingAndGlyphs">OFF</text></svg></span>`:"";
 const precioOf=x=>x.po?`<s class="antes">${x.po}</s>`:"";
 async function cargarCatalogo(){if(!db)return;try{const{data,error}=await db.rpc("catalogo_publico",{});if(!error&&Array.isArray(data)&&data.length){aplicarCatalogo(data);render()}}catch(_){}}
 // Cuota mensual de cada plan recurrente (lo que el cliente puede tener como «su plan»)
