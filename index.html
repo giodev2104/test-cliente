@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#080C18"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Webcare">
 <title>Mi web · Webcare</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -192,7 +194,7 @@ table.hist{width:100%;border-collapse:collapse;font-size:14px}table.hist th,tabl
 :root:root:root:root .bar{height:10px;border-radius:99px;background:rgba(255,255,255,.07)}:root:root:root:root .bar i,:root:root:root:root .line i{background:var(--grad);border-radius:99px}
 :root:root:root:root .bu{background:var(--sf2);border:1px solid var(--bd);border-radius:14px}:root:root:root:root .m.me .bu{background:var(--btn);color:#fff;border-color:transparent}
 :root:root:root:root .cb{background:linear-gradient(180deg,rgba(255,255,255,.015),transparent)}
-:root:root:root:root ul.l li{padding:12px 0}
+:root:root:root:root ul.l li{padding:12px 0;align-items:center}:root:root:root:root ul.l li>.tag{flex:none;align-self:center;white-space:nowrap}
 :root:root:root:root .pbn{flex-direction:row;overflow:visible}
 :root:root:root:root header .usr b{font-size:14px;font-weight:700;padding:0;color:var(--tx);background:none;filter:none;letter-spacing:0;font-family:Inter,system-ui,sans-serif;-webkit-background-clip:border-box;background-clip:border-box}
 :root:root:root:root header .usr b::before{display:none}
@@ -201,6 +203,19 @@ table.hist{width:100%;border-collapse:collapse;font-size:14px}table.hist th,tabl
 @media(max-width:860px){:root:root:root:root header nav{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none;-webkit-overflow-scrolling:touch}:root:root:root:root header nav::-webkit-scrollbar{display:none}:root:root:root:root header nav button{flex:none}:root:root:root:root header{width:100%}}
 :root:root:root:root .act>div{min-width:0;flex:1 1 260px}:root:root:root:root .act small{white-space:normal}
 @media(max-width:860px){:root:root:root:root body{grid-template-columns:minmax(0,1fr)}:root:root:root:root main{min-width:0}}
+
+:root:root:root:root .visto{display:block;font-size:11px;color:var(--mu);margin-top:3px}:root:root:root:root .visto.si{color:var(--cy)}
+:root:root:root:root nav em.nuevo{background:var(--cy);color:#04211D}.nuevo-txt{color:var(--cy)}.estr-mini{color:#FBBF24;letter-spacing:1px}
+.val{border-top:1px solid var(--bd);padding:14px 16px;display:grid;gap:10px}.val.hecho{display:block;font-size:14px;color:var(--mu)}.val textarea{margin:0}
+.estr{color:#FBBF24;letter-spacing:2px}.estrellas{display:flex;gap:4px}.estrellas button{background:none;border:0;font-size:28px;line-height:1;color:#39425F;cursor:pointer;padding:2px;transition:transform .1s,color .1s}.estrellas button.on{color:#FBBF24}.estrellas button:hover{transform:scale(1.15)}
+.sug{border:1px solid rgba(45,212,191,.3);background:rgba(45,212,191,.06);border-radius:12px;padding:12px 14px;margin:-4px 0 14px}.sug>b{font-size:13px;color:var(--cy)}
+details.faq{border-bottom:1px solid var(--bd);padding:12px 2px}details.faq:last-child{border-bottom:0}details.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:10px}details.faq summary::after{content:"+";color:var(--mu);font-weight:400}details.faq[open] summary::after{content:"–"}details.faq p{color:var(--mu);font-size:14px;margin-top:8px}
+:root:root:root:root .c.cita{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
+.graf-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}:root:root:root:root .graf{padding:14px 14px 8px}.graf-t{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}:root:root:root:root .graf-t b{font-size:14px;font-family:Inter,system-ui,sans-serif}.graf-t span{font-size:11.5px}
+.graf svg{width:100%;height:auto;display:block;overflow:visible}.graf .linea{fill:none;stroke:#7385F8;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}.graf .area{fill:#7385F8;opacity:.1}
+.graf .eje{stroke:#232B47;stroke-width:1}.graf .punto,.graf .foco{fill:#7385F8;stroke:#0F1526;stroke-width:2}.graf .vfin{fill:var(--tx);font-size:11px;font-weight:600}.graf .mes{fill:var(--mu);font-size:10px}.graf .hit{fill:transparent;cursor:crosshair}.graf .foco{opacity:0;pointer-events:none}
+.gtip{position:fixed;z-index:70;pointer-events:none;background:#1A2240;color:var(--tx);border:1px solid var(--bd2);border-radius:8px;padding:6px 10px;font-size:12.5px;opacity:0;transition:opacity .12s;white-space:nowrap;box-shadow:0 10px 24px -10px rgba(0,0,0,.7)}
+.vistab{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:58;display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center;max-width:calc(100% - 32px);background:#2A2F86;border:1px solid rgba(255,255,255,.18);color:#fff;border-radius:14px;padding:10px 14px;font-size:14px;box-shadow:0 18px 40px -16px rgba(0,0,0,.8)}:root:root:root:root .vistab .btn{padding:7px 12px}
 @media(max-width:900px){.hx{grid-template-columns:1fr;gap:36px;padding-top:32px}.mock{transform:none}.pbn{display:none}:root:root:root:root .stats{grid-template-columns:repeat(2,1fr)}:root:root:root:root .stats div:nth-child(3){border-left:0}:root:root:root:root .stats div:nth-child(n+3){border-top:1px solid var(--bd)}}
 @media(max-width:860px){:root:root:root:root main{padding:20px 16px}.usr{display:none}:root:root:root:root header{border-right:0;border-bottom:1px solid var(--bd);padding:12px 14px;gap:10px}:root:root:root:root .out{padding:0}}
 @media(max-width:520px){.pba .btn.s{display:none}:root:root:root:root .hero{flex-direction:column;align-items:flex-start;padding:22px}.kick{margin-top:60px}:root:root:root:root .band{padding:44px 20px}.bars{width:84px}}
@@ -228,15 +243,31 @@ const EMPRESA={nombre:"[Nombre de tu empresa o tu nombre si eres autónomo]",nif
 // para cobrar, crea el botón en modo real en Stripe y pega aquí su ID y su clave «pk_live_…».
 // En Stripe verás cada pago con el ID del cliente (client-reference-id) y su correo.
 const STRIPE={boton:"buy_btn_1USaJMDHMwXk9gDq0AaRgict",clave:"pk_test_51USa9CDHMwXk9gDqKXEkZnMrDjkKg74xuPuaG2RyjGdMwAJ7vravlV1QgzekonCGsYEQcYAgkwHuMf6PqCzdRbUA001DARoUh8"};
+// ================= CITAS (Cal.com, gratis) =================
+// Pega aquí tu enlace de Cal.com (p. ej. "https://cal.com/tu-usuario/30min"). Vacío = no se muestra el botón.
+const CITA={url:""};
+// ================= PREGUNTAS FRECUENTES (edítalas libremente) =================
+// Tokens incluidos al mes en cada plan (los mismos números que antes eran horas)
+const TOKENS={"Básico":2,"Pro":5};
+const FAQ=[
+{p:"¿Cómo os pido un cambio en mi web?",r:"Desde «Soporte» elige qué necesitas, cuéntanoslo y pulsa «Enviar solicitud». Puedes adjuntar capturas. Te respondemos por el chat de esa solicitud.",k:"cambio cambiar texto foto imagen modificar pedir"},
+{p:"¿Cuánto tardáis en responder?",r:"Te respondemos ${PROMESA_RESP}. Si es urgente, márcalo como «Urgente» al enviar la solicitud.",k:"tardar tiempo respuesta urgente cuando"},
+{p:"Mi web no carga o va muy lenta",r:"Vigilamos tu web cada hora: si se cae, abrimos una incidencia automáticamente. Si notas algo raro, envíanos una solicitud «Algo no funciona» con una captura.",k:"caida caída carga lenta no funciona error 500 abre"},
+{p:"¿Cómo cambio la contraseña de mi correo profesional?",r:"Envíanos una solicitud «Tengo una duda» indicando el buzón y te mandamos los pasos o la cambiamos nosotros.",k:"correo email contraseña buzon buzón clave"},
+{p:"¿Puedo cambiar de plan?",r:"Sí. En «Facturación» pulsa «Solicitar este plan». Cuando el equipo lo apruebe, verás el cambio en tu panel.",k:"plan cambiar mejorar subir bajar precio"},
+{p:"¿Cómo pago o consulto mis facturas?",r:"En «Facturación» tienes el botón de pago seguro con Stripe y la lista de tus facturas.",k:"pago pagar factura tarjeta stripe recibo"},
+{p:"¿Qué son los tokens de mi plan?",r:"Son el saldo de trabajo que incluye tu plan cada mes: cambios de contenido, pequeños ajustes y mejoras. Cada tarea consume tokens según su tamaño y te decimos cuántos antes de empezar. En «Mi web» y en «Soporte» ves cuántos llevas usados; se renuevan el día 1 de cada mes.",k:"tokens saldo horas incluye plan mes consumo quedan"},
+{p:"¿Hacéis copias de seguridad?",r:"Sí, a diario. En «Mi web» ves la última copia y cuántas guardamos.",k:"copia seguridad backup restaurar perder"}];
 const PROMESA={respuesta:"normalmente en el mismo día laborable",respuestaCorta:"Mismo día",disponibilidad:"Vigilancia 24 h"};
+FAQ.forEach(f=>f.r=f.r.replace("${PROMESA_RESP}",PROMESA.respuesta));
 let U={n:"",d:""},ACC=[],auth=false,cur="Inicio",tip=true,plan="Mantenimiento Pro",token=null,sondeo=null,casoSel=null;
-let CASOS=[],MSGS=[],WEB=null,HIST=[],canalRT=null,canalId=null,ADJ=null,ADJT=null;   // casos (reportes), mensajes (mensajes_caso) y ficha de su web (webs_cliente)
+let VAL=[],RENOV=[],VISTA=false,CASOS=[],MSGS=[],WEB=null,HIST=[],canalRT=null,canalId=null,ADJ=null,ADJT=null;   // casos (reportes), mensajes (mensajes_caso) y ficha de su web (webs_cliente)
 const CERR=["Aceptado","Denegado"],lead=()=>CASOS.find(c=>c.tipo_reporte=="Lead"),tickets=()=>CASOS.filter(c=>c.tipo_reporte!="Lead");
 // Registrado desde el portal: el resto del panel se desbloquea cuando el equipo pasa su lead a «Aceptado»
 const lockeado=()=>{const l=lead();return!!l&&l.estado!="Aceptado"};
 // Etapas del pipeline del equipo traducidas a lo que ve el cliente
 const estCli=e=>e=="Aceptado"?"Completada":e=="Denegado"?"Cerrada":!e||e=="Entrada de leads"?"Recibida":"En curso";
-const msgsDe=id=>MSGS.filter(m=>m.caso_id==id),bonito=s=>s?s.charAt(0).toUpperCase()+s.slice(1):"";
+const msgsDe=id=>MSGS.filter(m=>m.caso_id==id),noLeidos=id=>MSGS.filter(m=>m.caso_id==id&&m.autor_tipo=="staff"&&!m.leido_cliente_en).length,bonito=s=>s?s.charAt(0).toUpperCase()+s.slice(1):"";
 const fh=d=>new Date(d).toLocaleString("es-ES",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
 const toast=(m,ms=2200)=>{const t=document.getElementById("t");t.textContent=m;t.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("on"),ms)};
 const V={
@@ -249,30 +280,36 @@ Solicitud(){return CHAT(CASOS.find(c=>c.id==casoSel))},
 <div class="err" id="pf-x" style="color:#f87171;font-size:13px;min-height:18px"></div><button class="btn" onclick="guardarPerfil()">Guardar mis datos</button></div>
 <h2>Cambiar contraseña</h2><div class="c"><label>Contraseña actual<input id="pc-a" type="password" autocomplete="current-password"></label><label>Contraseña nueva (mínimo 8 caracteres)<input id="pc-n" type="password" autocomplete="new-password"></label><label>Repite la nueva<input id="pc-r" type="password" autocomplete="new-password"></label>
 <div class="err" id="pc-x" style="color:#f87171;font-size:13px;min-height:18px"></div><button class="btn" onclick="cambiarClave()">Cambiar contraseña</button><p class="mu" style="font-size:13px;margin-top:10px">Al cambiarla se cerrará tu sesión en los demás dispositivos.</p></div>
+<h2>App y avisos</h2><div class="c"><p class="mu" style="font-size:14px;margin-bottom:12px">Instala el portal en tu móvil u ordenador para abrirlo como una app y recibir avisos cuando el equipo te responda (con la app abierta o en segundo plano).</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap">${PWA.prompt?`<button class="btn" onclick="instalarApp()">📲 Instalar la app</button>`:""}${"Notification" in window?`<button class="btn s" onclick="activarAvisos()">${Notification.permission=="granted"?"🔔 Avisos activados":"🔔 Activar avisos"}</button>`:""}</div>
+${!PWA.prompt?`<p class="mu" style="font-size:13px;margin-top:10px">En iPhone: abre el portal en Safari, pulsa «Compartir» y luego «Añadir a pantalla de inicio». En Android y ordenador, busca «Instalar» en el menú del navegador.</p>`:""}</div>
 <h2>Tu privacidad</h2><div class="c"><p class="mu" style="font-size:14px">Consulta la <button class="lk" onclick="verLegal('privacidad')">política de privacidad</button>. Si quieres descargar o borrar tus datos, o cerrar tu cuenta, escríbenos a ${esc(EMPRESA.correo)} o pídelo desde <button class="lk" onclick="go('Soporte')">Soporte</button>.</p></div>`},
-"Mi web"(){const w=WEB||{},ACT=`<div class="act"><div><b>¿Necesitas cambiar algo en tu web?</b><small>Cuéntanoslo y nos ponemos en ello. Te respondemos ${PROMESA.respuesta}.</small></div><button class="go" onclick="go('Soporte')">Pedir un cambio <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M13 6l6 6-6 6'/></svg></button></div>`;
+"Mi web"(){const w=WEB||{},ACT=`<div class="act"><div><b>¿Necesitas cambiar algo en tu web?</b><small>Cuéntanoslo y nos ponemos en ello. Te respondemos ${PROMESA.respuesta}.</small></div><button class="go" onclick="go('Soporte')">Pedir un cambio <svg width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M5 12h14M13 6l6 6-6 6'/></svg></button>${CITA.url?`<button class="btn s" onclick="abrirCita()">📅 Reservar llamada</button>`:""}</div>`;
 if(!WEB)return ACT+`<div class="hero"><div><h1 style="color:#fff">Hola, ${U.n}. Estamos preparando el resumen de tu web.</h1><p>${U.d||"Tu web"} · En cuanto el equipo lo complete, lo verás aquí.</p></div></div>${horasHTML()}`;
 const tarjetas=[has(w.disponibilidad)&&[w.disponibilidad>=99,"Online",nf(w.disponibilidad,2)+" %","Últimos 30 días"],
 (has(w.amenazas)||has(w.ssl_activo))&&[!w.amenazas&&w.ssl_activo!==false,"Seguridad",has(w.amenazas)?nf(w.amenazas)+(w.amenazas==1?" amenaza":" amenazas"):w.ssl_activo?"Protegida":"Revisar",w.ssl_activo===false?"Certificado SSL inactivo":"Certificado SSL activo"],
 has(w.ultima_copia)&&[Date.now()-new Date(w.ultima_copia)<48*36e5,"Copias de seguridad",cuando(w.ultima_copia),has(w.copias_guardadas)?nf(w.copias_guardadas)+" copias guardadas":""],
 has(w.velocidad)&&[w.velocidad<=2,"Velocidad",nf(w.velocidad,1)+" s",w.velocidad<=2?"Buena (menos de 2 s)":"Mejorable (ideal: menos de 2 s)"]].filter(Boolean);
-const mes=[[w.mes_actualizaciones,"actualizaciones de seguridad aplicadas"],[w.mes_ataques,"ataques bloqueados"],[w.mes_cambios,"cambios solicitados completados"],[w.mes_horas,"horas de trabajo técnico"]].filter(x=>has(x[0]));
+const mes=[[w.mes_actualizaciones,"actualizaciones de seguridad aplicadas"],[w.mes_ataques,"ataques bloqueados"],[w.mes_cambios,"cambios solicitados completados"],[w.mes_horas,"tokens usados en trabajo técnico"]].filter(x=>has(x[0]));
 const goo=[[w.seo_visitas,pct(w.seo_visitas),"Visitas desde Google"],[w.seo_impresiones,pct(w.seo_impresiones),"Veces que apareces en búsquedas"],[w.seo_primera_pagina,has(w.seo_primera_pagina)?nf(w.seo_primera_pagina):"","Palabras clave en primera página"]].filter(x=>has(x[0]));
 return ACT+`<div class="hero">${has(w.puntuacion)?`<div class="ring big" style="--p:${Math.max(0,Math.min(100,+w.puntuacion))}" role="img" aria-label="Puntuación ${nf(w.puntuacion)} de 100"><div><b>${nf(w.puntuacion)}</b><small>/100</small></div></div>`:""}<div><h1 style="color:#fff">Hola, ${U.n}. ${esc(w.resumen||"Aquí tienes el estado de tu web.")}</h1><p>${U.d||"Tu web"}${has(w.revisado_en)?" · Revisado "+cuando(w.revisado_en).toLowerCase():""}</p></div></div>
 ${tarjetas.length?`<div class="g">${tarjetas.map(t=>`<div class="c"><small><span class="dot${t[0]?"":" w"}"></span>${t[1]}</small><b>${t[2]}</b><small>${t[3]}</small></div>`).join("")}</div>`:""}
 ${mes.length?`<h2>Este mes hemos hecho por ti</h2><div class="c"><ul class="l">${mes.map(x=>`<li>${nf(x[0],x[0]%1?1:0)} ${x[1]}<span class="mu">✔</span></li>`).join("")}</ul></div>`:""}
 ${goo.length?`<h2>Tu presencia en Google</h2><div class="g">${goo.map(x=>`<div class="c"><b>${x[1]}</b><small>${x[2]}</small></div>`).join("")}</div>`:""}
 ${w.recomendacion&&tip?`<div class="tip"><div><b>Recomendado para ti</b><p>${esc(w.recomendacion)}</p></div><div><button class="btn" onclick="pedir('Me interesa la recomendación',WEB.recomendacion)">Me interesa</button> <button class="lk" onclick="tip=false;render()">Ahora no</button></div></div>`:""}
+${evolucionHTML()}
 ${histHTML()}
-${lista(w.proximos).length?`<h2>Próximamente</h2><div class="c"><ul class="l">${lista(w.proximos).map(x=>`<li>${esc(x.texto)}<span>${esc(x.cuando)}</span></li>`).join("")}</ul></div>`:""}
+${proximos().length?`<h2>Próximamente</h2><div class="c"><ul class="l">${proximos().map(x=>`<li>${esc(x.texto)}<span>${esc(x.cuando)}</span></li>`).join("")}</ul></div>`:""}
 ${horasHTML()}`},
 Soporte(){return `<h1>¿En qué te ayudamos?</h1><p class="mu">Te respondemos ${PROMESA.respuesta}.</p>
 <div class="c" style="margin-top:16px"><label>¿Qué necesitas?<select id="ty"><option>Cambiar contenido o imágenes</option><option>Algo no funciona</option><option>Añadir una funcionalidad</option><option>Tengo una duda</option></select></label>
-<label>Cuéntanoslo<textarea id="tx" rows="3" placeholder="Ej.: cambiar el horario de los sábados"></textarea></label>
+<label>Cuéntanoslo<textarea id="tx" rows="3" placeholder="Ej.: cambiar el horario de los sábados" oninput="sugerirFaq(this.value)"></textarea></label><div id="sug" aria-live="polite"></div>
 <label>Urgencia<select id="ur"><option>Normal</option><option>Urgente</option></select></label>
 <label>Captura o archivo (opcional, máx. 10 MB)<input type="file" accept="${ADJ_TIPOS.join(",")}" onchange="elegirAdj(this,'t')"></label>${ADJT?`<p class="mu" style="margin:-6px 0 12px;font-size:13px">📎 ${esc(ADJT.name)} · ${tam(ADJT.size)} <button class="lk" onclick="ADJT=null;render()">Quitar</button></p>`:""}<button class="btn" id="ts" onclick="addT()">Enviar solicitud</button></div>
-<h2>Mis solicitudes</h2><div class="c">${tickets().length?`<ul class="l">${tickets().map(t=>{const ms=msgsDe(t.id),u=ms[ms.length-1],nr=u&&u.autor_tipo=="staff"&&!CERR.includes(t.estado);return `<li style="cursor:pointer" onclick="verCaso(${t.id})"><span>#${t.id} ${esc(t.titulo||"Sin título")}<br><small class="mu">${nr?"💬 El equipo te ha respondido":ms.length?ms.length+(ms.length==1?" mensaje":" mensajes"):"Enviada el "+fh(t.created_at)} · Ver conversación →</small></span><span class="tag">${estCli(t.estado)}</span></li>`}).join("")}</ul>`:`<p class="mu">Todavía no has enviado ninguna solicitud.</p>`}</div>
-${horasHTML()}`},
+${CITA.url?`<div class="c cita"><div><b>¿Prefieres hablarlo?</b><p class="mu">Reserva una llamada con el equipo cuando te venga bien.</p></div><button class="btn s" onclick="abrirCita()">📅 Reservar una llamada</button></div>`:""}
+<h2>Mis solicitudes</h2><div class="c">${tickets().length?`<ul class="l">${tickets().map(t=>{const ms=msgsDe(t.id),u=ms[ms.length-1],nr=u&&u.autor_tipo=="staff"&&!CERR.includes(t.estado);return `<li style="cursor:pointer" onclick="verCaso(${t.id})"><span>#${t.id} ${esc(t.titulo||"Sin título")}<br><small class="mu">${noLeidos(t.id)?`<b class="nuevo-txt">💬 ${noLeidos(t.id)} ${noLeidos(t.id)==1?"mensaje nuevo":"mensajes nuevos"}</b>`:nr?"💬 El equipo te ha respondido":ms.length?ms.length+(ms.length==1?" mensaje":" mensajes"):"Enviada el "+fh(t.created_at)} · Ver conversación →${valDe(t.id)?` · <span class="estr-mini" aria-label="${valDe(t.id).estrellas} de 5">${"★".repeat(valDe(t.id).estrellas)}</span>`:""}</small></span><span class="tag">${estCli(t.estado)}</span></li>`}).join("")}</ul>`:`<p class="mu">Todavía no has enviado ninguna solicitud.</p>`}</div>
+${horasHTML()}
+<h2>Preguntas frecuentes</h2><div class="c"><input id="fq" type="search" placeholder="Buscar en la ayuda…" oninput="filtrarFaq(this.value)" aria-label="Buscar en las preguntas frecuentes"><div id="faq">${faqHTML(FAQ)}</div></div>`},
 SEO(){const w=WEB||{},pal=lista(w.seo_palabras),acc=lista(w.seo_acciones),inf=url(w.seo_informe_url);
 const audit=`<button class="btn" onclick="pedir('Auditoría SEO','El cliente pide una auditoría SEO desde su portal.')">Solicitar mi auditoría SEO gratuita</button>`;
 if(!(has(w.seo_periodo)||has(w.seo_visitas)||has(w.seo_impresiones)||has(w.seo_clics)||pal.length))return `<h1>SEO</h1><p class="mu">Todavía no tenemos datos de posicionamiento de tu web.</p><p style="margin-top:16px">${audit}</p>`;
@@ -282,7 +319,7 @@ ${g.length?`<div class="g" style="margin-top:16px">${g.map(x=>`<div class="c"><b
 ${pal.length?`<h2>Tus palabras clave</h2><div class="c">${pal.map(k=>{const a=+k.antes,b=+k.ahora;return `<div class="line"><span>${esc(k.palabra)}</span><i style="width:${Math.max(4,(30-Math.min(b||30,30))*4)}px"></i><b>${!a||a===b?"Pos. "+(b||"—"):"Pos. "+a+" → "+b}</b></div>`}).join("")}</div>`:""}
 ${acc.length?`<h2>Lo que hicimos este mes</h2><div class="c"><ul class="l">${acc.map(x=>`<li>${esc(x.texto)}<span>✔</span></li>`).join("")}</ul></div>`:""}
 <p style="margin-top:16px">${inf?`<a class="btn s" style="text-decoration:none;display:inline-block" href="${inf}" target="_blank" rel="noopener noreferrer">Descargar informe</a> `:""}${audit}</p>`},
-Facturación(){const w=WEB||{},fac=lista(w.facturas),pend=planPendiente(),P=[["Mantenimiento Básico",49,"2 h/mes · respuesta en 24 h"],["Mantenimiento Pro",89,"5 h/mes · respuesta en 4 h"],["Mantenimiento Pro + SEO",189,"5 h/mes + SEO mensual"]];
+Facturación(){const w=WEB||{},fac=lista(w.facturas),pend=planPendiente(),P=[["Mantenimiento Básico",49,TOKENS["Básico"]+" tokens/mes · respuesta en 24 h"],["Mantenimiento Pro",89,TOKENS["Pro"]+" tokens/mes · respuesta en 4 h"],["Mantenimiento Pro + SEO",189,"5 h/mes + SEO mensual"]];
 return `<h1>Servicios y facturas</h1><p class="mu">Sin sorpresas: te avisamos antes de cada renovación.</p><h2>Tu plan</h2><div class="g">${P.map((p,i)=>`<div class="c" style="${p[0]==plan?"border-color:var(--ac);border-width:2px":""}"><b>${p[1]} €/mes</b><p>${p[0]}</p><small>${p[2]}</small><p style="margin-top:10px">${p[0]==plan?'<span class="tag">Tu plan actual</span>':pend&&pend.plan_solicitado==p[0]?'<span class="tag" style="background:var(--wab);color:var(--wa)">Pendiente de aprobar</span>':pend?"":`<button class="btn s" onclick="pedirPlan(${i})">Solicitar este plan</button>`}</p></div>`).join("")}</div>
 ${pend?`<p class="mu" style="margin-top:10px">Has pedido pasar a ${esc(pend.plan_solicitado)}. Cuando el equipo lo apruebe, se cambiará solo. <button class="lk" onclick="verCaso(${pend.id})">Ver la solicitud</button></p>`:""}
 <h2>Extras disponibles</h2><div class="c"><ul class="l">${EX.map((x,i)=>`<li><span>${x.k}<br><small class="mu">${x.p}</small></span><button class="btn s" onclick="showExtra(${i})">Ver</button></li>`).join("")}</ul></div>
@@ -293,11 +330,35 @@ const has=v=>v!==null&&v!==undefined&&v!=="",nf=(n,d=0)=>Number(n).toLocaleStrin
 const pct=v=>has(v)?(v>0?"▲ ":v<0?"▼ ":"")+nf(Math.abs(v))+" %":"—",lista=a=>Array.isArray(a)?a:[];
 const url=u=>/^https?:\/\/\S+$/i.test(u||"")?esc(u):"";
 const cuando=d=>{const x=new Date(d),hoy=x.toDateString()==new Date().toDateString();return(hoy?"Hoy":x.toLocaleDateString("es-ES",{day:"numeric",month:"short"}))+" "+x.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"})};
+// Próximamente = lo que escribe el equipo en la ficha + las renovaciones de su calendario
+function proximos(){const w=WEB||{},fd=d=>new Date(d+"T12:00:00").toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"});
+return lista(w.proximos).concat(RENOV.map(r=>({texto:r.concepto,cuando:(new Date(r.fecha+"T23:59:59")<new Date()?"Vencida · ":"")+fd(r.fecha)})))}
+// ---------- 8: gráficos de evolución (una serie por gráfico, con tooltip) ----------
+function serie(k){const pts=HIST.slice().reverse().map(h=>({x:h.mes,y:(h.datos||{})[k]})).filter(p=>has(p.y));const w=WEB||{};
+const mesAct=new Date();mesAct.setDate(1);const iso=mesAct.toISOString().slice(0,10);if(has(w[k])&&!pts.some(p=>p.x.slice(0,7)==iso.slice(0,7)))pts.push({x:iso,y:w[k],act:true});return pts.slice(-12)}
+function lineaHTML(titulo,pts,fmt,nota){if(pts.length<2)return "";const W=300,H=110,pl=6,pr=8,pt=22,pb=20,ys=pts.map(p=>+p.y);let mn=Math.min(...ys),mx=Math.max(...ys);if(mn==mx){mn-=1;mx+=1}const pad=(mx-mn)*.15;mn-=pad;mx+=pad;
+const X=i=>pl+i*(W-pl-pr)/(pts.length-1),Y=v=>pt+(1-(v-mn)/(mx-mn))*(H-pt-pb),mes=d=>new Date(d+"T12:00:00").toLocaleDateString("es-ES",{month:"short"}).replace(".",""),mesL=d=>bonito(new Date(d+"T12:00:00").toLocaleDateString("es-ES",{month:"long",year:"numeric"}));
+const d=pts.map((p,i)=>(i?"L":"M")+X(i).toFixed(1)+" "+Y(+p.y).toFixed(1)).join(" "),ult=pts[pts.length-1],xi=pts.length-1;
+const area=d+` L${X(xi).toFixed(1)} ${H-pb} L${X(0).toFixed(1)} ${H-pb} Z`;
+return `<div class="c graf"><div class="graf-t"><b>${titulo}</b><span class="mu">${nota||""}</span></div>
+<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(titulo)}: de ${esc(fmt(pts[0].y))} en ${esc(mesL(pts[0].x))} a ${esc(fmt(ult.y))} en ${esc(mesL(ult.x))}">
+<line x1="${pl}" x2="${W-pr}" y1="${H-pb}" y2="${H-pb}" class="eje"/><path d="${area}" class="area"/><path d="${d}" class="linea"/>
+<circle cx="${X(xi).toFixed(1)}" cy="${Y(+ult.y).toFixed(1)}" r="4" class="punto"/><text x="${X(xi).toFixed(1)}" y="${(Y(+ult.y)-10).toFixed(1)}" class="vfin" text-anchor="end">${esc(fmt(ult.y))}</text>
+<text x="${pl}" y="${H-5}" class="mes">${esc(mes(pts[0].x))}</text><text x="${(W-pr).toFixed(1)}" y="${H-5}" class="mes" text-anchor="end">${esc(mes(ult.x))}${ult.act?" (actual)":""}</text>
+${pts.map((p,i)=>`<rect x="${(X(i)-(W-pl-pr)/(pts.length-1)/2).toFixed(1)}" y="0" width="${((W-pl-pr)/(pts.length-1)).toFixed(1)}" height="${H}" class="hit" data-tip="${esc(mesL(p.x)+(p.act?" (en curso)":"")+": "+fmt(p.y))}" data-cx="${X(i).toFixed(1)}" data-cy="${Y(+p.y).toFixed(1)}"/>`).join("")}
+<circle r="4" class="foco" cx="-10" cy="-10"/></svg></div>`}
+function evolucionHTML(){const g=[lineaHTML("% online",serie("disponibilidad"),v=>nf(v,2)+" %","Disponibilidad mensual"),lineaHTML("Velocidad de carga",serie("velocidad"),v=>nf(v,1)+" s","Menos es mejor"),lineaHTML("Visitas desde Google",serie("seo_visitas"),v=>(v>0?"+":"")+nf(v)+" %","Frente al mes anterior")].filter(Boolean);
+return g.length?`<h2>Tu evolución</h2><div class="graf-g">${g.join("")}</div>`:""}
+// Tooltip de los gráficos (ratón y toque)
+(()=>{let tip=null;const pos=e=>{const r=e.target.closest(".hit");if(!r){if(tip)tip.style.opacity=0;document.querySelectorAll(".graf .foco").forEach(c=>{c.style.opacity=0});return}
+const svg=r.ownerSVGElement,f=svg.querySelector(".foco");f.style.opacity=1;f.setAttribute("cx",r.dataset.cx);f.setAttribute("cy",r.dataset.cy);
+if(!tip){tip=document.createElement("div");tip.className="gtip";tip.setAttribute("role","status");document.body.appendChild(tip)}tip.textContent=r.dataset.tip;const b=f.getBoundingClientRect();tip.style.left=Math.min(innerWidth-tip.offsetWidth-8,Math.max(8,b.left+b.width/2-tip.offsetWidth/2))+"px";tip.style.top=(b.top-tip.offsetHeight-10)+"px";tip.style.opacity=1};
+addEventListener("pointermove",pos,{passive:true});addEventListener("pointerdown",pos,{passive:true});addEventListener("scroll",()=>{if(tip)tip.style.opacity=0},{passive:true})})();
 function horasHTML(){const w=WEB||{};if(!has(w.horas_incluidas)||!(w.horas_incluidas>0))return "";const u=+w.horas_usadas||0;
-return `<h2>Horas incluidas en tu plan</h2><p class="mu">Has usado ${nf(u,u%1?1:0)} de ${nf(w.horas_incluidas,w.horas_incluidas%1?1:0)} horas este mes.</p><div class="bar"><i style="width:${Math.min(100,u/w.horas_incluidas*100)}%"></i></div>`}
+return `<h2>Tokens incluidos en tu plan</h2><p class="mu">Has usado ${nf(u,u%1?1:0)} de ${nf(w.horas_incluidas,w.horas_incluidas%1?1:0)} tokens este mes.</p><div class="bar"><i style="width:${Math.min(100,u/w.horas_incluidas*100)}%"></i></div>`}
 // 13: meses anteriores (los guarda el cierre automático de cada mes)
 function histHTML(){if(!HIST.length)return "";const mesTxt=m=>new Date(m+"T12:00:00").toLocaleDateString("es-ES",{month:"long",year:"numeric"});const v=(d,k,f)=>has(d[k])?f(d[k]):"—";
-return `<h2>Meses anteriores</h2><div class="c hscroll"><table class="hist"><thead><tr><th>Mes</th><th>Online</th><th>Velocidad</th><th>Ataques bloqueados</th><th>Actualizaciones</th><th>Horas de trabajo</th></tr></thead><tbody>${HIST.map(h=>{const d=h.datos||{};return `<tr><td>${esc(bonito(mesTxt(h.mes)))}</td><td>${v(d,"disponibilidad",x=>nf(x,2)+" %")}</td><td>${v(d,"velocidad",x=>nf(x,1)+" s")}</td><td>${v(d,"mes_ataques",x=>nf(x))}</td><td>${v(d,"mes_actualizaciones",x=>nf(x))}</td><td>${v(d,"mes_horas",x=>nf(x,x%1?1:0))}</td></tr>`}).join("")}</tbody></table></div>`}
+return `<h2>Meses anteriores</h2><div class="c hscroll"><table class="hist"><thead><tr><th>Mes</th><th>Online</th><th>Velocidad</th><th>Ataques bloqueados</th><th>Actualizaciones</th><th>Tokens usados</th></tr></thead><tbody>${HIST.map(h=>{const d=h.datos||{};return `<tr><td>${esc(bonito(mesTxt(h.mes)))}</td><td>${v(d,"disponibilidad",x=>nf(x,2)+" %")}</td><td>${v(d,"velocidad",x=>nf(x,1)+" s")}</td><td>${v(d,"mes_ataques",x=>nf(x))}</td><td>${v(d,"mes_actualizaciones",x=>nf(x))}</td><td>${v(d,"mes_horas",x=>nf(x,x%1?1:0))}</td></tr>`}).join("")}</tbody></table></div>`}
 async function guardarPerfil(){const v=id=>document.getElementById(id).value.trim(),x=document.getElementById("pf-x");if(!v("pf-n"))return x.textContent="Escribe tu nombre.";
 x.textContent="";try{const c=await rpc("cliente_actualizar_perfil",{p_token:token,p_nombre:v("pf-n"),p_telefono:v("pf-t"),p_dominio:v("pf-d")});Object.assign(U,{nc:c.nombre,n:esc(c.nombre.split(" ")[0]),dr:c.dominio||"",d:esc(c.dominio||""),tel:c.telefono||""});render(true);toast("Datos guardados.")}catch(err){x.textContent=err.message}}
 async function cambiarClave(){const a=document.getElementById("pc-a").value,n=document.getElementById("pc-n").value,r=document.getElementById("pc-r").value,x=document.getElementById("pc-x");
@@ -306,6 +367,7 @@ x.textContent="";try{await rpc("cliente_cambiar_clave",{p_token:token,p_actual:a
 // Peticiones desde el panel: llegan al equipo como una solicitud más
 async function pedir(titulo,desc){if(!await crearCaso({tipo_reporte:"Cambio",titulo,descripcion:desc}))return;closePlan();render();toast("Solicitud enviada. Te escribimos pronto.",3500)}
 // Cambio de plan: al aceptarlo el equipo, la base de datos cambia el plan y aquí se ve solo
+const sinLeerTickets=()=>tickets().reduce((n,t)=>n+noLeidos(t.id),0);
 const planPendiente=()=>CASOS.find(c=>c.plan_solicitado&&!CERR.includes(c.estado));
 async function pedirPlan(i){const n=["Mantenimiento Básico","Mantenimiento Pro","Mantenimiento Pro + SEO"][i];
 try{const r=await rpc("cliente_pedir_plan",{p_token:token,p_plan:n});if(!CASOS.some(x=>x.id==r.id))CASOS.unshift(r);render();abrirPago("Pagar el plan "+n,"Hemos registrado tu solicitud. Completa el pago y, cuando el equipo la apruebe, verás aquí tu nuevo plan.")}
@@ -314,7 +376,7 @@ catch(err){toast(err.message,5000)}}
 const botonPago=()=>`<stripe-buy-button buy-button-id="${STRIPE.boton}" publishable-key="${STRIPE.clave}"${U.uid?` client-reference-id="${esc(String(U.uid))}"`:""}${U.email?` customer-email="${esc(U.email)}"`:""}></stripe-buy-button>`;
 function abrirPago(titulo,texto){const m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog" aria-modal="true"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><span class="tag">Pago seguro con Stripe</span><h2 style="margin:12px 0 6px;font-size:22px">${esc(titulo)}</h2>${texto?`<p class="mu" style="margin-bottom:14px">${esc(texto)}</p>`:""}<div style="display:flex;justify-content:center;margin:10px 0">${botonPago()}</div><p class="mu" style="font-size:12px;text-align:center;margin-top:10px">El pago se hace en la página segura de Stripe. Tu tarjeta nunca pasa por nuestra web.</p><p style="text-align:center;margin-top:10px"><button class="lk" onclick="closePlan()">Cerrar</button></p></div>`;m.style.display="grid"}
 function LAND(){const S=[["<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14'/></svg>","Desarrollo web","Webs rápidas, claras y pensadas para que te contacten. De la idea a la publicación."],["<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z'/></svg>","Mantenimiento","Actualizaciones, copias de seguridad y seguridad vigiladas cada día, sin que lo notes."],["<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M7 18a4 4 0 010-8 5.5 5.5 0 0110.5 1.5A3.3 3.3 0 0117 18z'/></svg>","Hosting gestionado","Servidor veloz y estable, con certificado SSL y renovaciones controladas."],["<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M4 19V5M4 19h16M8 15l3-4 3 2 5-6'/></svg>","SEO","Más visitas desde Google cada mes, con un informe que se entiende de verdad."]];
-const P=[["Básico","49 €","Para webs sencillas","2 h de cambios al mes · copias diarias"],["Pro","89 €","El más elegido","5 h al mes · respuesta en 4 h · informe mensual"],["Pro + SEO","189 €","Para crecer","Todo lo anterior + trabajo SEO mensual"]];
+const P=[["Básico","49 €","Para webs sencillas",TOKENS["Básico"]+" tokens de cambios al mes · copias diarias"],["Pro","89 €","El más elegido",TOKENS["Pro"]+" tokens al mes · respuesta en 4 h · informe mensual"],["Pro + SEO","189 €","Para crecer","Todo lo anterior + trabajo SEO mensual"]];
 return `<section class="hx"><div>
 <span class="eyebrow"><span class="pulse"></span>Webs y mantenimiento para negocios</span>
 <h1>Tu web, siempre cuidada.<br><span class="grad">Tú, a lo tuyo.</span></h1>
@@ -342,20 +404,20 @@ if(f){try{const extra=await subirAdj(nuevo.id,f);const m=await rpc("cliente_envi
 ADJT=null;avisarEquipo(nuevo.id);document.getElementById("tx").value="";render();toast("Recibido. Tu equipo ya está en ello.")}
 finally{addT.ocupado=false;const b2=document.getElementById("ts");if(b2){b2.disabled=false;b2.textContent="Enviar solicitud"}}}
 // ---------- Datos compartidos con el panel del equipo ----------
-async function rpc(f,a){if(!db)throw new Error("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.");const{data,error}=await db.rpc(f,a);
+async function rpc(f,a){if(!db)throw new Error("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.");if(VISTA&&f!="cliente_datos")throw new Error("Estás viendo el portal como el cliente: es solo lectura.");const{data,error}=await db.rpc(f,a);
 if(error){if(/SESION_CADUCADA/.test(error.message)){if(token)out(true);throw new Error("Tu sesión ha caducado.")}throw new Error(error.message)}return data}
 async function crearCaso(c){try{const r=await rpc("cliente_crear_caso",{p_token:token,p_tipo:c.tipo_reporte,p_titulo:c.titulo,p_descripcion:c.descripcion,p_urgente:!!c.urgencia});if(!CASOS.some(x=>x.id==r.id))CASOS.unshift(r);return true}
 catch(err){toast("No se pudo enviar: "+err.message,5000);return false}}
 // Pone al día casos y mensajes; con avisar=true avisa de lo que haya cambiado el equipo. Devuelve si hubo cambios
-async function cargarCasos(avisar){const d=await rpc("cliente_datos",{p_token:token}),c=d.cliente,bloq=lockeado(),antes=JSON.stringify([CASOS,MSGS,WEB,HIST,U.nc,U.dr,U.tel]);
+async function cargarCasos(avisar){const d=await rpc("cliente_datos",{p_token:token}),c=d.cliente,bloq=lockeado(),antes=JSON.stringify([CASOS,MSGS,WEB,HIST,VAL,RENOV,U.nc,U.dr,U.tel]);
 U={uid:c.id,email:c.email,nc:c.nombre,n:esc(c.nombre.split(" ")[0]),dr:c.dominio||"",d:esc(c.dominio||""),tel:c.telefono||""};escucharCanal(c.canal);
 if(avisar){for(const n of d.casos){const v=CASOS.find(x=>x.id==n.id);if(v&&estCli(v.estado)!=estCli(n.estado))toast((n.tipo_reporte=="Lead"?"Tu proyecto":"Tu solicitud #"+n.id)+" ahora está: "+estCli(n.estado),4000)}
-if(d.mensajes.some(m=>m.autor_tipo=="staff"&&!MSGS.some(x=>x.id==m.id)))toast("Nuevo mensaje del equipo Webcare",4000)}
-const planAntes=plan;CASOS=d.casos;MSGS=d.mensajes;WEB=d.web||null;HIST=d.historial||[];if(WEB&&WEB.plan)plan=WEB.plan;if(avisar&&plan!=planAntes)toast("Tu plan ahora es "+plan+".",5000);if(avisar&&bloq&&!lockeado())toast("¡Tu proyecto está activo! Ya tienes acceso a todo tu panel.",5000);return antes!=JSON.stringify([CASOS,MSGS,WEB,HIST,U.nc,U.dr,U.tel])}
+if(d.mensajes.some(m=>m.autor_tipo=="staff"&&!MSGS.some(x=>x.id==m.id))){toast("Nuevo mensaje del equipo Webcare",4000);avisoMovil("Nuevo mensaje del equipo","Tienes una respuesta en tu portal de Webcare.")}}
+const planAntes=plan;CASOS=d.casos;MSGS=d.mensajes;WEB=d.web||null;HIST=d.historial||[];VAL=d.valoraciones||[];RENOV=d.renovaciones||[];VISTA=!!d.solo_lectura;if(WEB&&WEB.plan)plan=WEB.plan;if(avisar&&plan!=planAntes)toast("Tu plan ahora es "+plan+".",5000);if(avisar&&bloq&&!lockeado())toast("¡Tu proyecto está activo! Ya tienes acceso a todo tu panel.",5000);return antes!=JSON.stringify([CASOS,MSGS,WEB,HIST,VAL,RENOV,U.nc,U.dr,U.tel])}
 // 21: aviso instantáneo cuando el equipo cambia algo (canal secreto de este cliente; solo dice «hay novedades»)
 function escucharCanal(id){if(!db||!id||id===canalId||!db.channel)return;if(canalRT)db.removeChannel(canalRT);canalId=id;
 canalRT=db.channel("portal-"+id).on("broadcast",{event:"cambio"},()=>{clearTimeout(escucharCanal.t);escucharCanal.t=setTimeout(()=>sondear.tick&&sondear.tick(),300)}).subscribe()}
-async function entrarCliente(r){token=r.token;guardarTk(token);
+async function entrarCliente(r,vista){token=r.token;if(vista)VISTA=true;else guardarTk(token);
 try{await cargarCasos(false)}catch(err){if(!token)return;toast("No se pudieron cargar tus datos: "+err.message,6000)}
 const m=CASOS.find(c=>/^Mantenimiento/.test(c.plan||""));if(!(WEB&&WEB.plan)&&m)plan=m.plan;auth=true;sondear();go(lockeado()?"Chat":"Mi web")}
 // Sin Supabase Auth no hay tiempo real: se consulta cada pocos segundos mientras la pestaña está a la vista
@@ -374,10 +436,10 @@ catch(err){er.textContent=err.message}}
 function pedirClaveNueva(t){const m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog" aria-modal="true"><h2 style="margin:0 0 6px;font-size:22px">Elige una contraseña nueva</h2><p class="mu" style="margin-bottom:14px">Mínimo 8 caracteres.</p><label>Contraseña nueva<input id="nc1" type="password" autocomplete="new-password"></label><label>Repítela<input id="nc2" type="password" autocomplete="new-password"></label><div class="err" id="ncx"></div><button class="btn" style="width:100%" onclick="guardarClaveNueva('${esc(t)}')">Guardar y entrar</button></div>`;m.style.display="grid";document.getElementById("nc1").focus()}
 async function guardarClaveNueva(t){const a=document.getElementById("nc1").value,b=document.getElementById("nc2").value,x=document.getElementById("ncx");if(a.length<8)return x.textContent="La contraseña debe tener al menos 8 caracteres.";if(a!==b)return x.textContent="Las dos contraseñas no coinciden.";
 x.textContent="Guardando…";try{const r=await rpc("cliente_restablecer_clave",{p_token:t,p_clave:a});closePlan();await entrarCliente(r);toast("Contraseña cambiada. ¡Bienvenido de nuevo!",4000)}catch(err){x.textContent=err.message}}
-function out(caducada){const t=token;token=null;guardarTk(null);clearInterval(sondeo);if(canalRT&&db){db.removeChannel(canalRT);canalRT=null;canalId=null}ADJ=null;ADJT=null;if(t&&!caducada&&db)db.rpc("cliente_salir",{p_token:t}).then(()=>{},()=>{});
-auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];WEB=null;HIST=[];plan="Mantenimiento Pro";U={n:"",d:""};render(true);scrollTo(0,0);if(caducada)toast("Tu sesión ha caducado. Vuelve a iniciar sesión.",4000)}
-const PD=[{n:"Básico",p:"49 €",t:"Para webs sencillas que solo necesitan estar al día y protegidas.",f:["Actualizaciones de seguridad de la web","Copia de seguridad diaria","Vigilancia de caídas las 24 horas","Certificado SSL controlado","2 horas de cambios al mes","Respuesta en 24 horas laborables"]},
-{n:"Pro",p:"89 €",t:"El más elegido: más horas, respuesta rápida y resultados a la vista.",f:["Todo lo del plan Básico","5 horas de cambios al mes","Respuesta en menos de 4 horas","Informe mensual de estado y rendimiento","Optimización básica de velocidad","Panel con seguimiento de tus solicitudes"]},
+function out(caducada){const t=token,eraVista=VISTA;token=null;if(!eraVista)guardarTk(null);clearInterval(sondeo);if(canalRT&&db){db.removeChannel(canalRT);canalRT=null;canalId=null}ADJ=null;ADJT=null;if(t&&!caducada&&db&&!eraVista)db.rpc("cliente_salir",{p_token:t}).then(()=>{},()=>{});
+auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];WEB=null;HIST=[];VAL=[];RENOV=[];VISTA=false;plan="Mantenimiento Pro";U={n:"",d:""};render(true);scrollTo(0,0);if(caducada)toast("Tu sesión ha caducado. Vuelve a iniciar sesión.",4000)}
+const PD=[{n:"Básico",p:"49 €",t:"Para webs sencillas que solo necesitan estar al día y protegidas.",f:["Actualizaciones de seguridad de la web","Copia de seguridad diaria","Vigilancia de caídas las 24 horas","Certificado SSL controlado",TOKENS["Básico"]+" tokens de cambios al mes","Respuesta en 24 horas laborables"]},
+{n:"Pro",p:"89 €",t:"El más elegido: más tokens, respuesta rápida y resultados a la vista.",f:["Todo lo del plan Básico",TOKENS["Pro"]+" tokens de cambios al mes","Respuesta en menos de 4 horas","Informe mensual de estado y rendimiento","Optimización básica de velocidad","Panel con seguimiento de tus solicitudes"]},
 {n:"Pro + SEO",p:"189 €",t:"Para webs que quieren crecer en Google mes a mes.",f:["Todo lo del plan Pro","Trabajo SEO mensual: títulos, enlaces y contenidos","Seguimiento de palabras clave","Informe SEO con tráfico y posiciones","Auditoría SEO inicial","Revisión trimestral de objetivos"]}];
 function showPlan(i){const d=PD[i],m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog" aria-modal="true"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><span class="tag">Plan ${d.n}</span><h2 style="margin:12px 0 4px;font-size:30px">${d.p}<small style="font-size:15px;color:var(--mu);font-weight:400"> /mes</small></h2><p class="mu">${d.t}</p><ul class="ck">${d.f.map(x=>`<li>${x}</li>`).join("")}</ul><button class="btn" style="width:100%" onclick="checkout(${i})">Quiero este plan</button><p style="text-align:center;margin-top:10px"><button class="lk" onclick="closePlan()">Cerrar</button></p></div>`;m.style.display="grid"}
 function closePlan(){document.getElementById("md").style.display="none"}
@@ -428,10 +490,35 @@ x.textContent="";document.getElementById("rg").style.display="none";await entrar
 catch(err){x.textContent=err.message}return false}
 // Conversación de un caso: la misma que el equipo ve en «Chat con el cliente» del panel de administración
 function CHAT(c){if(!c)return `<h1>Mensajes</h1><p class="mu">Todavía no tienes conversaciones. Escríbenos desde <button class="lk" onclick="go('Soporte')">Soporte</button>.</p>`;const ld=c.tipo_reporte=="Lead";
-const L=[{w:"eq",h:fh(c.created_at),t:ld?`¡Hola, ${U.n}! Hemos recibido tu solicitud: ${esc(c.plan||c.titulo||"")}. En breve revisaremos tu caso y te escribiremos por aquí para empezar. Mientras tanto, cuéntanos qué necesitas o si tienes dudas.`:`Hemos recibido tu solicitud #${c.id}. Te responderemos por aquí.`},...msgsDe(c.id).map(m=>({w:m.autor_tipo=="usuario"?"me":"eq",a:m.autor_tipo=="staff"&&m.autor,h:fh(m.creado_en),t:(soloAdj(m)?"":esc(m.texto))+adjHTML(m)}))];
-return `${ld?"":`<p style="margin-bottom:8px"><button class="lk" onclick="go('Soporte')">← Mis solicitudes</button></p>`}<h1>${ld?"Tu caso":"Solicitud #"+c.id}</h1><p class="mu">${esc(ld?c.plan||"Tu proyecto":c.titulo||"")} · Estado: <span class="tag">${estCli(c.estado)}</span></p><div class="c" style="margin-top:16px;padding:0"><div class="cb" id="cb">${L.map(m=>`<div class="m ${m.w}"><small>${m.w=="me"?"Tú":(m.a?esc(bonito(m.a))+" · ":"")+"Equipo Webcare"} · ${m.h}</small><div class="bu">${m.t}</div></div>`).join("")}</div>
-${!ld&&CERR.includes(c.estado)?`<p class="mu" style="padding:12px 16px;border-top:1px solid var(--bd)">Esta solicitud está cerrada. Si necesitas algo más, abre una nueva desde Soporte.</p>`:`<div class="cf"><label class="btn s clip" title="Adjuntar un archivo (máx. 10 MB)" aria-label="Adjuntar archivo">📎<input type="file" hidden accept="${ADJ_TIPOS.join(",")}" onchange="elegirAdj(this,'c')"></label><input id="ci" placeholder="Escribe tu mensaje…" onkeydown="if(event.key=='Enter')sendC()"><button class="btn" id="cs" onclick="sendC()">Enviar</button></div>${ADJ?`<div class="chip-adj">📎 ${esc(ADJ.name)} · ${tam(ADJ.size)} <button class="lk" onclick="ADJ=null;render()">Quitar</button></div>`:""}`}</div>`}
+const L=[{w:"eq",h:fh(c.created_at),t:ld?`¡Hola, ${U.n}! Hemos recibido tu solicitud: ${esc(c.plan||c.titulo||"")}. En breve revisaremos tu caso y te escribiremos por aquí para empezar. Mientras tanto, cuéntanos qué necesitas o si tienes dudas.`:`Hemos recibido tu solicitud #${c.id}. Te responderemos por aquí.`},...msgsDe(c.id).map(m=>({w:m.autor_tipo=="usuario"?"me":"eq",a:m.autor_tipo=="staff"&&m.autor,h:fh(m.creado_en),t:(soloAdj(m)?"":esc(m.texto))+adjHTML(m),v:m.autor_tipo=="usuario"?(m.leido_staff_en?'<span class="visto si" title="Leído por el equipo">✓✓ Visto</span>':'<span class="visto">✓ Enviado</span>'):""}))];
+marcarLeido(c.id);
+return `${ld?"":`<p style="margin-bottom:8px"><button class="lk" onclick="go('Soporte')">← Mis solicitudes</button></p>`}<h1>${ld?"Tu caso":"Solicitud #"+c.id}</h1><p class="mu">${esc(ld?c.plan||"Tu proyecto":c.titulo||"")} · Estado: <span class="tag">${estCli(c.estado)}</span></p><div class="c" style="margin-top:16px;padding:0"><div class="cb" id="cb">${L.map(m=>`<div class="m ${m.w}"><small>${m.w=="me"?"Tú":(m.a?esc(bonito(m.a))+" · ":"")+"Equipo Webcare"} · ${m.h}</small><div class="bu">${m.t}</div>${m.v||""}</div>`).join("")}</div>
+${!ld&&CERR.includes(c.estado)?`<p class="mu" style="padding:12px 16px;border-top:1px solid var(--bd)">Esta solicitud está cerrada. Si necesitas algo más, abre una nueva desde Soporte.</p>${valoracionHTML(c)}`:`<div class="cf"><label class="btn s clip" title="Adjuntar un archivo (máx. 10 MB)" aria-label="Adjuntar archivo">📎<input type="file" hidden accept="${ADJ_TIPOS.join(",")}" onchange="elegirAdj(this,'c')"></label><input id="ci" placeholder="Escribe tu mensaje…" onkeydown="if(event.key=='Enter')sendC()"><button class="btn" id="cs" onclick="sendC()">Enviar</button></div>${ADJ?`<div class="chip-adj">📎 ${esc(ADJ.name)} · ${tam(ADJ.size)} <button class="lk" onclick="ADJ=null;render()">Quitar</button></div>`:""}`}</div>`}
+// ---------- 3: valoración opcional de solicitudes cerradas ----------
+const valDe=id=>VAL.find(v=>v.caso_id==id);
+const noValorar=id=>{try{return localStorage.getItem("webcare-noval-"+id)=="1"}catch(_){return false}};
+let VAL_SEL=0;
+function valoracionHTML(c){const v=valDe(c.id);if(VISTA)return "";
+if(v&&valoracionHTML.editando!=c.id)return `<div class="val hecho">Tu valoración: <span class="estr" aria-label="${v.estrellas} de 5">${"★".repeat(v.estrellas)}${"☆".repeat(5-v.estrellas)}</span> · ¡Gracias! <button class="lk" onclick="valoracionHTML.editando=${c.id};VAL_SEL=${v.estrellas};render()">Cambiar</button></div>`;
+if(!v&&noValorar(c.id))return `<div class="val hecho"><button class="lk" onclick="try{localStorage.removeItem('webcare-noval-${c.id}')}catch(_){};render()">Valorar esta solicitud</button></div>`;
+return `<div class="val"><b>¿Qué tal lo hemos hecho?</b> <span class="mu">(opcional)</span><div class="estrellas" role="radiogroup" aria-label="Valoración de 1 a 5">${[1,2,3,4,5].map(n=>`<button class="${n<=VAL_SEL?"on":""}" role="radio" aria-checked="${n==VAL_SEL}" aria-label="${n} de 5" onclick="VAL_SEL=${n};render()">★</button>`).join("")}</div>
+<textarea id="vc" rows="2" maxlength="1000" placeholder="Cuéntanos algo más (opcional)"></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" onclick="valorar(${c.id})">Enviar valoración</button><button class="lk" onclick="try{localStorage.setItem('webcare-noval-${c.id}','1')}catch(_){};valoracionHTML.editando=null;render()">Ahora no</button></div></div>`}
+async function valorar(id){if(!VAL_SEL)return toast("Elige de 1 a 5 estrellas.");const com=(document.getElementById("vc")||{}).value||"";
+try{await rpc("cliente_valorar",{p_token:token,p_caso:id,p_estrellas:VAL_SEL,p_comentario:com});VAL=VAL.filter(v=>v.caso_id!=id).concat([{caso_id:id,estrellas:VAL_SEL}]);valoracionHTML.editando=null;VAL_SEL=0;render();toast("¡Gracias por tu valoración!",3500)}catch(err){toast(err.message,5000)}}
+// ---------- 5: preguntas frecuentes y sugerencias mientras se escribe ----------
+const sinTildes=t=>String(t||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+function faqBuscar(t){const pal=sinTildes(t).split(/[^a-z0-9ñ]+/).filter(w=>w.length>3);if(!pal.length)return [];
+return FAQ.map(f=>{const h=sinTildes(f.p+" "+f.k+" "+f.r);return {f,n:pal.filter(w=>h.includes(w)).length}}).filter(x=>x.n).sort((a,b)=>b.n-a.n).map(x=>x.f)}
+const faqHTML=l=>l.length?l.map(f=>`<details class="faq"><summary>${esc(f.p)}</summary><p>${esc(f.r)}</p></details>`).join(""):`<p class="mu" style="padding:8px 0">No hay resultados. Escríbenos desde el formulario de arriba.</p>`;
+function sugerirFaq(t){const el=document.getElementById("sug");if(!el)return;const l=faqBuscar(t).slice(0,3);el.innerHTML=l.length?`<div class="sug"><b>¿Te sirve alguna de estas respuestas?</b>${faqHTML(l)}</div>`:""}
+function filtrarFaq(t){const el=document.getElementById("faq");if(el)el.innerHTML=faqHTML(t.trim()?faqBuscar(t):FAQ)}
+// ---------- 6: reservar una llamada (Cal.com) ----------
+function abrirCita(){if(!CITA.url)return;const u=CITA.url+(CITA.url.includes("?")?"&":"?")+"embed=true&theme=dark"+(U.email?"&email="+encodeURIComponent(U.email):"")+(U.nc?"&name="+encodeURIComponent(U.nc):"");
+const m=document.getElementById("md");m.innerHTML=`<div class="mb ancho" role="dialog" aria-modal="true" style="max-width:760px"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><h2 style="margin:0 0 12px;font-size:22px">Reservar una llamada</h2><iframe src="${esc(u)}" title="Calendario de reservas" style="width:100%;height:620px;border:0;border-radius:12px;background:#fff"></iframe></div>`;m.style.display="grid"}
 function verCaso(id){casoSel=id;ADJ=null;go("Solicitud")}
+// Al abrir una conversación, los mensajes del equipo quedan como leídos (el equipo ve «visto»)
+function marcarLeido(id){if(VISTA||!token||!noLeidos(id)||marcarLeido.en==id)return;marcarLeido.en=id;
+setTimeout(()=>rpc("cliente_marcar_leido",{p_token:token,p_caso:id}).then(()=>{const ahora=new Date().toISOString();MSGS.forEach(m=>{if(m.caso_id==id&&m.autor_tipo=="staff"&&!m.leido_cliente_en)m.leido_cliente_en=ahora});marcarLeido.en=null;render()}).catch(()=>{marcarLeido.en=null}),400)}
 // ---------- Adjuntos (se guardan en Supabase Storage, carpeta privada del caso) ----------
 const ADJ_TIPOS=["image/png","image/jpeg","image/gif","image/webp","application/pdf","text/plain","application/zip","application/msword","application/vnd.openxmlformats-officedocument.wordprocessingml.document","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
 const tam=b=>b>=1048576?nf(b/1048576,1)+" MB":Math.max(1,Math.round(b/1024))+" KB";
@@ -444,7 +531,7 @@ async function verAdj(id){const m=MSGS.find(x=>x.id==id);if(!m)return;const w=wi
 const soloAdj=m=>m.adjunto_ruta&&m.texto==="📎 "+(m.adjunto_nombre||"Archivo");
 const adjHTML=m=>m.adjunto_ruta?`${soloAdj(m)?"":"<br>"}<button class="adj" onclick="verAdj(${m.id})">📎 ${esc(m.adjunto_nombre||"Archivo")}${m.adjunto_tamano?" · "+tam(m.adjunto_tamano):""}</button>`:"";
 const SIN_ADJ={p_adjunto_ruta:null,p_adjunto_nombre:null,p_adjunto_tipo:null,p_adjunto_tamano:null};
-const avisarEquipo=caso=>{if(db)fn("correo",{accion:"aviso_equipo",token,caso_id:caso}).catch(()=>{})};
+const avisarEquipo=caso=>{if(db&&!VISTA)fn("correo",{accion:"aviso_equipo",token,caso_id:caso}).catch(()=>{})};
 async function sendC(){const i=document.getElementById("ci"),t=i.value.trim(),id=cur=="Solicitud"?casoSel:(lead()||{}).id,f=ADJ;if((!t&&!f)||!id||sendC.ocupado)return;
 sendC.ocupado=true;i.value="";const b=document.getElementById("cs");if(b){b.disabled=true;b.textContent=f?"Subiendo…":"Enviando…"}const foco=()=>{const e=document.getElementById("ci");if(e)e.focus()};
 try{const extra=f?await subirAdj(id,f):SIN_ADJ;const data=await rpc("cliente_enviar_mensaje",{p_token:token,p_caso:id,p_texto:t,...extra});ADJ=null;if(!MSGS.some(m=>m.id==data.id))MSGS.push(data);avisarEquipo(id);render();foco()}
@@ -472,15 +559,25 @@ const ICN={"Chat":ic2('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2
 "Soporte":ic2('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/>'),"SEO":ic2('<path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-6"/>'),
 "Facturación":ic2('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>'),"Mi cuenta":ic2('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>')};
 function irSec(id){const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:"smooth",block:"start"})}
+// ---------- 7: app instalable (PWA) y avisos del sistema ----------
+const PWA={prompt:null};
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();PWA.prompt=e;if(auth)render()});
+async function instalarApp(){if(!PWA.prompt)return;PWA.prompt.prompt();await PWA.prompt.userChoice.catch(()=>{});PWA.prompt=null;render()}
+async function activarAvisos(){if(!("Notification" in window))return;const p=await Notification.requestPermission();toast(p=="granted"?"Avisos activados.":"El navegador no ha permitido los avisos.",4000);render()}
+async function avisoMovil(titulo,cuerpo){try{if(!document.hidden||!("Notification" in window)||Notification.permission!="granted")return;const reg=navigator.serviceWorker&&await navigator.serviceWorker.getRegistration();
+if(reg)reg.showNotification(titulo,{body:cuerpo,icon:"icon-192.png",badge:"icon-192.png",tag:"webcare"});else new Notification(titulo,{body:cuerpo,icon:"icon-192.png"})}catch(_){}}
+if("serviceWorker" in navigator&&location.protocol=="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 function openLg(){document.getElementById("lg").style.display="grid"}
 function go(k){cur=k;render(true);scrollTo(0,0)}
 // fresh = cambio de vista; si no, se conserva lo que se esté escribiendo (las novedades llegan solas)
-function render(fresh){const keep={};if(!fresh)["ci","tx","ty","ur","pf-n","pf-t","pf-d","pc-a","pc-n","pc-r"].forEach(k=>{const e=document.getElementById(k);if(e)keep[k]=[e.value,document.activeElement==e]});
-const lk=lockeado();document.body.classList.toggle("pub",!auth);if(!auth)cur="Inicio";document.getElementById("nav").innerHTML=(lead()?["Chat","Mi web","Soporte","SEO","Facturación","Mi cuenta"]:["Mi web","Soporte","SEO","Facturación","Mi cuenta"]).map(k=>`<button class="${k==cur||(k=="Soporte"&&cur=="Solicitud")?"on":""}" onclick="go('${k}')">${ICN[k]||""}<span>${k}</span>${lk&&k!="Chat"&&k!="Mi cuenta"?'<em>Bloqueado</em>':k=="Soporte"?'<em>'+tickets().filter(t=>!CERR.includes(t.estado)).length+'</em>':""}</button>`).join("");document.getElementById("v").style.maxWidth=cur=="Inicio"?"1160px":"";document.getElementById("v").innerHTML=lk&&cur!="Chat"&&cur!="Mi cuenta"?LOCKED(V[cur]()):V[cur]();const cb=document.getElementById("cb");if(cb)cb.scrollTop=cb.scrollHeight;document.querySelector(".st").innerHTML=lk?'<span class="dot w"></span>Proyecto en preparación':'<span class="dot"></span>Tu web está online';
+function render(fresh){const keep={};if(!fresh)["ci","tx","ty","ur","vc","fq","pf-n","pf-t","pf-d","pc-a","pc-n","pc-r"].forEach(k=>{const e=document.getElementById(k);if(e)keep[k]=[e.value,document.activeElement==e]});
+const lk=lockeado();document.body.classList.toggle("pub",!auth);if(!auth)cur="Inicio";document.getElementById("nav").innerHTML=(lead()?["Chat","Mi web","Soporte","SEO","Facturación","Mi cuenta"]:["Mi web","Soporte","SEO","Facturación","Mi cuenta"]).map(k=>`<button class="${k==cur||(k=="Soporte"&&cur=="Solicitud")?"on":""}" onclick="go('${k}')">${ICN[k]||""}<span>${k}</span>${lk&&k!="Chat"&&k!="Mi cuenta"?'<em>Bloqueado</em>':k=="Soporte"?(sinLeerTickets()?'<em class="nuevo" title="Mensajes sin leer">'+sinLeerTickets()+'</em>':'<em>'+tickets().filter(t=>!CERR.includes(t.estado)).length+'</em>'):k=="Chat"&&lead()&&noLeidos(lead().id)?'<em class="nuevo">'+noLeidos(lead().id)+'</em>':""}</button>`).join("");document.getElementById("v").style.maxWidth=cur=="Inicio"?"1160px":"";document.getElementById("v").innerHTML=lk&&cur!="Chat"&&cur!="Mi cuenta"?LOCKED(V[cur]()):V[cur]();const cb=document.getElementById("cb");if(cb)cb.scrollTop=cb.scrollHeight;document.querySelector(".st").innerHTML=lk?'<span class="dot w"></span>Proyecto en preparación':'<span class="dot"></span>Tu web está online';
+let vb=document.getElementById("vistab");if(VISTA&&auth){if(!vb){vb=document.createElement("div");vb.id="vistab";vb.className="vistab";document.body.appendChild(vb)}vb.innerHTML=`<span>👁 Estás viendo el portal de <b>${esc(U.nc||"")}</b> tal y como lo ve el cliente · solo lectura</span><button class="btn s" onclick="out()">Cerrar vista</button>`}else if(vb)vb.remove();
 const us=document.getElementById("usr");if(us)us.innerHTML=auth&&U.nc?`<span class="av">${esc(String(U.nc).trim().charAt(0).toUpperCase())}</span><span style="min-width:0"><b>${esc(U.nc)}</b><small>${U.d||esc(U.email||"")}</small></span>`:"";
 for(const k in keep){const e=document.getElementById(k);if(e){e.value=keep[k][0];if(keep[k][1])e.focus()}}}
 render();avisoCookies();
 {const q=new URLSearchParams(location.search),rec=q.get("recuperar");
 if(rec){history.replaceState(null,"",location.pathname+location.hash);pedirClaveNueva(rec)}
+else if(q.get("vista")){const v=q.get("vista");history.replaceState(null,"",location.pathname+location.hash);if(db)entrarCliente({token:v},true)}
 else{const t=leerTk();if(t&&db)entrarCliente({token:t})}}
 </script></body></html>
