@@ -320,10 +320,11 @@ return{p_adjunto_ruta:r.ruta,p_adjunto_nombre:f.name,p_adjunto_tipo:f.type,p_adj
 async function verAdj(id){const m=MSGS.find(x=>x.id==id);if(!m)return;const w=window.open("","_blank");try{const r=await fn("adjuntos",{accion:"ver",token,ruta:m.adjunto_ruta});if(w)w.location=r.url;else location.href=r.url}catch(err){if(w)w.close();toast(err.message,5000)}}
 const soloAdj=m=>m.adjunto_ruta&&m.texto==="📎 "+(m.adjunto_nombre||"Archivo");
 const adjHTML=m=>m.adjunto_ruta?`${soloAdj(m)?"":"<br>"}<button class="adj" onclick="verAdj(${m.id})">📎 ${esc(m.adjunto_nombre||"Archivo")}${m.adjunto_tamano?" · "+tam(m.adjunto_tamano):""}</button>`:"";
+const SIN_ADJ={p_adjunto_ruta:null,p_adjunto_nombre:null,p_adjunto_tipo:null,p_adjunto_tamano:null};
 const avisarEquipo=caso=>{if(db)fn("correo",{accion:"aviso_equipo",token,caso_id:caso}).catch(()=>{})};
 async function sendC(){const i=document.getElementById("ci"),t=i.value.trim(),id=cur=="Solicitud"?casoSel:(lead()||{}).id,f=ADJ;if((!t&&!f)||!id||sendC.ocupado)return;
 sendC.ocupado=true;i.value="";const b=document.getElementById("cs");if(b){b.disabled=true;b.textContent=f?"Subiendo…":"Enviando…"}const foco=()=>{const e=document.getElementById("ci");if(e)e.focus()};
-try{const extra=f?await subirAdj(id,f):{};const data=await rpc("cliente_enviar_mensaje",{p_token:token,p_caso:id,p_texto:t,...extra});ADJ=null;if(!MSGS.some(m=>m.id==data.id))MSGS.push(data);avisarEquipo(id);render();foco()}
+try{const extra=f?await subirAdj(id,f):SIN_ADJ;const data=await rpc("cliente_enviar_mensaje",{p_token:token,p_caso:id,p_texto:t,...extra});ADJ=null;if(!MSGS.some(m=>m.id==data.id))MSGS.push(data);avisarEquipo(id);render();foco()}
 catch(err){const e=document.getElementById("ci");if(e&&!e.value)e.value=t;toast("No se pudo enviar el mensaje: "+err.message,5000)}
 finally{sendC.ocupado=false;const b2=document.getElementById("cs");if(b2){b2.disabled=false;b2.textContent="Enviar"}}}
 // ---------- Textos legales (RGPD / LSSI). Revísalos con tu asesor y rellena EMPRESA arriba ----------
