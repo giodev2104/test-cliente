@@ -1315,7 +1315,13 @@ o.innerHTML=`<div class="mb ancho" role="dialog" aria-modal="true"><button class
 const m=document.getElementById("md");m.innerHTML=`<div class="mb ancho" role="dialog" aria-modal="true"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><h2 style="margin:0 0 10px;font-size:22px">${T[0]}</h2>${T[1]}<p style="text-align:center;margin-top:16px"><button class="btn" onclick="closePlan()">Entendido</button></p></div>`;m.style.display="grid"}
 function avisoCookies(){let visto=false;try{visto=localStorage.getItem("webcare-cookies")=="ok"}catch(_){}if(visto)return;const d=document.createElement("div");d.className="ck2";d.setAttribute("role","region");d.setAttribute("aria-label","Aviso de cookies");
 d.innerHTML=`<p>Solo usamos almacenamiento técnico necesario para que funcione el portal. Nada de publicidad ni analítica. <button class="lk" onclick="verLegal('cookies')">Más información</button></p><button class="btn">Entendido</button>`;
-d.querySelector(".btn").onclick=()=>{try{localStorage.setItem("webcare-cookies","ok")}catch(_){}d.remove()};document.body.appendChild(d)}
+d.querySelector(".btn").onclick=()=>{try{localStorage.setItem("webcare-cookies","ok")}catch(_){}d.remove()};
+// Sale cuando la página y las fuentes ya han cargado: si apareciera antes, al cambiar de fuente crecería y movería la página (CLS)
+const poner=()=>{const t0=Date.now();(function mira(){const l=document.querySelector('link[href*="fonts.googleapis.com/css"]');
+if(l&&!(l.rel=="stylesheet"&&l.sheet)&&Date.now()-t0<4000)return setTimeout(mira,100);
+const f=document.fonts?Promise.all([document.fonts.load('400 13px Inter'),document.fonts.load('600 13px Inter')]).then(()=>document.fonts.ready):Promise.resolve();
+f.catch(()=>{}).then(()=>setTimeout(()=>document.body.appendChild(d),300))})()};
+if(document.readyState=="complete")poner();else addEventListener("load",poner,{once:true})}
 const LOCKED=h=>`<div class="lw"><div class="bl" inert aria-hidden="true">${h}</div><div class="lm"><div class="c" style="max-width:380px;text-align:center"><b style="font-size:18px">Esta sección se activará pronto</b><p class="mu" style="margin:8px 0 14px">Tu equipo está preparando tu proyecto. Mientras tanto, escríbenos en el chat.</p><button class="btn" onclick="go('Chat')">Ir al chat</button></div></div></div>`;
 const ic2=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const ICN={"Chat":ic2('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),"Mi web":ic2('<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>'),
