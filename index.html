@@ -104,6 +104,39 @@ s.antes{display:block;margin-top:8px;color:var(--mu);font-size:15px;font-weight:
 .desde{margin-top:14px;font-size:16px;color:var(--mu)}.desde strong{color:var(--tx);font-size:20px}
 .faqw{display:grid;gap:10px;margin-top:18px}.faqw details{padding:0}.faqw summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:600;display:flex;justify-content:space-between;gap:12px}.faqw summary::-webkit-details-marker{display:none}.faqw summary::after{content:"+";color:var(--ac);font-size:20px;line-height:1;transition:transform .2s}.faqw details[open] summary::after{transform:rotate(45deg)}.faqw details p{margin:0;padding:0 18px 16px;font-size:14.5px}
 .pbn a{text-decoration:none}
+/* Menú de la portada con desplegables */
+:root:root:root:root .pbn{display:flex;align-items:center;gap:2px}
+.dd{position:relative}
+.dd-b{background:none;border:0;color:var(--mu);font:inherit;font-size:14px;font-weight:500;padding:8px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:7px}
+.dd-b i{width:6px;height:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .2s}
+.dd-b:hover,.dd.open .dd-b,.dd-l:hover{color:var(--tx);background:rgba(255,255,255,.05)}.dd.open .dd-b i{transform:translateY(1px) rotate(-135deg)}
+.dd-b:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+:root:root:root:root .pbn .dd-l{color:var(--mu);font-size:14px;font-weight:500;padding:8px 12px;border-radius:8px}
+.dd-m{display:none;position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);min-width:290px;padding:8px;background:var(--sf,#0E1426);border:1px solid var(--bd2);border-radius:14px;box-shadow:0 24px 60px -20px rgba(0,0,0,.85);z-index:30}
+.dd-m::before{content:"";position:absolute;left:0;right:0;top:-12px;height:12px}
+.dd.open .dd-m{display:block}
+@media(hover:hover) and (min-width:901px){.dd:not(.tapa):hover .dd-m{display:block}.dd:not(.tapa):hover .dd-b{color:var(--tx)}}
+@media(min-width:901px){.dd.tapa:not(.open) .dd-m{display:none}}
+:root:root:root:root .dd-m a{display:block;padding:10px 12px;border-radius:10px;color:var(--tx);background:none}
+.dd-m a b{display:block;font-size:14px;font-weight:600;color:var(--tx)}.dd-m a small{display:block;font-size:12.5px;color:var(--mu);margin-top:2px}
+:root:root:root:root .dd-m a:hover,:root:root:root:root .dd-m a:focus-visible{background:rgba(255,255,255,.06)}
+.pbn-cli,.pbn-tog{display:none}
+.pba{align-items:center}
+.pbn-tog{width:42px;height:42px;border-radius:10px;border:1px solid var(--bd2);background:rgba(255,255,255,.04);cursor:pointer;place-items:center;padding:0}
+.pbn-tog span,.pbn-tog span::before,.pbn-tog span::after{display:block;width:18px;height:2px;border-radius:2px;background:var(--tx);position:relative;transition:transform .2s,background .2s}
+.pbn-tog span::before,.pbn-tog span::after{content:"";position:absolute;left:0}.pbn-tog span::before{top:-6px}.pbn-tog span::after{top:6px}
+body.menu-on .pbn-tog span{background:transparent}body.menu-on .pbn-tog span::before{transform:translateY(6px) rotate(45deg)}body.menu-on .pbn-tog span::after{transform:translateY(-6px) rotate(-45deg)}
+@media(max-width:900px){
+.pbn-tog{display:grid}:root:root:root:root .pbn{display:none}
+:root:root:root:root body.menu-on .pbn{display:flex;flex-direction:column;align-items:stretch;gap:4px;position:fixed;left:0;right:0;top:var(--pbh,64px);bottom:auto;height:calc(100vh - var(--pbh,64px));height:calc(100dvh - var(--pbh,64px));overflow-y:auto;overscroll-behavior:contain;padding:12px 16px calc(24px + env(safe-area-inset-bottom,0px));background:var(--bg,#0b0e16);border-top:1px solid var(--bd);z-index:19}
+body.menu-on{overflow:hidden}
+:root:root:root:root body.menu-on .pb{backdrop-filter:none;-webkit-backdrop-filter:none;background:#0b0e16}
+body.menu-on .dd-b{pointer-events:none;padding:16px 4px 6px;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--cy)}body.menu-on .dd-b i{display:none}
+body.menu-on .dd-m{display:block;position:static;transform:none;min-width:0;padding:0;background:none;border:0;box-shadow:none}body.menu-on .dd-m::before{display:none}
+:root:root:root:root body.menu-on .pbn .dd-l{padding:14px 12px;margin-top:10px;font-size:15px;font-weight:600;color:var(--tx);border:1px solid var(--bd);border-radius:12px}
+body.menu-on .dd-m a{padding:12px}
+body.menu-on .pbn-cli{display:block;margin-top:18px;width:100%}body.menu-on .pbn>*{flex-shrink:0}
+#wa-btn,#ia-btn{transition:opacity .2s}body.menu-on #wa-btn,body.menu-on #ia-btn{opacity:0;pointer-events:none}}
 .ver-mas{text-align:center;margin-top:18px}.gar{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}.gar .ic{font-size:22px}.gar b{display:block;margin:8px 0 4px}.gar p{margin:0;font-size:14px}
 .pronto-mini{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:56px;padding:16px 18px;border:1px dashed var(--bd2);border-radius:16px;background:rgba(255,255,255,.02)}.pronto-mini p{margin:0;flex:1;min-width:220px;font-size:14.5px}
 .quien{display:flex;gap:20px;align-items:flex-start;margin-top:18px}.quien-av{flex:none;width:64px;height:64px;border-radius:50%;background:var(--grad);display:grid;place-items:center;font-family:var(--hd);font-weight:800;font-size:28px;color:#fff;box-shadow:0 12px 30px -12px rgba(124,140,255,.8)}
@@ -360,7 +393,7 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .c:not(.top){background-image:linear-gradient(180deg,rgba(255,255,255,.035),transparent 40%)!important}
 </style></head><body>
 <div id="lg" class="lg" style="display:none"><div class="lf"><b class="brand"><span class="logo" aria-hidden="true"></span>Velority</b><h2>Tu web, siempre a la vista.</h2><ul class="l"><li>Estado de tu web en tiempo real</li><li>Pide cambios sin enviar correos</li><li>Informes y facturas en un solo sitio</li></ul></div><div class="rt"><form onsubmit="return login(event)"><h1 style="font-size:26px">Accede a tu portal</h1><p class="mu" style="margin-bottom:20px">Usa el correo con el que te diste de alta.</p><label>Correo electrónico<input id="em" type="email" placeholder="laura@panaderialuz.es" autocomplete="email"></label><label>Contraseña<input id="pw" type="password" autocomplete="current-password"></label><div class="err" id="er"></div><button class="btn" type="submit">Entrar</button><p style="margin-top:14px;text-align:center"><button type="button" class="lk" onclick="olvide()">¿Has olvidado tu contraseña?</button></p><div class="o-sep"><span>o</span></div><button type="button" class="btn s" style="width:100%" onclick="pedirEnlace()">✉️ Entrar sin contraseña</button><p class="mu" style="font-size:12px;text-align:center;margin-top:6px">Te enviamos al correo un enlace para entrar directamente.</p><p style="text-align:center;margin-top:10px"><button type="button" class="lk" onclick="document.getElementById('lg').style.display='none'">Volver a la página principal</button></p></form></div></div>
-<div id="rg" class="lg" style="display:none"></div><div class="pb"><b class="brand" onclick="scrollTo({top:0,behavior:'smooth'})"><span class="logo" aria-hidden="true"></span>Velority</b><nav class="pbn" aria-label="Secciones"><a href="#srv" onclick="irSec('srv');return false">Servicios</a><a href="#pasos" onclick="irSec('pasos');return false">Cómo funciona</a><a href="#precios" onclick="irSec('precios');return false">Precios</a><a href="#extras" onclick="irSec('extras');return false">Otros</a><a href="#packs" onclick="irSec('packs');return false">Packs</a><a href="#pronto" onclick="irSec('pronto');return false">Próximamente</a><a href="#quien" onclick="irSec('quien');return false">Quién soy</a><a href="#opiniones" onclick="irSec('opiniones');return false">Opiniones</a><a href="#faq" onclick="irSec('faq');return false">Preguntas</a></nav><div class="pba"><button class="btn s" onclick="openLg()">Ya soy cliente</button><button class="btn" onclick="irSec('precios')">Empezar</button></div></div>
+<div id="rg" class="lg" style="display:none"></div><div class="pb"><b class="brand" onclick="scrollTo({top:0,behavior:'smooth'})"><span class="logo" aria-hidden="true"></span>Velority</b><nav class="pbn" id="pbn" aria-label="Menú principal"><div class="dd"><button type="button" class="dd-b" aria-expanded="false" aria-controls="dd-serv">Servicios<i aria-hidden="true"></i></button><div class="dd-m" id="dd-serv"><a href="#srv" onclick="irMenu('srv');return false"><b>Qué hacemos</b><small>Webs, landing pages y desarrollos a medida</small></a><a href="#ejemplos" onclick="irMenu('ejemplos');return false"><b>Ejemplos de diseño</b><small>Pruébalos con el nombre de tu negocio</small></a><a href="#extras" onclick="irMenu('extras');return false"><b>Servicios adicionales</b><small>Logo, Google Maps, correo, reseñas…</small></a><a href="#packs" onclick="irMenu('packs');return false"><b>Packs</b><small>Varios servicios juntos, a mejor precio</small></a><a href="#pronto" onclick="irMenu('pronto');return false"><b>Próximamente</b><small>Planes mensuales, renting y pago a plazos</small></a></div></div><a class="dd-l" href="#pasos" onclick="irMenu('pasos');return false">Cómo funciona</a><div class="dd"><button type="button" class="dd-b" aria-expanded="false" aria-controls="dd-nos">Nosotros<i aria-hidden="true"></i></button><div class="dd-m" id="dd-nos"><a href="#quien" onclick="irMenu('quien');return false"><b>Quién soy</b><small>Hablas siempre con la misma persona</small></a><a href="#opiniones" onclick="irMenu('opiniones');return false"><b class="op-label">Garantías</b><small>Lo que te garantizamos por escrito</small></a><a href="#faq" onclick="irMenu('faq');return false"><b>Preguntas frecuentes</b><small>Precios, pagos, cambios y garantía</small></a></div></div><div class="dd"><button type="button" class="dd-b" aria-expanded="false" aria-controls="dd-con">Contacto<i aria-hidden="true"></i></button><div class="dd-m" id="dd-con"><a id="menu-wa" href="#" target="_blank" rel="noopener"><b>WhatsApp</b><small>Escríbeme y te respondo yo</small></a><a id="menu-mail" href="#"><b>Correo electrónico</b><small id="menu-mail-t"></small></a><a href="#" onclick="cerrarMenu();pedirDemo();return false"><b>Quiero mi demo gratuita</b><small>Gratis y sin compromiso</small></a></div></div><button type="button" class="btn s pbn-cli" onclick="cerrarMenu();openLg()">Ya soy cliente</button></nav><div class="pba"><button class="btn s" onclick="openLg()">Ya soy cliente</button><button class="btn" onclick="irSec('precios')">Empezar</button><button type="button" class="pbn-tog" aria-label="Abrir el menú" aria-expanded="false" aria-controls="pbn" onclick="menuMovil()"><span></span></button></div></div>
 <header><b class="brand" onclick="go('Mi web')"><span class="logo" aria-hidden="true"></span>Velority</b><nav id="nav"></nav><div class="usr" id="usr"></div><div class="st"><span class="dot"></span>Tu web está online</div><button class="lk out" onclick="out()">Cerrar sesión</button></header><main id="v"></main><div class="md" id="md" style="display:none" onclick="if(event.target==this)closePlan()"></div><div class="toast" id="t"></div>
 <script>
 // ================= CONEXIÓN CON EL PANEL DEL EQUIPO (test-admin) =================
@@ -899,7 +932,7 @@ function verTodo(q,v){if(q=="ex")EX_TODOS=v;else PK_TODOS=v;render();const s=doc
 // Packs: 3 a la vista (uno recomendado para empezar) y el resto en «Ver más»
 const PK_RECOMENDADO="Pack Presencia Local Total",PK_OCULTOS=["Pack Ecommerce Express"];
 function opinionesHTML(){if(OPS===null){setTimeout(cargarOpiniones,0);return ""}
-setTimeout(()=>{const a=document.querySelector('.pbn a[onclick*="opiniones"]');if(a)a.textContent=OPS.total?"Opiniones":"Garantías"},0);
+setTimeout(()=>{const a=document.querySelector('.pbn .op-label');if(a)a.textContent=OPS.total?"Opiniones de clientes":"Garantías"},0);
 // Sin opiniones reales todavía: en su lugar, las garantías (en cuanto haya una opinión pública, sale la sección de opiniones)
 if(!OPS.total)return `<span class="kick" id="opiniones">Garantías</span><h2 class="sec">Sin letra pequeña</h2><p class="mu">Somos nuevos y estamos reuniendo nuestras primeras opiniones. Mientras tanto, esto es lo que te garantizamos por escrito:</p>
 <div class="g gar" style="margin-top:20px">${GARANTIAS.map(g=>`<div class="c"><div class="ic" aria-hidden="true">${g[0]}</div><b>${g[1]}</b><p class="mu">${g[2]}</p></div>`).join("")}</div>`;
@@ -1229,6 +1262,19 @@ const ic2=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
 const ICN={"Chat":ic2('<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'),"Mi web":ic2('<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>'),
 "Soporte":ic2('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M5.6 5.6l3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/>'),"SEO":ic2('<path d="M4 19V5M4 19h16M8 15l3-4 3 2 5-6"/>'),
 "Facturación":ic2('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/>'),"Mis pedidos":ic2('<path d="M6 2l-2 4v14a2 2 0 002 2h12a2 2 0 002-2V6l-2-4z"/><path d="M4 6h16M16 10a4 4 0 01-8 0"/>'),"Servicios":ic2('<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 13h18"/>'),"Mi cuenta":ic2('<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'),"Demo":ic2('<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/><path d="M19 17v4M17 19h4"/>')};
+// ---------- Menú de la portada: desplegables (ratón, clic y teclado) y menú a pantalla completa en el móvil ----------
+function cerrarDesplegables(salvo){document.querySelectorAll(".dd.open").forEach(d=>{if(d!==salvo){d.classList.remove("open");d.querySelector(".dd-b").setAttribute("aria-expanded","false")}})}
+function cerrarMenu(){cerrarDesplegables();document.querySelectorAll(".dd").forEach(d=>d.classList.add("tapa"));document.body.classList.remove("menu-on");const t=document.querySelector(".pbn-tog");if(t){t.setAttribute("aria-expanded","false");t.setAttribute("aria-label","Abrir el menú")}}
+function menuMovil(){const on=!document.body.classList.contains("menu-on");cerrarMenu();if(!on)return;const pb=document.querySelector(".pb");if(pb)document.documentElement.style.setProperty("--pbh",pb.offsetHeight+"px");
+document.body.classList.add("menu-on");const t=document.querySelector(".pbn-tog");t.setAttribute("aria-expanded","true");t.setAttribute("aria-label","Cerrar el menú")}
+function irMenu(id){cerrarMenu();irSec(id)}
+document.addEventListener("click",e=>{const b=e.target.closest(".dd-b");if(b){const d=b.parentElement,ab=!d.classList.contains("open")||d.classList.contains("tapa");d.classList.remove("tapa");cerrarDesplegables(d);d.classList.toggle("open",ab);b.setAttribute("aria-expanded",String(ab));return}
+if(!e.target.closest(".dd"))cerrarDesplegables()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&(document.querySelector(".dd.open")||document.body.classList.contains("menu-on"))){const ab=document.querySelector(".dd.open .dd-b");cerrarMenu();if(ab)ab.focus()}});
+addEventListener("resize",()=>{if(innerWidth>900&&document.body.classList.contains("menu-on"))cerrarMenu()});
+function prepararMenu(){document.querySelectorAll(".dd").forEach(d=>d.addEventListener("mouseleave",()=>d.classList.remove("tapa")));const wa=document.getElementById("menu-wa"),ml=document.getElementById("menu-mail");
+if(wa){const u=enlaceWA("Hola, me gustaría información sobre una web para mi negocio.");if(u)wa.href=u;else wa.remove()}
+if(ml){ml.href="mailto:"+EMPRESA.correo;document.getElementById("menu-mail-t").textContent=EMPRESA.correo}}
 function irSec(id){if(id=="precios"&&!MOSTRAR_PLANES_WEB)return pedirDemo();const e=document.getElementById(id);if(e)e.scrollIntoView({behavior:"smooth",block:"start"})}
 // ---------- App instalable (PWA) y avisos del sistema ----------
 const PWA={prompt:null};
@@ -1311,7 +1357,7 @@ let vb=document.getElementById("vistab");if(VISTA&&auth){if(!vb){vb=document.cre
 const us=document.getElementById("usr");if(us)us.innerHTML=auth&&U.nc?`<span class="av">${esc(String(U.nc).trim().charAt(0).toUpperCase())}</span><span style="min-width:0"><b>${esc(U.nc)}</b><small>${U.d||esc(U.email||"")}</small></span>`:"";
 for(const k in keep){const e=document.getElementById(k);if(e){e.value=keep[k][0];if(keep[k][1])e.focus()}}}
 render();avisoCookies();
-cargarCatalogo();botonIA();botonWA();
+cargarCatalogo();botonIA();botonWA();prepararMenu();
 if(!MOSTRAR_PLANES_WEB)document.querySelectorAll(".pbn a").forEach(a=>{if(/irSec\(.precios.\)/.test(a.getAttribute("onclick")||""))a.remove()});
 {const q=new URLSearchParams(location.search),rec=q.get("recuperar");
 if(q.get("ref")){guardarRef(q.get("ref"));history.replaceState(null,"",location.pathname+location.hash);toast("Te ha recomendado un cliente de Velority. ¡Bienvenido!",4000)}
