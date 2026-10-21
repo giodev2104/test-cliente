@@ -1,7 +1,7 @@
 // Service worker del portal: permite instalarlo como app y abrirlo sin conexión (solo la portada).
 // Nunca guarda en caché datos de Supabase, Stripe ni otras APIs: siempre van a la red.
-const CACHE = "webcare-v1";
-const BASE = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
+const CACHE = "velority-v2";
+const BASE = ["./", "index.html", "manifest.webmanifest", "favicon.svg", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(BASE)).then(() => self.skipWaiting()));

@@ -1,7 +1,7 @@
 {
-  "name": "Webcare · Portal de cliente",
-  "short_name": "Webcare",
-  "description": "Tu web, tus casos y tus mensajes con el equipo de Webcare.",
+  "name": "Velority · Portal de cliente",
+  "short_name": "Velority",
+  "description": "Tu web, tus casos y tus mensajes con el equipo de Velority.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
