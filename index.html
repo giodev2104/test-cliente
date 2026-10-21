@@ -3,7 +3,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#080C18"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="icon-192.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Velority">
-<title>Mi web · Velority</title>
+<title>Velority · Páginas web para negocios con precio cerrado</title>
+<meta name="description" content="Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía.">
+<link rel="canonical" href="https://velority.es/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Velority"><meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://velority.es/"><meta property="og:title" content="Velority · Tu web, con precio cerrado y demo gratuita">
+<meta property="og:description" content="Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía."><meta property="og:image" content="https://velority.es/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Velority: páginas web para negocios con pago único">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Velority · Tu web, con precio cerrado y demo gratuita"><meta name="twitter:description" content="Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía."><meta name="twitter:image" content="https://velority.es/og.jpg">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Velority", "url": "https://velority.es/", "logo": "https://velority.es/icon-512.png", "image": "https://velority.es/og.jpg", "description": "Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía.", "email": "vaznichugo@gmail.com", "telephone": "+34696273459", "areaServed": {"@type": "Country", "name": "España"}, "priceRange": "€€", "makesOffer": {"@type": "Offer", "name": "Demo gratuita de tu web", "price": "0", "priceCurrency": "EUR"}}</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
@@ -356,7 +364,7 @@ const TK="webcare-portal-token",leerTk=()=>{try{return localStorage.getItem(TK)}
 const SONDEO_MS=30000;   // red de seguridad: las novedades llegan al instante por el canal en tiempo real
 // ================= DATOS DE TU NEGOCIO (rellénalos: salen en la política de privacidad y el aviso legal) =================
 // Datos del titular (persona física) para el Aviso Legal y la privacidad: RELLÉNALOS antes de vender
-const EMPRESA={nombre:"[Tu nombre y apellidos]",nif:"[Tu NIF]",direccion:"[Tu domicilio completo]",correo:"[tu correo de contacto]",telefono:"[tu teléfono]"};
+const EMPRESA={nombre:"Hugo Vazquez",nif:"50571459W",direccion:"",correo:"vaznichugo@gmail.com",telefono:"696 273 459"};   // direccion vacía = «se facilita a petición»
 // Promesas que se muestran a los clientes: pon solo lo que puedas cumplir siempre
 // ================= PAGOS =================
 // Los servicios del catálogo se cobran con la función «pago» (Stripe Checkout). Este Buy Button solo se usa en
@@ -806,7 +814,7 @@ const esSuscripcion=(t,i)=>t=="m"||t=="r"||(t=="x"&&exRec(EX[i]));
 const bloqueada=(t,i)=>!SUSCRIPCIONES_ACTIVAS&&esSuscripcion(t,i);
 const pronto=()=>toast("Los planes de suscripción estarán disponibles muy pronto. Ahora mismo solo contratamos servicios de pago único.",5500);
 // Condiciones de contratación de pago único (PDF) y cómo se muestran los precios
-const CONDICIONES_PDF="legal/condiciones-pago-unico.pdf",PRECIO_FINAL="IVA incluido";
+const CONDICIONES_PDF="legal/condiciones-pago-unico.pdf",PRECIO_FINAL="precio final";
 const textoAcepto=()=>`He leído y acepto el <a href="#" onclick="verLegal('aviso',1);return false">Aviso Legal</a> y las <a href="${CONDICIONES_PDF}" target="_blank" rel="noopener">Condiciones de Contratación de Servicios de Pago Único</a>.`;
 // Paso obligatorio antes de pagar o pedir un servicio de pago único: casilla sin marcar que hay que aceptar
 function aceptarCondiciones(o){return new Promise(ok=>{const m=document.getElementById("md");aceptarCondiciones.r=ok;
@@ -1130,16 +1138,16 @@ catch(err){const e=document.getElementById("ci");if(e&&!e.value)e.value=t;toast(
 finally{sendC.ocupado=false;const b2=document.getElementById("cs");if(b2){b2.disabled=false;b2.textContent="Enviar"}}}
 // ---------- Textos legales (RGPD / LSSI). Revísalos con tu asesor y rellena EMPRESA arriba ----------
 const LEGAL=()=>`<p class="legal"><a class="lk" href="${CONDICIONES_PDF}" target="_blank" rel="noopener">Condiciones de pago único (PDF)</a> · <button class="lk" onclick="verLegal('condiciones')">Condiciones</button> · <button class="lk" onclick="verLegal('aviso')">Aviso legal</button> · <button class="lk" onclick="verLegal('privacidad')">Política de privacidad</button> · <button class="lk" onclick="verLegal('cookies')">Cookies</button></p>`;
-function verLegal(k,encima){const E=Object.fromEntries(Object.entries(EMPRESA).map(([a,b])=>[a,esc(b)]));const T={
+function verLegal(k,encima){const E=Object.fromEntries(Object.entries(EMPRESA).map(([a,b])=>[a,esc(b)]));if(!E.direccion)E.direccion="se facilita a petición escribiendo a "+E.correo;const T={
 condiciones:["Condiciones de contratación",`<h3>Propiedad de la web</h3><p><b>Pago único:</b> la web y sus contenidos son del cliente desde que la paga. Le entregamos sus archivos y accesos cuando lo pida.</p>
 <p><b>Renting:</b> la web pasa a ser propiedad del cliente al completar ${CUOTAS_PROPIEDAD} cuotas mensuales. Si se da de baja antes, puede quedársela pagando las cuotas que falten hasta ${CUOTAS_PROPIEDAD}; si no, la web se desactiva al terminar el mes pagado.</p>
 <h3>Dominio</h3><p>El dominio se registra siempre a nombre del cliente, en cualquier modalidad.</p>
 <h3>Permanencia</h3><p>Los planes de mantenimiento no tienen permanencia: puedes darte de baja cuando quieras desde «Servicios» y deja de cobrarse al terminar el periodo pagado.</p>
 <h3>Tokens</h3><p>Los tokens incluidos en cada plan son mensuales y no se acumulan. Los tokens de regalo de «Recomienda y gana» no caducan.</p>`],
-aviso:["Aviso legal",`<h3>Datos del titular</h3><p>En cumplimiento del artículo 10 de la Ley 34/2002 de Servicios de la Sociedad de la Información (LSSI-CE):</p><ul class="l"><li><b>Titular (persona física):</b> ${E.nombre}</li><li><b>NIF:</b> ${E.nif}</li><li><b>Domicilio:</b> ${E.direccion}</li><li><b>Correo electrónico:</b> ${E.correo}</li><li><b>Teléfono:</b> ${E.telefono}</li></ul>
+aviso:["Aviso legal",`<h3>Datos del titular</h3><p>En cumplimiento del artículo 10 de la Ley 34/2002 de Servicios de la Sociedad de la Información (LSSI-CE):</p><ul class="l"><li><b>Titular (particular, persona física):</b> ${E.nombre}</li><li><b>NIF:</b> ${E.nif}</li><li><b>Domicilio:</b> ${E.direccion}</li><li><b>Correo electrónico:</b> ${E.correo}</li><li><b>Teléfono:</b> ${E.telefono}</li></ul>
 <h3>Objeto</h3><p>Este sitio ofrece servicios de diseño y desarrollo web de pago único. Las condiciones de cada contratación están en las <a href="${CONDICIONES_PDF}" target="_blank" rel="noopener">Condiciones de Contratación de Servicios de Pago Único</a>.</p>
 <h3>Uso del sitio</h3><p>El uso del portal implica aceptar este aviso legal. Los contenidos son propiedad del titular y no se pueden copiar sin permiso.</p>`],
-privacidad:["Política de privacidad",`<h3>Responsable</h3><p>${E.nombre} (NIF ${E.nif}), ${E.direccion}. Contacto: ${E.correo}.</p>
+privacidad:["Política de privacidad",`<h3>Responsable</h3><p>${E.nombre} (NIF ${E.nif}). Domicilio: ${E.direccion}. Contacto: ${E.correo} · ${E.telefono}.</p>
 <h3>Qué datos tratamos</h3><p>Tu nombre, correo, teléfono (si lo das), el dominio de tu web, tus solicitudes y mensajes, y los archivos que nos envíes.</p>
 <h3>Para qué</h3><p>Para gestionar tu cuenta, atender tus solicitudes, prestarte los servicios contratados y enviarte avisos sobre ellos (por ejemplo, cuando el equipo te responde).</p>
 <h3>Base legal</h3><p>Tu consentimiento al crear la cuenta y la ejecución del contrato de servicios.</p>
