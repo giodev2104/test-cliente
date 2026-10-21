@@ -429,7 +429,7 @@ if(!tip){tip=document.createElement("div");tip.className="gtip";tip.setAttribute
 addEventListener("pointermove",pos,{passive:true});addEventListener("pointerdown",pos,{passive:true});addEventListener("scroll",()=>{if(tip)tip.style.opacity=0},{passive:true})})();
 // ---------- Vista previa interactiva: el visitante diseña su web (6 sectores × 5 estilos) durante 10 minutos ----------
 const PREVIEW_MIN=10,PV_KEY="webcare-preview",COLORES=["#e8590c","#c2185b","#2e7d32","#0e7490","#1d4ed8","#6d28d9","#7c5c2b","#111827"];
-const PV_SECTORES=[{k:"reformas",n:"Reformas y servicios",e:"🔨",w:1,est:"moderno"},{k:"estetica",n:"Salud y estética",e:"💅",w:1,est:"elegante"},{k:"hosteleria",n:"Restaurante y bar",e:"🍽️",w:0,est:"calido"},
+const PV_SECTORES=[{k:"reformas",n:"Reformas y servicios",e:"🔨",w:1,est:"moderno"},{k:"estetica",n:"Salud y estética",e:"💅",w:1,est:"elegante"},{k:"hosteleria",n:"Hostelería y negocio",e:"🍽️",w:0,est:"calido"},
 {k:"clinica",n:"Clínica",e:"🦷",w:1,est:"minimal"},{k:"tienda",n:"Tienda online",e:"🛍️",w:2,est:"oscuro"},{k:"profesional",n:"Despacho profesional",e:"⚖️",w:1,est:"elegante"}];
 const PV_ESTILOS=[{k:"moderno",n:"Moderno",d:"Limpio y actual",f:"'Plus Jakarta Sans',sans-serif",w:800,bg:"#fff",tx:"#0f172a",r:"10px"},{k:"elegante",n:"Elegante",d:"Serif y espacios amplios",f:"'Cormorant Garamond',serif",w:500,bg:"#fbf9f5",tx:"#1d1a16",r:"0"},
 {k:"minimal",n:"Minimal",d:"Blanco, negro y rejilla",f:"'Space Grotesk',sans-serif",w:500,bg:"#fff",tx:"#0a0a0a",r:"0"},{k:"oscuro",n:"Oscuro",d:"Atrevido y con brillo",f:"'Archivo Black',sans-serif",w:400,bg:"#09090d",tx:"#f4f4f7",r:"99px"},
@@ -881,7 +881,7 @@ const PD=[{n:"Mantenimiento Esencial",c:"Esencial",p:"19 €",a:"190 €/año",f
 // 3. Plantillas pre-diseñadas optimizadas por sector
 const SECT=[{k:"reformas",w:1,e:"🔨",n:"Servicios & Reformas",t:"Enfoque en galería de trabajos, solicitud rápida de presupuesto y bloques de testimonios con reseñas."},
 {k:"estetica",w:1,e:"💅",n:"Salud & Estética",t:"Estilo limpio y elegante, carta interactiva de tratamientos e integración directa para cita previa."},
-{k:"hosteleria",w:0,e:"🍽️",n:"Hostelería & Comercio",t:"Menú digital QR integrado, botón de llamadas rápidas y enlace directo a Google Maps e Instagram."}];
+{k:"tienda",w:2,e:"🛍️",n:"Tienda online",t:"Catálogo de productos, carrito y pago online seguro para vender las 24 horas, con gestión sencilla de pedidos."}];
 // 4. Modelos de financiación y renting web (suscripción todo en uno)
 const RENT=[{n:"Renting Plan Lanzamiento",p:"29 €",f:["Desarrollo Landing Page","Mantenimiento Esencial","Alojamiento Hosting & Dominio"]},
 {n:"Renting Plan Negocio",p:"49 €",f:["Desarrollo Web Corporativa 5 pág.","Mantenimiento Esencial","Alojamiento & Dominio"]},
