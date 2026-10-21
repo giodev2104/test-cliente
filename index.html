@@ -95,6 +95,15 @@ s.antes{display:block;margin-top:8px;color:var(--mu);font-size:15px;font-weight:
 .fases{list-style:none;margin:12px 0 4px;padding:0;counter-reset:f}.fases li{position:relative;padding:0 0 14px 34px;counter-increment:f}.fases li:before{content:counter(f);position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;background:var(--bg);border:1px solid var(--bd);color:var(--mu)}
 .fases li:after{content:"";position:absolute;left:11.5px;top:26px;bottom:2px;width:1px;background:var(--bd)}.fases li:last-child:after{display:none}.fases li>b{display:block;font-size:14.5px}.fases li>div{font-size:13.5px;color:var(--mu);line-height:1.5;margin-top:2px}
 .fases li.hecho:before{content:"✓";background:#16a34a;border-color:#16a34a;color:#fff}.fases li.ahora:before{background:var(--ac);border-color:var(--ac);color:#fff}.fases li.ahora>b{color:var(--ac)}.fases li>div .btn{margin:8px 6px 0 0;padding:8px 14px;font-size:13.5px}.fases li:not(.ahora):not(.hecho){opacity:.6}
+#ia-btn{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:54;display:flex;align-items:center;gap:8px;padding:12px 16px;border:0;border-radius:99px;background:var(--grad,var(--ac));color:#fff;font-weight:700;font-size:14.5px;cursor:pointer;box-shadow:0 14px 34px -12px rgba(124,139,255,.75)}#ia-btn:hover{transform:translateY(-2px)}
+#ia{position:fixed;right:18px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:56;width:min(380px,calc(100vw - 24px));height:min(560px,calc(100vh - 120px));display:none;flex-direction:column;background:var(--sf2,var(--sf));border:1px solid var(--bd2,var(--bd));border-radius:20px;box-shadow:0 30px 70px -24px rgba(0,0,0,.85);overflow:hidden}
+#ia.on{display:flex}.ia-cab{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--bd)}.ia-cab b{flex:1;font-size:15px}.ia-cab small{display:block;font-weight:400;color:var(--mu);font-size:12px}
+.ia-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}.ia-m{max-width:88%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.5;overflow-wrap:anywhere}
+.ia-m.bot{align-self:flex-start;background:var(--bg);border:1px solid var(--bd);border-bottom-left-radius:6px}.ia-m.yo{align-self:flex-end;background:var(--ac);color:#fff;border-bottom-right-radius:6px}.ia-m.err{border-color:rgba(229,57,53,.5)}
+.ia-sug{display:flex;flex-wrap:wrap;gap:6px}.ia-sug button{border:1px solid var(--bd);background:transparent;color:var(--tx);border-radius:99px;padding:6px 11px;font-size:12.5px;cursor:pointer}.ia-sug button:hover{border-color:var(--ac)}
+.ia-pie{border-top:1px solid var(--bd);padding:10px}.ia-pie form{display:flex;gap:8px}.ia-pie input{flex:1;min-width:0}.ia-pie small{display:block;margin-top:6px;font-size:11.5px;color:var(--mu);text-align:center}
+.ia-pun{display:inline-flex;gap:4px}.ia-pun i{width:6px;height:6px;border-radius:50%;background:var(--mu);animation:iap 1s infinite}.ia-pun i:nth-child(2){animation-delay:.15s}.ia-pun i:nth-child(3){animation-delay:.3s}@keyframes iap{50%{opacity:.25}}
+@media(max-width:520px){#ia{right:0;left:0;bottom:0;width:100%;height:calc(100vh - 60px);border-radius:20px 20px 0 0}#ia-btn .ia-t{display:none}#ia-btn{padding:14px;font-size:20px}}
 .ac-res{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:12px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--bd)}.ac-res b{font-size:18px;white-space:nowrap}
 .ac-info{margin:12px 0 4px;padding-left:18px;font-size:13.5px;color:var(--mu);line-height:1.5}.ac-info li{margin:3px 0}.ac-chk{margin-top:12px;font-size:14px;line-height:1.45}.ac-chk a,.chk a{color:var(--ac);text-decoration:underline}
 #ac-si:disabled,.btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.4)}
@@ -1049,6 +1058,30 @@ if(reg)reg.showNotification(titulo,{body:cuerpo,icon:"icon-192.png",badge:"icon-
 if("serviceWorker" in navigator&&location.protocol=="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 function openLg(){document.getElementById("lg").style.display="grid"}
 function go(k){cur=k;render(true);scrollTo(0,0)}
+// ---------- Asistente con IA (función «asistente»): resuelve dudas y deriva al equipo lo que no sabe ----------
+const IA_KEY="webcare-ia",IA_SUG=["¿Cuánto cuesta una web?","¿Cómo se paga?","¿Qué incluye la garantía?","Quiero una tienda online"];
+let IA=(()=>{try{return JSON.parse(sessionStorage.getItem(IA_KEY))||[]}catch(_){return []}})(),iaEsperando=false;
+const iaGuardar=()=>{try{sessionStorage.setItem(IA_KEY,JSON.stringify(IA.slice(-30)))}catch(_){}};
+const iaTxt=t=>esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br>");
+function iaPintar(){const el=document.getElementById("ia-msgs");if(!el)return;
+el.innerHTML=`<div class="ia-m bot">¡Hola${auth&&U.n?", "+esc(U.n.split(" ")[0]):""}! 👋 Soy el asistente de Webcare. Pregúntame lo que quieras sobre nuestras webs, precios o cómo trabajamos.</div>`
++(IA.length?"":`<div class="ia-sug">${IA_SUG.map(q=>`<button type="button" onclick="iaEnviar(this.textContent)">${esc(q)}</button>`).join("")}</div>`)
++IA.map(m=>`<div class="ia-m ${m.role=="user"?"yo":"bot"}${m.err?" err":""}">${m.role=="user"?esc(m.content).replace(/\n/g,"<br>"):iaTxt(m.content)}</div>`).join("")
++(iaEsperando?`<div class="ia-m bot" aria-label="Escribiendo"><span class="ia-pun"><i></i><i></i><i></i></span></div>`:"");el.scrollTop=el.scrollHeight}
+function abrirIA(){let p=document.getElementById("ia");if(!p){p=document.createElement("section");p.id="ia";p.setAttribute("role","dialog");p.setAttribute("aria-label","Asistente de Webcare");
+p.innerHTML=`<div class="ia-cab"><span style="font-size:22px" aria-hidden="true">🤖</span><b>Asistente Webcare<small>Respuestas al momento con IA</small></b><button class="x" style="position:static" onclick="cerrarIA()" aria-label="Cerrar">×</button></div><div class="ia-msgs" id="ia-msgs" aria-live="polite"></div>
+<div class="ia-pie"><form onsubmit="event.preventDefault();iaEnviar(document.getElementById('ia-in').value)"><input id="ia-in" maxlength="1500" placeholder="Escribe tu pregunta…" autocomplete="off" aria-label="Tu pregunta"><button class="btn" id="ia-env" style="padding:10px 14px">Enviar</button></form><small>Asistente con IA: puede equivocarse. <button type="button" class="lk" onclick="iaPersona()">Hablar con una persona</button></small></div>`;document.body.appendChild(p)}
+p.classList.add("on");document.getElementById("ia-btn").setAttribute("aria-expanded","true");iaPintar();setTimeout(()=>document.getElementById("ia-in").focus(),50)}
+function cerrarIA(){const p=document.getElementById("ia");if(p)p.classList.remove("on");const b=document.getElementById("ia-btn");if(b)b.setAttribute("aria-expanded","false")}
+function iaPersona(){cerrarIA();if(auth)go(lockeado()?"Chat":"Soporte");else openLg()}
+async function iaEnviar(t){t=String(t||"").trim();if(!t||iaEsperando)return;const inp=document.getElementById("ia-in");if(inp)inp.value="";
+IA.push({role:"user",content:t.slice(0,1500)});iaEsperando=true;iaGuardar();iaPintar();
+try{const r=await fn("asistente",{mensajes:IA.filter(m=>!m.err).map(({role,content})=>({role,content}))});IA.push({role:"assistant",content:r.respuesta})}
+catch(err){IA.push({role:"assistant",content:err.message||"No se pudo responder. Inténtalo de nuevo.",err:true})}
+iaEsperando=false;iaGuardar();iaPintar();const i=document.getElementById("ia-in");if(i)i.focus()}
+function botonIA(){if(document.getElementById("ia-btn"))return;const b=document.createElement("button");b.id="ia-btn";b.type="button";b.setAttribute("aria-haspopup","dialog");b.setAttribute("aria-expanded","false");
+b.innerHTML='<span aria-hidden="true">🤖</span><span class="ia-t">¿Dudas? Pregúntame</span>';b.setAttribute("aria-label","Asistente: ¿dudas? Pregúntame");b.onclick=()=>document.getElementById("ia")?.classList.contains("on")?cerrarIA():abrirIA();document.body.appendChild(b)}
+addEventListener("keydown",e=>{if(e.key==="Escape"&&document.getElementById("ia")?.classList.contains("on"))cerrarIA()});
 // fresh = cambio de vista; si no, se conserva lo que se esté escribiendo (las novedades llegan solas)
 function render(fresh){const keep={};if(!fresh)["ci","tx","ty","ur","vc","fq","pf-n","pf-t","pf-d","pc-a","pc-n","pc-r","bv-s","bv-u","bv-url","bv-c","bv-n","bj-m","bj-t","vp"].forEach(k=>{const e=document.getElementById(k);if(e)keep[k]=[e.value,document.activeElement==e]});
 const lk=lockeado();document.body.classList.toggle("pub",!auth);document.body.classList.toggle("puntual",auth&&perfil()=="puntual");if(!auth)cur="Inicio";const NV=navDe();if(auth&&!NV.includes(cur)&&cur!="Solicitud")cur=NV[0];document.getElementById("nav").innerHTML=NV.map(k=>`<button class="${k==cur||(cur=="Solicitud"&&k==(perfil()=="puntual"?"Mis pedidos":"Soporte"))?"on":""}" onclick="go('${k}')">${ICN[k]||""}<span>${k}</span>${lk&&k!="Chat"&&k!="Mi cuenta"?'<em>Bloqueado</em>':k=="Soporte"?(sinLeerTickets()?'<em class="nuevo" title="Mensajes sin leer">'+sinLeerTickets()+'</em>':'<em>'+tickets().filter(t=>!CERR.includes(t.estado)).length+'</em>'):k=="Chat"&&lead()&&noLeidos(lead().id)?'<em class="nuevo">'+noLeidos(lead().id)+'</em>':k=="Mis pedidos"&&sinLeerPedidos()?'<em class="nuevo">'+sinLeerPedidos()+'</em>':""}</button>`).join("");document.getElementById("v").style.maxWidth=cur=="Inicio"?"1160px":"";document.getElementById("v").innerHTML=lk&&cur!="Chat"&&cur!="Mi cuenta"?LOCKED(V[cur]()):V[cur]();const cb=document.getElementById("cb");if(cb)cb.scrollTop=cb.scrollHeight;document.querySelector(".st").innerHTML=lk?'<span class="dot w"></span>Proyecto en preparación':'<span class="dot"></span>Tu web está online';
@@ -1056,7 +1089,7 @@ let vb=document.getElementById("vistab");if(VISTA&&auth){if(!vb){vb=document.cre
 const us=document.getElementById("usr");if(us)us.innerHTML=auth&&U.nc?`<span class="av">${esc(String(U.nc).trim().charAt(0).toUpperCase())}</span><span style="min-width:0"><b>${esc(U.nc)}</b><small>${U.d||esc(U.email||"")}</small></span>`:"";
 for(const k in keep){const e=document.getElementById(k);if(e){e.value=keep[k][0];if(keep[k][1])e.focus()}}}
 render();avisoCookies();
-cargarCatalogo();
+cargarCatalogo();botonIA();
 {const q=new URLSearchParams(location.search),rec=q.get("recuperar");
 if(q.get("ref")){guardarRef(q.get("ref"));history.replaceState(null,"",location.pathname+location.hash);toast("Te ha recomendado un cliente de Webcare. ¡Bienvenido!",4000)}
 if(q.get("entrar")){const t=q.get("entrar");history.replaceState(null,"",location.pathname+location.hash);if(db)entrarConEnlace(t)}
