@@ -1058,26 +1058,60 @@ if(reg)reg.showNotification(titulo,{body:cuerpo,icon:"icon-192.png",badge:"icon-
 if("serviceWorker" in navigator&&location.protocol=="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 function openLg(){document.getElementById("lg").style.display="grid"}
 function go(k){cur=k;render(true);scrollTo(0,0)}
-// ---------- Asistente con IA (función «asistente»): resuelve dudas y deriva al equipo lo que no sabe ----------
+// ---------- Asistente automático (gratis, sin IA ni servidor): responde con una base de respuestas y los precios del catálogo ----------
 const IA_KEY="webcare-ia",IA_SUG=["¿Cuánto cuesta una web?","¿Cómo se paga?","¿Qué incluye la garantía?","Quiero una tienda online"];
 let IA=(()=>{try{return JSON.parse(sessionStorage.getItem(IA_KEY))||[]}catch(_){return []}})(),iaEsperando=false;
 const iaGuardar=()=>{try{sessionStorage.setItem(IA_KEY,JSON.stringify(IA.slice(-30)))}catch(_){}};
 const iaTxt=t=>esc(t).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>").replace(/\n/g,"<br>");
+const iaNorm=t=>String(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9%€ ]+/g," ");
+// Botones de acción dentro de las respuestas
+const IA_ACC={planes:["Ver planes de web",()=>auth?elegirServicio("w"):irSec("precios")],presu:["Pedir presupuesto",()=>auth?elegirServicio("w"):startReg("w",1)],
+preview:["🎨 Probar la vista previa",()=>abrirPreview("reformas")],extras:["Ver extras y packs",()=>auth?elegirServicio("x"):irSec("extras")],
+persona:["💬 Hablar con una persona",()=>iaPersona()],cuenta:["Entrar en mi cuenta",()=>openLg()],condic:["Ver condiciones (PDF)",()=>open(CONDICIONES_PDF,"_blank","noopener")]};
+const iaPrecio=x=>x.po?x.p+" (antes "+x.po+", oferta −"+x.of+" %)":x.p;
+const iaLista=l=>l.filter(x=>!x.off).map(x=>"• **"+(x.n||x.k)+"**: "+iaPrecio(x)).join("\n");
+const IA_RELLENO=["quiero","necesito","haceis","hacen","teneis","tienen","para","como","que","una","uno","unos","con","los","las","del","por","mas","web","pagina","mi","me","puedo","podeis","seria","algo","tambien","precio","cuanto","cuesta"];
+// Base de respuestas: palabras clave (sin tildes) → respuesta y botones. Gana la que más palabras coincide.
+const IA_BASE=[
+{p:.5,k:["hola","buenas","buenos dias","buenas tardes","hey"],r:()=>"¡Hola! ¿En qué te ayudo? Puedo contarte precios, cómo se paga, qué incluye cada web o cómo empezar.",a:["planes","persona"]},
+{p:.5,k:["gracias","genial","perfecto","vale","ok"],r:()=>"¡A ti! Si te surge cualquier otra duda, aquí estoy. 😊",a:[]},
+{p:.4,k:["precio","precios","cuesta","cuanto","cuanto vale","tarifa","coste","costo","barato","caro","presupuesto","web cuesta"],r:()=>"Nuestras webs son de **pago único** ("+PRECIO_FINAL+"):\n"+iaLista(WP)+"\n\nEl rango orienta: antes de empezar te damos el **precio cerrado** exacto por el chat.",a:["presu","planes"]},
+{k:["pago","pagar","pagos","anticipo","50","fraccion","plazos","mitad","como se paga","tarjeta","bizum","transferencia"],r:()=>"Una web se paga en dos partes:\n• **50 %** al empezar.\n• La ves en un servidor de pruebas y tienes **2 rondas de cambios**.\n• **50 %** restante al aprobar el diseño.\n• Te entregamos los archivos y la publicamos.\n\nPacks y extras se pagan al contratarlos. Pago seguro con tarjeta (Stripe); también aceptamos transferencia o Bizum hablándolo con el equipo.",a:["presu","condic"]},
+{k:["garantia","bug","error","errores","fallo","falla","roto","no funciona"],r:()=>"Tienes **30 días de garantía** desde la publicación (con la web pagada al 100 %): arreglamos sin coste cualquier error o fallo técnico. Si ya eres cliente y algo falla, escríbenos y lo vemos.",a:["persona"]},
+{k:["revision","revisiones","cambios","cambiar","modificar","retoques","correcciones"],r:()=>"Incluimos **2 rondas de revisión** sobre la demo para ajustar textos, colores o diseño. Los cambios fuera de lo pactado se presupuestan aparte, siempre con tu aprobación.",a:["condic"]},
+{k:["tarda","tardais","tiempo","plazo","cuando","dias","semanas","rapido","urgente","entrega"],r:()=>"Depende del tamaño de la web y de lo rápido que nos pases tus textos e imágenes. Al enviarte el presupuesto cerrado te indicamos la fecha de entrega.",a:["presu","persona"]},
+{k:["tienda","ecommerce","vender","venta online","carrito","productos","catalogo online","woocommerce"],r:()=>{const t=WP.find(x=>/ecommerce/i.test(x.n)),k=PK.find(x=>/ecommerce/i.test(x.n));return "Para vender online tienes el **"+(t?t.n+"** ("+iaPrecio(t)+")":"plan Ecommerce**")+", con carrito y pasarela de pago."+(k&&!k.off?"\nY si quieres más, el **"+k.n+"** ("+iaPrecio(k)+") añade pasarela extra, carga de productos y chatbot.":"")},a:["presu","planes"]},
+{k:["reserva","reservas","citas","cita","agenda","turnos"],r:()=>{const t=WP.find(x=>/citas/i.test(x.n));return "Para reservas o citas online tienes el **"+(t?t.n+"** ("+iaPrecio(t)+")":"plan Ecommerce / Citas**")+": tus clientes eligen día y hora desde la web."},a:["presu","preview"]},
+{k:["landing","una pagina","one page","onepage","pagina sencilla","basica","simple"],r:()=>{const t=WP[0];return "Para una página sencilla, el **"+t.n+"** ("+iaPrecio(t)+"): "+(t.s||"landing de una página")+", ideal para presentar tu negocio o un servicio."},a:["presu","planes"]},
+{k:["mantenimiento","hosting","alojamiento","renting","cuota","mensual","suscripcion","financiar","financiacion","al mes","alquiler"],r:()=>"Los planes de **mantenimiento mensual, renting y financiación** llegarán **muy pronto**. Ahora mismo solo trabajamos con **pago único**: pagas una vez y la web es tuya, sin cuotas ni permanencia.",a:["planes"]},
+{k:["dominio","propiedad","mia","mio","propietario","codigo","archivos"],r:()=>"La web es **tuya** en cuanto completas el pago y te entregamos todos los archivos. El dominio siempre se registra **a tu nombre**.",a:["condic"]},
+{k:["iva","impuestos","factura","facturas"],r:()=>"Los precios que ves son con **"+PRECIO_FINAL+"**. Para cualquier duda sobre facturas, escribe al equipo.",a:["persona"]},
+{k:["extra","extras","pack","packs","logo","seo","google","maps","correo","email","chatbot","whatsapp","multidioma","idiomas","textos","copywriting","fotos","imagenes","reseñas","resenas","legal","rgpd","cookies"],r:t=>{const q=iaNorm(t).split(" ").filter(w=>w.length>2&&!IA_RELLENO.includes(w)),ok=x=>!x.off&&(SUSCRIPCIONES_ACTIVAS||!exRec(x)),
+porNombre=EX.filter(x=>ok(x)&&q.some(w=>iaNorm(x.k).split(" ").includes(w))),hit=(porNombre.length?porNombre:EX.filter(x=>ok(x)&&q.some(w=>w.length>3&&iaNorm(x.t).split(" ").includes(w)))).slice(0,4);
+return hit.length?"Esto te puede interesar (pago único):\n"+hit.map(x=>"• **"+x.k+"**: "+iaPrecio(x)).join("\n"):"Tenemos servicios extra (logo, textos, SEO, Google Maps, correo corporativo, chatbot…) y packs que combinan varios con descuento:\n"+iaLista(PK)},a:["extras"]},
+{k:["vista previa","preview","demo","probar","prueba","ejemplo","ejemplos","diseño","diseno","plantilla","plantillas","como quedaria"],r:()=>"Puedes **diseñar gratis una vista previa** de tu web durante 10 minutos: eliges sector, estilo, colores y textos y la ves al momento.",a:["preview"]},
+{k:["persona","humano","hablar","contacto","contactar","telefono","llamar","equipo","atencion","agente"],r:()=>auth?"Claro: escribe al equipo por el chat del portal y te responderá una persona.":"Claro: crea tu cuenta gratis (o entra si ya la tienes) y escríbenos por el chat. Te responde una persona del equipo.",a:["persona"]},
+{k:["cuenta","contraseña","contrasena","entrar","login","acceder","registrar","registro","olvide"],r:()=>auth?"Ya has entrado en tu cuenta. 🙂 Si tienes problemas con ella, escribe al equipo.":"Entra con «Ya soy cliente». Si olvidaste la contraseña, allí mismo puedes recuperarla o pedir un enlace para entrar sin contraseña.",a:auth?["persona"]:["cuenta"]},
+{k:["token","tokens"],r:()=>"Los **tokens** sirven para pagar algunos extras sin tarjeta. Los consigues, por ejemplo, recomendándonos a otros clientes (Recomienda y gana).",a:["extras"]}];
+function iaResponder(t){const n=" "+iaNorm(t)+" ";let mejor=null,pts=0;
+for(const it of IA_BASE){const c=it.k.reduce((a,w)=>a+(n.includes(" "+iaNorm(w)+" ")||(w.length>4&&n.includes(iaNorm(w)))?1:0),0)*(it.p||1);if(c>pts){pts=c;mejor=it}}
+if(!mejor)return {txt:"No estoy seguro de haberte entendido. 🤔 Puedes preguntarme por precios, cómo se paga, garantía, tiendas online, reservas o extras… o hablar directamente con una persona del equipo.",acc:["planes","persona"]};
+return {txt:mejor.r(t),acc:mejor.a}}
+function iaAccion(k){const a=IA_ACC[k];if(!a)return;if(k!="persona")cerrarIA();a[1]()}
 function iaPintar(){const el=document.getElementById("ia-msgs");if(!el)return;
-el.innerHTML=`<div class="ia-m bot">¡Hola${auth&&U.n?", "+esc(U.n.split(" ")[0]):""}! 👋 Soy el asistente de Webcare. Pregúntame lo que quieras sobre nuestras webs, precios o cómo trabajamos.</div>`
+el.innerHTML=`<div class="ia-m bot">¡Hola${auth&&U.n?", "+esc(U.n.split(" ")[0]):""}! 👋 Soy el asistente de Webcare. Pregúntame por precios, cómo se paga, qué incluye cada web o cómo empezar.</div>`
 +(IA.length?"":`<div class="ia-sug">${IA_SUG.map(q=>`<button type="button" onclick="iaEnviar(this.textContent)">${esc(q)}</button>`).join("")}</div>`)
-+IA.map(m=>`<div class="ia-m ${m.role=="user"?"yo":"bot"}${m.err?" err":""}">${m.role=="user"?esc(m.content).replace(/\n/g,"<br>"):iaTxt(m.content)}</div>`).join("")
++IA.map(m=>`<div class="ia-m ${m.role=="user"?"yo":"bot"}${m.err?" err":""}">${m.role=="user"?esc(m.content).replace(/\n/g,"<br>"):iaTxt(m.content)}${(m.acc||[]).length?`<div class="ia-sug" style="margin-top:8px">${m.acc.filter(k=>IA_ACC[k]).map(k=>`<button type="button" onclick="iaAccion('${k}')">${esc(IA_ACC[k][0])}</button>`).join("")}</div>`:""}</div>`).join("")
 +(iaEsperando?`<div class="ia-m bot" aria-label="Escribiendo"><span class="ia-pun"><i></i><i></i><i></i></span></div>`:"");el.scrollTop=el.scrollHeight}
 function abrirIA(){let p=document.getElementById("ia");if(!p){p=document.createElement("section");p.id="ia";p.setAttribute("role","dialog");p.setAttribute("aria-label","Asistente de Webcare");
-p.innerHTML=`<div class="ia-cab"><span style="font-size:22px" aria-hidden="true">🤖</span><b>Asistente Webcare<small>Respuestas al momento con IA</small></b><button class="x" style="position:static" onclick="cerrarIA()" aria-label="Cerrar">×</button></div><div class="ia-msgs" id="ia-msgs" aria-live="polite"></div>
-<div class="ia-pie"><form onsubmit="event.preventDefault();iaEnviar(document.getElementById('ia-in').value)"><input id="ia-in" maxlength="1500" placeholder="Escribe tu pregunta…" autocomplete="off" aria-label="Tu pregunta"><button class="btn" id="ia-env" style="padding:10px 14px">Enviar</button></form><small>Asistente con IA: puede equivocarse. <button type="button" class="lk" onclick="iaPersona()">Hablar con una persona</button></small></div>`;document.body.appendChild(p)}
+p.innerHTML=`<div class="ia-cab"><span style="font-size:22px" aria-hidden="true">🤖</span><b>Asistente Webcare<small>Respuestas al momento</small></b><button class="x" style="position:static" onclick="cerrarIA()" aria-label="Cerrar">×</button></div><div class="ia-msgs" id="ia-msgs" aria-live="polite"></div>
+<div class="ia-pie"><form onsubmit="event.preventDefault();iaEnviar(document.getElementById('ia-in').value)"><input id="ia-in" maxlength="1500" placeholder="Escribe tu pregunta…" autocomplete="off" aria-label="Tu pregunta"><button class="btn" id="ia-env" style="padding:10px 14px">Enviar</button></form><small>Respuestas automáticas. <button type="button" class="lk" onclick="iaPersona()">Hablar con una persona</button></small></div>`;document.body.appendChild(p)}
 p.classList.add("on");document.getElementById("ia-btn").setAttribute("aria-expanded","true");iaPintar();setTimeout(()=>document.getElementById("ia-in").focus(),50)}
 function cerrarIA(){const p=document.getElementById("ia");if(p)p.classList.remove("on");const b=document.getElementById("ia-btn");if(b)b.setAttribute("aria-expanded","false")}
 function iaPersona(){cerrarIA();if(auth)go(lockeado()?"Chat":"Soporte");else openLg()}
 async function iaEnviar(t){t=String(t||"").trim();if(!t||iaEsperando)return;const inp=document.getElementById("ia-in");if(inp)inp.value="";
 IA.push({role:"user",content:t.slice(0,1500)});iaEsperando=true;iaGuardar();iaPintar();
-try{const r=await fn("asistente",{mensajes:IA.filter(m=>!m.err).map(({role,content})=>({role,content}))});IA.push({role:"assistant",content:r.respuesta})}
-catch(err){IA.push({role:"assistant",content:err.message||"No se pudo responder. Inténtalo de nuevo.",err:true})}
+await new Promise(r=>setTimeout(r,450));const r=iaResponder(t);IA.push({role:"assistant",content:r.txt,acc:r.acc});
 iaEsperando=false;iaGuardar();iaPintar();const i=document.getElementById("ia-in");if(i)i.focus()}
 function botonIA(){if(document.getElementById("ia-btn"))return;const b=document.createElement("button");b.id="ia-btn";b.type="button";b.setAttribute("aria-haspopup","dialog");b.setAttribute("aria-expanded","false");
 b.innerHTML='<span aria-hidden="true">🤖</span><span class="ia-t">¿Dudas? Pregúntame</span>';b.setAttribute("aria-label","Asistente: ¿dudas? Pregúntame");b.onclick=()=>document.getElementById("ia")?.classList.contains("on")?cerrarIA():abrirIA();document.body.appendChild(b)}
