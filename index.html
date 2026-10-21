@@ -1021,7 +1021,7 @@ const precioMinWeb=()=>Math.min(...WP.filter(x=>!x.off).map(x=>precioBase(x.p)).
 const DEMO={n:"Demo gratuita",pr:"Gratis y sin compromiso",f:["Te preparamos una primera versión de tu web","Con tu sector, tus colores y tus textos","Sin pagar nada ni compromiso de contratar","La revisas con nosotros por el chat"]};
 async function pedirDemo(){if(VISTA)return toast("Estás viendo el portal como el cliente.");if(!auth)return startReg("demo",0);
 try{const r=await rpc("cliente_pedir_demo",{p_token:token});if(!CASOS.some(x=>x.id==r.caso.id))CASOS.unshift(r.caso);if(!r.repetido)avisarEquipo(r.caso.id);
-toast(r.repetido?"Ya nos pediste tu demo: seguimos con ella en el chat.":"¡Demo pedida! Cuéntanos por el chat cómo quieres tu web.",5000);verCaso(r.caso.id)}catch(err){toast(err.message,5000)}}
+toast(r.repetido?"Ya nos pediste tu demo: seguimos con ella en el chat.":"¡Demo pedida! Cuéntanos por el chat cómo quieres tu web.",5000);irChatDemo()}catch(err){toast(err.message,5000)}}
 function contratar(t,i){if(bloqueada(t,i))return pronto();if(!auth)return startReg(t,i);pedirServicio(t,i)}
 let REG={};
 function startReg(t,i){if(bloqueada(t,i))return pronto();closePlan();REG={t,i};const it=t=="demo"?DEMO:ITEM(t,i),d={f:it.f},nm=it.n,pr=it.pr,r=document.getElementById("rg");
