@@ -174,6 +174,23 @@ table.hist{width:100%;border-collapse:collapse;font-size:14px}table.hist th,tabl
 .mock::before{content:"";position:absolute;right:-20%;top:-35%;width:75%;height:80%;background:radial-gradient(circle,rgba(124,140,255,.35),transparent 65%);pointer-events:none}
 .mock-top{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid var(--bd)}.mock-top i{width:10px;height:10px;border-radius:50%;background:#2A3456}.mock-top span{margin-left:10px;font-size:12px;color:var(--mu)}
 .mock-b{padding:18px;display:grid;gap:12px;position:relative}
+.ba-et{margin-left:auto;font-style:normal;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);border:1px solid var(--bd);border-radius:99px;padding:2px 9px}.ba-et.nw{margin-left:6px;color:#fff;border-color:transparent;background:var(--btn)}
+.ba-v{position:relative;height:360px;overflow:hidden;user-select:none}.ba-r{position:absolute;left:0;right:0;bottom:0;top:42px;width:100%;height:calc(100% - 42px);margin:0;opacity:0;cursor:ew-resize;z-index:3}
+.ba-new,.ba-old{position:absolute;inset:0;padding:16px 18px;overflow:hidden}
+.ba-old{clip-path:inset(0 calc(100% - var(--x)) 0 0);background:#ece6d6;color:#333;font-family:"Times New Roman",Times,serif;padding:0}
+.ba-lin{position:absolute;top:0;bottom:0;left:var(--x);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 14px rgba(124,140,255,.9);z-index:2;pointer-events:none}
+.ba-lin span{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:var(--btn);border:2px solid #fff;color:#fff;font-weight:800;font-size:15px;display:grid;place-items:center;box-shadow:0 8px 22px -6px rgba(0,0,0,.7);letter-spacing:-1px}
+.mock.ba:focus-within .ba-lin span{outline:3px solid var(--cy);outline-offset:3px}
+.bn-nav{display:flex;align-items:center;gap:12px;font-size:11px;color:var(--mu)}.bn-nav b{color:var(--tx);font-size:13px;margin-right:auto;display:flex;align-items:center;gap:6px}.bn-nav b i{width:14px;height:14px;border-radius:5px;background:var(--grad)}.bn-nav u,.bn-hero u{text-decoration:none;color:#fff;background:var(--btn);border-radius:8px;padding:5px 11px;font-weight:700}
+.bn-hero{margin-top:26px;text-align:center}.bn-hero p{margin-left:auto!important;margin-right:auto!important}.bn-hero div{justify-content:center}.bn-rev{text-align:center}.bn-hero small{font-size:10px;color:var(--cy)}.bn-hero h4{font-family:var(--hd);font-size:25px;line-height:1.05;margin:6px 0 8px;color:var(--tx);letter-spacing:-.02em}.bn-hero h4 span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}.bn-hero p{font-size:11.5px;color:var(--mu);margin:0 0 12px;max-width:290px}.bn-hero div{display:flex;gap:8px;font-size:11px}.bn-hero s{text-decoration:none;border:1px solid var(--bd2);border-radius:8px;padding:5px 11px;color:var(--tx)}
+.bn-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}.bn-cards div{background:rgba(255,255,255,.04);border:1px solid var(--bd);border-radius:12px;padding:10px}.bn-cards i{font-style:normal;font-size:18px;display:block}.bn-cards b{font-size:12px;display:block;margin-top:4px;color:var(--tx)}.bn-cards small{font-size:10.5px;color:var(--mu)}
+.bn-rev{margin-top:14px;font-size:11px;color:#FBBF24}.bn-rev b{color:var(--tx)}
+.bo-top{background:linear-gradient(#9aa3ad,#6b737c);color:#ffffe0;font-weight:bold;font-size:20px;text-align:center;padding:12px;border-bottom:3px ridge #c0c0c0;letter-spacing:1px}
+.bo-nav{background:#d4d0c8;font-size:12px;text-align:center;padding:5px;border-bottom:1px solid #999}.bo-nav a{color:#00e;text-decoration:underline}
+.bo-body{padding:12px 16px;font-size:12.5px}.bo-body p{margin:0 0 8px}.bo-h{color:#c00;font-weight:bold;font-size:15px;text-align:center}
+.bo-body table{border:2px outset #ccc;border-collapse:separate;width:100%;font-size:12px;background:#fff;text-align:center;margin:6px 0 10px}.bo-body td{border:1px inset #ccc;padding:5px}
+.bo-c{text-align:center;font-size:11px}.bo-c span{background:#000;color:#0f0;font-family:monospace;padding:1px 4px}.bo-f{font-size:9.5px;color:#777;text-align:center;font-style:italic}
+@media(max-width:520px){.ba-v{height:330px}.bn-hero h4{font-size:21px}}
 .mrow{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.03);border:1px solid var(--bd);border-radius:14px;padding:14px 16px}
 .ok-pill{display:inline-block;margin-top:6px;font-size:12px;color:var(--ok);background:rgba(52,211,153,.1);border-radius:99px;padding:2px 9px}
 .ring{--p:90;width:68px;height:68px;border-radius:50%;background:conic-gradient(var(--cy) 0,var(--ac) calc(var(--p)*1%),rgba(255,255,255,.09) 0);display:grid;place-items:center;flex:none;position:relative}
@@ -854,10 +871,18 @@ return `<section class="hx"><div>
 <p class="lead">Webs, landing pages y desarrollos a medida con <strong>un único pago y precio cerrado</strong>. Máxima velocidad, diseño atractivo y optimización para captar clientes. Sin cuotas ni permanencia.</p>
 <div class="cta"><button class="btn xl" onclick="pedirDemo()">Quiero mi demo gratuita</button></div><p class="desde">Tu web desde <strong>${eur(precioMinWeb())}</strong> · pago único, ${PRECIO_FINAL}</p>
 <ul class="trust"><li>Demo gratis y sin compromiso</li><li>Sin cuotas: la web es tuya</li><li>Precio cerrado antes de empezar</li></ul></div>
-<div class="mock" aria-hidden="true"><div class="mock-top"><i></i><i></i><i></i><span>panel.velority</span></div><div class="mock-b">
-<div class="mrow"><div class="ring" style="--p:96"><div><b>96</b><small>/100</small></div></div><div><small class="mu">panaderialuz.es</small><b style="display:block;font-size:18px">Todo en orden</b><span class="ok-pill">● Online · SSL activo</span></div></div>
-<div class="mrow"><div style="flex:1"><small class="mu">Visitas desde Google</small><b style="display:block;font-size:22px">▲ 18 %</b></div><div class="bars"><i style="height:35%"></i><i style="height:48%"></i><i style="height:42%"></i><i style="height:60%"></i><i style="height:72%"></i><i style="height:88%"></i></div></div>
-<div class="mrow"><span class="dot"></span><span style="flex:1">Copia de seguridad completada</span><small class="mu">hoy 03:12</small></div></div></div></section>
+<div class="mock ba" style="--x:50%"><div class="mock-top"><i></i><i></i><i></i><span>panaderialuz.es</span><em class="ba-et">Antes</em><em class="ba-et nw">Después</em></div>
+<div class="ba-v" aria-hidden="true">
+<div class="ba-new"><div class="bn-nav"><b><i></i>Panadería Luz</b><span>Carta</span><span>Obrador</span><span>Contacto</span><u>Pedir</u></div>
+<div class="bn-hero"><small>● Obrador artesano desde 1987</small><h4>Pan recién hecho,<br><span>cada mañana.</span></h4><p>Masa madre, harinas ecológicas y reparto en tu barrio antes de las 9:00.</p><div><u>Hacer un pedido</u><s>Ver la carta</s></div></div>
+<div class="bn-cards"><div><i>🥖</i><b>Hogaza</b><small>3,20 €</small></div><div><i>🥐</i><b>Croissant</b><small>1,40 €</small></div><div><i>🎂</i><b>Tartas</b><small>desde 18 €</small></div></div>
+<div class="bn-rev">★★★★★ <b>4,9</b> · 312 reseñas en Google</div></div>
+<div class="ba-old"><div class="bo-top">PANADERIA LUZ S.L.</div><div class="bo-nav"><a>Inicio</a> | <a>Productos</a> | <a>Quienes somos</a> | <a>Contacto</a></div>
+<div class="bo-body"><p class="bo-h">¡¡Bienvenidos a nuestra pagina web!!</p><p>Somos una panaderia familiar. Tenemos pan, bolleria y tartas por encargo. Llamenos al telefono.</p>
+<table><tr><td>Pan</td><td>Bolleria</td><td>Tartas</td></tr><tr><td>Consultar</td><td>Consultar</td><td>Consultar</td></tr></table>
+<p class="bo-c">Visitas: <span>001234</span></p><p class="bo-f">Pagina optimizada para 800x600 · Actualizado: 2009</p></div></div>
+<div class="ba-lin"><span>‹ ›</span></div></div>
+<input class="ba-r" type="range" min="0" max="100" value="50" aria-label="Desliza para comparar la web antes y después" oninput="baMover(this)"></div></section>
 
 <span class="kick" id="srv">Servicios</span><h2 class="sec">¿Qué hacemos por ti?</h2><p class="mu">Todo lo que contratas hoy es de <strong>pago único</strong>: pagas una vez, con el precio final a la vista.</p><div class="g" style="margin-top:22px">${S.map(s=>`<div class="c sv"><div class="ic">${s[0]}</div><b>${s[1]}</b><p>${s[2]}</p></div>`).join("")}</div>
 <span class="kick" id="pasos">Cómo funciona</span><h2 class="sec">Así de fácil</h2><div class="stp"><div class="c"><div class="n">1</div><b style="font-size:17px">Nos cuentas tu idea</b><small>Hablamos de tu negocio y de lo que necesitas.</small></div><div class="c"><div class="n">2</div><b style="font-size:17px">Te enviamos una demostración gratuita</b><small>Ves una primera versión de tu web, gratis y sin compromiso.</small></div><div class="c"><div class="n">3</div><b style="font-size:17px">Recibes tu web</b><small>La revisas (2 rondas de cambios incluidas), pagas y es tuya, con 30 días de garantía.</small></div></div>
@@ -1125,6 +1150,12 @@ if(reg)reg.showNotification(titulo,{body:cuerpo,icon:"icon-192.png",badge:"icon-
 if("serviceWorker" in navigator&&location.protocol=="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 function openLg(){document.getElementById("lg").style.display="grid"}
 function go(k){cur=k;render(true);scrollTo(0,0)}
+// Comparador «antes / después» de la portada
+function baMover(r){const m=r.closest(".ba");if(m){m.style.setProperty("--x",r.value+"%");m.dataset.tocado="1"}}
+(function baDemo(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;let t0=null;
+const paso=t=>{const m=document.querySelector(".mock.ba");if(!m||m.dataset.tocado)return;if(t0===null)t0=t;const s=(t-t0)/1000;if(s>4.2){m.style.setProperty("--x","50%");return}
+m.style.setProperty("--x",(50+28*Math.sin(s*Math.PI/2.1)*Math.max(0,1-s/4.2)).toFixed(1)+"%");requestAnimationFrame(paso)};setTimeout(()=>requestAnimationFrame(paso),900)})();
+
 // ---------- Asistente automático (gratis, sin IA ni servidor): responde con una base de respuestas y los precios del catálogo ----------
 const IA_KEY="webcare-ia",IA_SUG=["¿Cuánto cuesta una web?","¿Cómo se paga?","¿Qué incluye la garantía?","Quiero una tienda online"];
 let IA=(()=>{try{return JSON.parse(sessionStorage.getItem(IA_KEY))||[]}catch(_){return []}})(),iaEsperando=false;
