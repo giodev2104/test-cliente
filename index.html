@@ -816,7 +816,7 @@ function pedirPlan(i){return pedirServicio("m",i)}
 const botonPago=()=>`<stripe-buy-button buy-button-id="${STRIPE.boton}" publishable-key="${STRIPE.clave}"${U.uid?` client-reference-id="${esc(String(U.uid))}"`:""}${U.email?` customer-email="${esc(U.email)}"`:""}></stripe-buy-button>`;
 function LAND(){const S=[[ico("M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"),"Creación web","Planes Lanzamiento, Negocio y Ecommerce / Citas. Pago único."],[ico("M4 5h16v14H4zM4 9h16"),"Landing pages","Una página enfocada en vender un servicio o captar contactos. Pago único."],[ico("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"),"Desarrollo a medida","Tiendas online, reservas y citas, integraciones y funciones a medida. Pago único."],[ico("M4 19V5M4 19h16M8 15l3-4 3 2 5-6"),"Branding, marketing y SEO","Servicios extra y packs promocionales para captar más clientes."]];
 return `<section class="hx"><div>
-<span class="eyebrow"><span class="pulse"></span>Creación de webs · pago único</span>
+<span class="eyebrow"><span class="pulse"></span>Creación de webs y otros servicios</span>
 <h1>Tu web, siempre cuidada.<br><span class="grad">Tú, a lo tuyo.</span></h1>
 <p class="lead">Webs, landing pages y desarrollos a medida con <strong>un único pago y precio cerrado</strong>. Máxima velocidad, diseño atractivo y optimización para captar clientes. Sin cuotas ni permanencia.</p>
 <div class="cta"><button class="btn xl" onclick="pedirDemo()">Quiero mi demo gratuita</button></div><p class="desde">Tu web desde <strong>${eur(precioMinWeb())}</strong> · pago único, ${PRECIO_FINAL}</p>
