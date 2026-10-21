@@ -12,8 +12,9 @@
 <meta property="og:image:alt" content="Velority: páginas web para negocios con pago único">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Velority · Diseño web para negocios con precio cerrado"><meta name="twitter:description" content="Diseño web para negocios y autónomos con precio cerrado y pago único. Ve tu web gratis antes de pagar: demo sin compromiso, 2 rondas de cambios y 30 días de garantía."><meta name="twitter:image" content="https://velority.es/og.jpg">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "ProfessionalService", "@id": "https://velority.es/#empresa", "name": "Velority", "alternateName": "Velority Diseño Web", "slogan": "Tu web profesional, a precio cerrado", "url": "https://velority.es/", "logo": {"@type": "ImageObject", "url": "https://velority.es/icon-512.png", "width": 512, "height": 512}, "image": "https://velority.es/og.jpg", "description": "Diseño web para negocios y autónomos con precio cerrado y pago único. Ve tu web gratis antes de pagar: demo sin compromiso, 2 rondas de cambios y 30 días de garantía.", "email": "vaznichugo@gmail.com", "telephone": "+34696273459", "contactPoint": {"@type": "ContactPoint", "telephone": "+34696273459", "contactType": "customer service", "availableLanguage": "es", "areaServed": "ES"}, "areaServed": {"@type": "Country", "name": "España"}, "priceRange": "€€", "currenciesAccepted": "EUR", "paymentAccepted": "Tarjeta", "founder": {"@type": "Person", "name": "Hugo Vazquez"}, "knowsAbout": ["Diseño web", "Desarrollo web", "Tiendas online", "Landing pages", "SEO local", "Google Business Profile"], "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Servicios de diseño web", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Diseño de página web para negocios"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Tienda online"}}, {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Landing page"}}, {"@type": "Offer", "name": "Demo gratuita de tu web", "price": "0", "priceCurrency": "EUR", "itemOffered": {"@type": "Service", "name": "Demo gratuita de tu web"}}]}, "sameAs": []}, {"@type": "WebSite", "@id": "https://velority.es/#web", "url": "https://velority.es/", "name": "Velority", "inLanguage": "es-ES", "publisher": {"@id": "https://velority.es/#empresa"}}]}</script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"></noscript>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js" async id="sb-js" onerror="this.dataset.error=1"></script>
 <script async src="https://js.stripe.com/v3/buy-button.js"></script>
 <style>
 :root{--bg:#f4f8f6;--sf:#fff;--tx:#12302a;--mu:#5d7a72;--bd:#dbe7e2;--ac:#0f766e;--acb:#d9f1ec;--ok:#15803d;--wa:#b45309;--wab:#fdf0d8;
@@ -367,7 +368,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 // Las cuentas de cliente están en la tabla "clientes" (no se usa Supabase Auth). El navegador no lee ninguna
 // tabla: todo pasa por las funciones cliente_* de supabase_completo.sql (en test-admin), que comprueban el token.
 const SUPABASE_URL="https://ufwuvbjrgvphbggkfkuh.supabase.co",SUPABASE_KEY="sb_publishable_qxIupQGDLTM9ZXf4uAB60A_FHyRBws_";
-let db=null;try{if(window.supabase)db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false}})}catch(_){}
+let db=null;const crearDb=()=>{if(!db&&window.supabase){try{db=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:false,autoRefreshToken:false}})}catch(_){}}return db};
+// supabase-js se carga sin bloquear la página (async): quien lo necesite espera a que esté listo (máx. 10 s)
+const dbListo=()=>new Promise(ok=>{const t0=Date.now();(function mira(){if(crearDb())return ok(db);const s=document.getElementById("sb-js");if((s&&s.dataset.error)||Date.now()-t0>10000)return ok(null);setTimeout(mira,25)})()});crearDb();
 const TK="webcare-portal-token",leerTk=()=>{try{return localStorage.getItem(TK)}catch(_){return null}},guardarTk=t=>{try{t?localStorage.setItem(TK,t):localStorage.removeItem(TK)}catch(_){}};
 const SONDEO_MS=30000;   // red de seguridad: las novedades llegan al instante por el canal en tiempo real
 // ================= DATOS DE TU NEGOCIO (rellénalos: salen en la política de privacidad y el aviso legal) =================
@@ -882,7 +885,7 @@ async function enviarOpinion(caso,n){if(!n)return toast("Elige de 1 a 5 estrella
 try{await rpc("cliente_opinar",{p_token:token,p_caso:caso,p_estrellas:n,p_comentario:com,p_publica:pub});VAL=VAL.filter(v=>v.caso_id!=caso).concat([{caso_id:caso,estrellas:n}]);abrirOpinion.txt="";abrirOpinion.pub=false;OPS=null;closePlan();render();toast(pub?"¡Gracias! Tu opinión aparecerá en nuestra web.":"¡Gracias por tu opinión!",4000)}catch(err){toast(err.message,5000)}}
 // Opiniones públicas para la portada (se cargan una vez; no necesitan sesión)
 let OPS=null;
-async function cargarOpiniones(){if(cargarOpiniones.ya||!db)return;cargarOpiniones.ya=true;try{const{data,error}=await db.rpc("valoraciones_publicas",{});if(!error&&data){OPS=data;if(!auth)render(true)}else OPS={total:0}}catch(_){}finally{cargarOpiniones.ya=false}}
+async function cargarOpiniones(){if(cargarOpiniones.ya)return;cargarOpiniones.ya=true;if(!db&&!await dbListo()){cargarOpiniones.ya=false;return}try{const{data,error}=await db.rpc("valoraciones_publicas",{});if(!error&&data){OPS=data;if(!auth)render(true)}else OPS={total:0}}catch(_){}finally{cargarOpiniones.ya=false}}
 const GARANTIAS=[["🎨","Ves tu web antes de pagar","Te preparamos una demo gratuita y sin compromiso."],["🧾","Precio cerrado","Por escrito antes de empezar. No se suma nada después."],["✏️","2 rondas de cambios","Incluidas en el precio, hasta que quede a tu gusto."],["🛡️","30 días de garantía","Tras publicarla, arreglamos sin coste cualquier error técnico."],["🔑","La web es tuya","Te entregamos los archivos y el dominio está a tu nombre."]];
 // ---------- Servicios adicionales: primero los más útiles para un negocio y «Ver todos» para el resto ----------
 const EX_DESTACADOS=["EXT-02","EXT-15","EXT-05","EXT-08","EXT-03","EXT-09"];let EX_TODOS=false,PK_TODOS=false;
@@ -975,7 +978,7 @@ if(f){try{const extra=await subirAdj(nuevo.id,f);const m=await rpc("cliente_envi
 ADJT=null;if(ur)fn("correo",{accion:"aviso_urgente",token,caso_id:nuevo.id}).catch(()=>{});else avisarEquipo(nuevo.id);document.getElementById("tx").value="";document.getElementById("ur").value="Normal";render();toast(ur?"Urgencia recibida. Hemos avisado a todo el equipo.":"Recibido. Tu equipo ya está en ello.",ur?4500:2200)}
 finally{addT.ocupado=false;const b2=document.getElementById("ts");if(b2){b2.disabled=false;b2.textContent="Enviar solicitud"}}}
 // ---------- Datos compartidos con el panel del equipo ----------
-async function rpc(f,a){if(!db)throw new Error("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.");if(VISTA&&f!="cliente_datos")throw new Error("Estás viendo el portal como el cliente: es solo lectura.");const{data,error}=await db.rpc(f,a);
+async function rpc(f,a){if(!db)await dbListo();if(!db)throw new Error("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.");if(VISTA&&f!="cliente_datos")throw new Error("Estás viendo el portal como el cliente: es solo lectura.");const{data,error}=await db.rpc(f,a);
 if(error){if(/SESION_CADUCADA/.test(error.message)){if(token)out(true);throw new Error("Tu sesión ha caducado.")}throw new Error(error.message)}return data}
 async function crearCaso(c){try{const r=await rpc("cliente_crear_caso",{p_token:token,p_tipo:c.tipo_reporte,p_titulo:c.titulo,p_descripcion:c.descripcion,p_urgente:!!c.urgencia});if(!CASOS.some(x=>x.id==r.id))CASOS.unshift(r);return true}
 catch(err){toast("No se pudo enviar: "+err.message,5000);return false}}
@@ -1007,7 +1010,7 @@ async function tokenSeguridad(accion){if(!TURNSTILE_KEY)return "";const ts=await
 return new Promise((ok,ko)=>{if(tokenSeguridad.w!=null){try{ts.remove(tokenSeguridad.w)}catch(_){}}
 tokenSeguridad.w=ts.render(box,{sitekey:TURNSTILE_KEY,action:accion,appearance:"interaction-only",language:"es",theme:"dark",callback:t=>ok(t),
 "error-callback":()=>{ko(new Error("No hemos podido comprobar que no eres un robot. Recarga la página e inténtalo de nuevo."));return true},"timeout-callback":()=>ko(new Error("La comprobación de seguridad ha caducado. Inténtalo de nuevo."))})})}
-async function fn(nombre,body){if(!db)throw new Error("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.");const{data,error}=await db.functions.invoke(nombre,{body});
+async function fn(nombre,body){if(!db)await dbListo();if(!db)throw new Error("No hay conexión con el servidor. Inténtalo de nuevo en unos minutos.");const{data,error}=await db.functions.invoke(nombre,{body});
 if(error){let m=error.message;try{const j=await error.context.json();if(j&&j.error)m=j.error}catch(_){}throw new Error(m)}if(data&&data.error)throw new Error(data.error);return data}
 async function pedirEnlace(){const m=document.getElementById("em").value.trim().toLowerCase(),er=document.getElementById("er");if(!/^\S+@\S+\.\S+$/.test(m)){er.textContent="Escribe tu correo arriba y vuelve a pulsar «Entrar sin contraseña».";document.getElementById("em").focus();return}
 er.textContent="Enviando…";try{await fn("correo",{accion:"enlace",email:m,turnstile:await tokenSeguridad("enlace")});er.textContent="";toast("Si hay una cuenta con ese correo, te hemos enviado un enlace para entrar. Caduca en 15 minutos. Revisa también el spam.",7000)}
@@ -1091,7 +1094,7 @@ const tagOferta=(x,peq)=>x.of?`<span class="oferta${peq?" peq":""}" role="img" a
 const precioOf=x=>x.po?`<s class="antes">${x.po}</s>`:"";
 // En las suscripciones (mantenimiento y renting) la oferta solo rebaja el primer mes
 const notaMes=x=>x.of?`<small class="of-nota">🏷 Precio del primer mes. Después, ${x.po}/mes.</small>`:"";
-async function cargarCatalogo(){if(!db)return;try{const{data,error}=await db.rpc("catalogo_publico",{});if(!error&&Array.isArray(data)&&data.length){aplicarCatalogo(data);render()}}catch(_){}}
+async function cargarCatalogo(){if(!db&&!await dbListo())return;try{const{data,error}=await db.rpc("catalogo_publico",{});if(!error&&Array.isArray(data)&&data.length){aplicarCatalogo(data);render()}}catch(_){}}
 // Cuota mensual de cada plan recurrente (lo que el cliente puede tener como «su plan»)
 const CUOTAS=Object.fromEntries([...PD.map(x=>[x.n,x]),...RENT.map(x=>[x.n,x])]);
 // Qué se compra en cada tipo: w = creación web, m = mantenimiento, r = renting, p = pack, x = extra
@@ -1311,9 +1314,9 @@ cargarCatalogo();botonIA();botonWA();
 if(!MOSTRAR_PLANES_WEB)document.querySelectorAll(".pbn a").forEach(a=>{if(/irSec\(.precios.\)/.test(a.getAttribute("onclick")||""))a.style.display="none"});
 {const q=new URLSearchParams(location.search),rec=q.get("recuperar");
 if(q.get("ref")){guardarRef(q.get("ref"));history.replaceState(null,"",location.pathname+location.hash);toast("Te ha recomendado un cliente de Velority. ¡Bienvenido!",4000)}
-if(q.get("entrar")){const t=q.get("entrar");history.replaceState(null,"",location.pathname+location.hash);if(db)entrarConEnlace(t)}
+if(q.get("entrar")){const t=q.get("entrar");history.replaceState(null,"",location.pathname+location.hash);dbListo().then(d=>{if(d)entrarConEnlace(t)})}
 else if(rec){history.replaceState(null,"",location.pathname+location.hash);pedirClaveNueva(rec)}
-else if(q.get("vista")){const v=q.get("vista");history.replaceState(null,"",location.pathname+location.hash);if(db)entrarCliente({token:v},true)}
+else if(q.get("vista")){const v=q.get("vista");history.replaceState(null,"",location.pathname+location.hash);dbListo().then(d=>{if(d)entrarCliente({token:v},true)})}
 else{const t=leerTk(),pg={pago:q.get("pago"),sesion:q.get("sesion")};if(pg.pago)history.replaceState(null,"",location.pathname+location.hash);
-if(t&&db)entrarCliente({token:t}).then(()=>{if(token&&pg.pago)volverDePago(pg)});else if(pg.pago=="ok")toast("Entra en tu cuenta para ver tu pago.",6000)}}
+if(t)dbListo().then(d=>{if(d)entrarCliente({token:t}).then(()=>{if(token&&pg.pago)volverDePago(pg)})});else if(pg.pago=="ok")toast("Entra en tu cuenta para ver tu pago.",6000)}}
 </script></body></html>
