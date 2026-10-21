@@ -3,14 +3,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#080C18"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="favicon.svg" type="image/svg+xml"><link rel="icon" href="icon-192.png" type="image/png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Velority">
-<title>Velority · Crea tu web</title>
+<title>Velority · Diseño web para negocios con precio cerrado</title>
 <meta name="description" content="Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía.">
 <link rel="canonical" href="https://velority.es/">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Velority"><meta property="og:locale" content="es_ES">
-<meta property="og:url" content="https://velority.es/"><meta property="og:title" content="Velority · Tu web, con precio cerrado y demo gratuita">
+<meta property="og:url" content="https://velority.es/"><meta property="og:title" content="Velority · Diseño web para negocios con precio cerrado">
 <meta property="og:description" content="Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía."><meta property="og:image" content="https://velority.es/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Velority: páginas web para negocios con pago único">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Velority · Tu web, con precio cerrado y demo gratuita"><meta name="twitter:description" content="Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía."><meta name="twitter:image" content="https://velority.es/og.jpg">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Velority · Diseño web para negocios con precio cerrado"><meta name="twitter:description" content="Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía."><meta name="twitter:image" content="https://velority.es/og.jpg">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Velority", "url": "https://velority.es/", "logo": "https://velority.es/icon-512.png", "image": "https://velority.es/og.jpg", "description": "Diseño y creación de páginas web para negocios y autónomos con pago único y precio cerrado. Demo gratuita y sin compromiso, 2 rondas de cambios y 30 días de garantía.", "email": "vaznichugo@gmail.com", "telephone": "+34696273459", "areaServed": {"@type": "Country", "name": "España"}, "priceRange": "€€", "makesOffer": {"@type": "Offer", "name": "Demo gratuita de tu web", "price": "0", "priceCurrency": "EUR"}}</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -628,7 +628,7 @@ const cif=[has(d.disponibilidad)&&["Online",nf(d.disponibilidad,2)+" %"],has(d.v
 has(d.mes_actualizaciones)&&["Actualizaciones de seguridad",nf(d.mes_actualizaciones)],has(d.mes_cambios)&&["Cambios completados",nf(d.mes_cambios)],has(d.horas_incluidas)&&["Tokens usados",nf(d.horas_usadas??d.mes_horas??0,1).replace(",0","")+" de "+nf(d.horas_incluidas,1).replace(",0","")],
 has(d.enlaces_rotos)&&["Enlaces rotos",d.enlaces_rotos?nf(d.enlaces_rotos):"Ninguno"]].filter(Boolean);
 const seo=[has(d.seo_visitas)&&["Visitas desde Google",pct(d.seo_visitas)],has(d.seo_clics)&&["Clics",pct(d.seo_clics)],has(d.seo_impresiones)&&["Veces que apareces",pct(d.seo_impresiones)],has(d.seo_primera_pagina)&&["Palabras en primera página",nf(d.seo_primera_pagina)]].filter(Boolean),pal=lista(d.seo_palabras);
-const doc=`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Informe ${esc(mesTxt)} · ${esc(U.dr||"tu web")}</title><style>
+const doc=`<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Velority · Diseño web para negocios con precio cerrado</title><style>
 *{box-sizing:border-box}body{font-family:Inter,Arial,sans-serif;color:#1f2433;margin:0;padding:32px;max-width:820px;margin:auto}h1{font-size:26px;margin:4px 0 6px}h2{font-size:16px;margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid #e3e6ef}
 .top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #5b6cff;padding-bottom:14px}.marca{font-weight:800;font-size:18px}.mu{color:#6b7186;font-size:13px}
 .g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.c{background:#f4f5fb;border-radius:10px;padding:12px}.c small{display:block;color:#6b7186;font-size:12px}.c b{font-size:20px}
