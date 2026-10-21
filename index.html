@@ -715,9 +715,8 @@ m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="ac
 <ul class="ac-info"><li>${o.presu?"<strong>Pago único con precio cerrado</strong>: te enviamos el importe final exacto por el chat antes de empezar. Lo pagas en dos partes: 50 % al empezar y 50 % al aprobar el diseño final.":"<strong>Pago único</strong>: este es el importe final que pagarás, sin cuotas ni costes añadidos."}</li><li>Precios con ${PRECIO_FINAL}.</li><li>Incluye 2 rondas de revisión y 30 días de garantía técnica tras la publicación.</li><li>Al tratarse de un trabajo a medida, pierdes el derecho de desistimiento cuando empezamos con tu consentimiento.</li></ul>
 <label class="chk ac-chk"><input type="checkbox" id="ac-ok" onchange="document.getElementById('ac-si').disabled=!this.checked"><span>${textoAcepto()}</span></label>
 <button class="btn" id="ac-si" style="width:100%;margin-top:12px" disabled onclick="acFin(true)">${o.boton||"Continuar al pago seguro"}</button><p style="text-align:center;margin-top:10px"><button class="lk" onclick="acFin(false)">Cancelar</button></p></div>`;m.style.display="grid"})}
-// Queda constancia en el chat del caso (fecha y hora) de que el cliente aceptó las condiciones
-const CONSTANCIA="✅ He leído y acepto el Aviso Legal y las Condiciones de Contratación de Servicios de Pago Único (versión 2026).";
-const dejarConstancia=c=>c&&token&&!VISTA?rpc("cliente_enviar_mensaje",{p_token:token,p_caso:c,p_texto:CONSTANCIA,...SIN_ADJ}).catch(()=>{}):null;
+// Queda constancia en el caso (fecha, hora y versión) de que el cliente aceptó las condiciones; solo lo ve el equipo
+const dejarConstancia=c=>c&&token&&!VISTA?rpc("cliente_aceptar_condiciones",{p_token:token,p_caso:c,p_version:"condiciones-pago-unico-2026"}).catch(()=>{}):null;
 function acFin(si){const r=aceptarCondiciones.r;aceptarCondiciones.r=null;if(si&&!document.getElementById("ac-ok").checked)return;closePlan();if(r)r(!!si)}
 // Precio base de un texto del catálogo («190 € – 250 €» → 190). Lo recurrente (/mes, /trim.) no se financia.
 function precioBase(t){t=String(t||"");if(/\/\s*(mes|trim|año)/i.test(t))return 0;const m=t.match(/\d{1,3}(?:\.\d{3})*(?:,\d+)?/);return m?Number(m[0].replace(/\./g,"").replace(",",".")):0}
