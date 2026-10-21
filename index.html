@@ -326,11 +326,12 @@ const EMPRESA={nombre:"[Tu nombre y apellidos]",nif:"[Tu NIF]",direccion:"[Tu do
 // Los servicios del catálogo se cobran con la función «pago» (Stripe Checkout). Este Buy Button solo se usa en
 // «Facturación» para pagos sueltos y cobra el importe del producto al que va ligado en Stripe.
 // «pk_test_…» = modo prueba; para cobrar de verdad, pon el ID del botón en modo real y su clave «pk_live_…».
-const STRIPE={boton:"buy_btn_1USaJMDHMwXk9gDq0AaRgict",clave:"pk_test_51USa9CDHMwXk9gDqKXEkZnMrDjkKg74xuPuaG2RyjGdMwAJ7vravlV1QgzekonCGsYEQcYAgkwHuMf6PqCzdRbUA001DARoUh8"};
+// enlace = Payment Link de Stripe (https://buy.stripe.com/…): si está puesto, se usa en lugar del Buy Button.
+const STRIPE={enlace:"https://buy.stripe.com/eVq28r2h1dIW37f5429IQ00",boton:"buy_btn_1USaJMDHMwXk9gDq0AaRgict",clave:"pk_test_51USa9CDHMwXk9gDqKXEkZnMrDjkKg74xuPuaG2RyjGdMwAJ7vravlV1QgzekonCGsYEQcYAgkwHuMf6PqCzdRbUA001DARoUh8"};
 // Portal de clientes de Stripe (opcional): Stripe > Configuración > Facturación > Portal de clientes > copia el
 // «enlace de inicio de sesión» (https://billing.stripe.com/p/login/…). Ahí el cliente ve sus facturas, cambia su
 // tarjeta o cancela la suscripción. Vacío = no se muestra el botón.
-const STRIPE_PORTAL="";
+const STRIPE_PORTAL="https://billing.stripe.com/p/login/eVq28r2h1dIW37f5429IQ00";
 // ================= SOPORTE DE CADA PLAN (según la Propuesta Comercial) =================
 // canal = cómo se atiende al cliente · whatsapp = si su plan incluye atención por WhatsApp
 const SOPORTE={"Mantenimiento Esencial":{canal:"Soporte por email",whatsapp:false},"Mantenimiento Pro":{canal:"Atención prioritaria por WhatsApp",whatsapp:true},"Mantenimiento Tienda":{canal:"Atención prioritaria por WhatsApp",whatsapp:true},
@@ -814,7 +815,7 @@ const sinLeerTickets=()=>tickets().reduce((n,t)=>n+noLeidos(t.id),0);
 const planPendiente=()=>CASOS.find(c=>c.plan_solicitado&&!CERR.includes(c.estado));
 function pedirPlan(i){return pedirServicio("m",i)}
 // Botón de pago de Stripe con los datos del cliente (para identificar el pago en Stripe)
-const botonPago=()=>`<stripe-buy-button buy-button-id="${STRIPE.boton}" publishable-key="${STRIPE.clave}"${U.uid?` client-reference-id="${esc(String(U.uid))}"`:""}${U.email?` customer-email="${esc(U.email)}"`:""}></stripe-buy-button>`;
+const botonPago=()=>STRIPE.enlace?`<a class="btn" style="text-decoration:none;display:inline-block" target="_blank" rel="noopener" href="${esc(STRIPE.enlace+"?"+[U.uid?"client_reference_id="+encodeURIComponent(String(U.uid)):"",U.email?"prefilled_email="+encodeURIComponent(U.email):""].filter(Boolean).join("&"))}">Pagar con tarjeta</a>`:`<stripe-buy-button buy-button-id="${STRIPE.boton}" publishable-key="${STRIPE.clave}"${U.uid?` client-reference-id="${esc(String(U.uid))}"`:""}${U.email?` customer-email="${esc(U.email)}"`:""}></stripe-buy-button>`;
 function LAND(){const S=[[ico("M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"),"Creación web","Planes Lanzamiento, Negocio y Ecommerce / Citas. Pago único."],[ico("M4 5h16v14H4zM4 9h16"),"Landing pages","Una página enfocada en vender un servicio o captar contactos. Pago único."],[ico("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"),"Desarrollo a medida","Tiendas online, reservas y citas, integraciones y funciones a medida. Pago único."],[ico("M4 19V5M4 19h16M8 15l3-4 3 2 5-6"),"Branding, marketing y SEO","Servicios extra y packs promocionales para captar más clientes."]];
 return `<section class="hx"><div>
 <span class="eyebrow"><span class="pulse"></span>Creación de webs y otros servicios</span>
