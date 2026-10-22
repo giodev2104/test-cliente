@@ -928,7 +928,9 @@ const l=lead();if(l&&l.plan)return RECURRENTE(l.plan)?"mensual":"puntual";return
 const NAV_PERFIL={mensual:["Mi web","Servicios","Soporte","SEO","Facturación","Mi cuenta"],puntual:["Mis pedidos","Facturación","Mi cuenta"]};
 // «Demo»: aparece en cuanto el cliente pide su demo gratuita (no se bloquea)
 const demoCaso=()=>CASOS.find(c=>c.titulo=="Demo gratuita"),demoLista=()=>{const d=demoCaso();return !!d&&!!d.demo_enviada_en&&!d.demo_aceptada_en};
-const navDe=()=>{const d=demoCaso()?["Demo"]:[];return perfil()=="puntual"?[NAV_PERFIL.puntual[0],...d,...NAV_PERFIL.puntual.slice(1)]:(lead()?["Chat"]:[]).concat(d,NAV_PERFIL.mensual)};
+// «Demo» desaparece cuando la web está pagada al 100 % (empieza la garantía)
+const webPagada=()=>SERV.some(s=>s.tipo=="web"&&s.pagado_en);
+const navDe=()=>{const d=demoCaso()&&!webPagada()?["Demo"]:[];return perfil()=="puntual"?[NAV_PERFIL.puntual[0],...d,...NAV_PERFIL.puntual.slice(1)]:(lead()?["Chat"]:[]).concat(d,NAV_PERFIL.mensual)};
 // Pedidos de pago único (web, extras y packs) con el caso que los sigue
 function pedidos(){let l=SERV.filter(s=>["web","extra","pack"].includes(s.tipo)&&s.estado!="rechazado");
 if(!l.length)l=CASOS.filter(c=>(c.tipo_reporte=="Lead"&&c.plan&&!RECURRENTE(c.plan))||/^(Contratar|Plan web): /.test(c.titulo||"")).map(c=>({nombre:c.tipo_reporte=="Lead"?c.plan:c.titulo.replace(/^(Contratar|Plan web): /,""),caso_id:c.id,estado:c.estado=="Aceptado"?"activo":"pendiente",creado_en:c.created_at}));
