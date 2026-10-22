@@ -1034,14 +1034,15 @@ const textoAcepto=()=>`He leído y acepto el <a href="#" onclick="verLegal('avis
 // Código promocional: se comprueba con el servidor (función «pago») y el descuento se aplica en Stripe
 let CODIGO_OK=null;
 async function probarCodigo(){const o=aceptarCondiciones.o||{},i=document.getElementById("ac-cod"),msg=document.getElementById("ac-cod-msg"),pr=document.getElementById("ac-pr");
-const codigo=(i.value||"").trim().toUpperCase();CODIGO_OK=null;pr.innerHTML=esc(o.pr);if(!codigo){msg.textContent="";return}
+const codigo=(i.value||"").trim().toUpperCase();CODIGO_OK=null;pr.innerHTML=juntar(esc(o.pr));if(!codigo){msg.textContent="";return}
 msg.className="ac-cod-msg";msg.textContent="Comprobando…";
 try{const r=await fn("pago",{accion:"codigo",token,codigo,...o.pago});CODIGO_OK=r.codigo;
-pr.innerHTML=`<s style="opacity:.6;font-weight:500">${eur(r.antes)}</s> ${eur(r.ahora)}`;msg.className="ac-cod-msg ok";msg.textContent=`✓ Código ${r.codigo} aplicado: ${r.texto} (ahorras ${eur(r.descuento)}${r.fase?" en este pago y otro tanto en el siguiente":""})`}
+pr.innerHTML=`<s style="opacity:.6;font-weight:500">${juntar(eur(r.antes))}</s> ${juntar(eur(r.ahora))}`;msg.className="ac-cod-msg ok";msg.textContent=`✓ Código ${r.codigo} aplicado: ${r.texto} (ahorras ${eur(r.descuento)}${r.fase?" en este pago y otro tanto en el siguiente":""})`}
 catch(err){msg.className="ac-cod-msg mal";msg.textContent=err.message}}
+const juntar=t=>String(t).replace(/(\d) (%|€)/g,"$1&nbsp;$2");
 function aceptarCondiciones(o){CODIGO_OK=null;return new Promise(ok=>{const m=document.getElementById("md");aceptarCondiciones.r=ok;aceptarCondiciones.o=o;
 m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="ac-h"><button class="x" onclick="acFin(false)" aria-label="Cerrar">×</button><h2 id="ac-h" style="margin:0 0 12px;font-size:22px">${o.presu?"Antes de pedir tu presupuesto":"Antes de pagar"}</h2>
-<div class="ac-res"><span>${esc(o.n)}</span><b id="ac-pr">${esc(o.pr)}</b></div>
+<div class="ac-res"><span>${juntar(esc(o.n))}</span><b id="ac-pr">${juntar(esc(o.pr))}</b></div>
 ${o.pago&&token&&!VISTA?`<div class="ac-cod"><input id="ac-cod" placeholder="¿Tienes un código promocional?" aria-label="Código promocional" maxlength="30" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key=='Enter'){event.preventDefault();probarCodigo()}"><button type="button" class="btn s" onclick="probarCodigo()">Aplicar</button></div><p id="ac-cod-msg" class="ac-cod-msg" role="status"></p>`:""}
 <ul class="ac-info"><li>${o.presu?"<strong>Pago único con precio cerrado</strong>: te enviamos el importe final exacto por el chat antes de empezar. Lo pagas en dos partes: 50 % al empezar y 50 % al aprobar el diseño final.":"<strong>Pago único</strong>: este es el importe final que pagarás, sin cuotas ni costes añadidos."}</li><li>Precios con ${PRECIO_FINAL}.</li><li>Incluye 2 rondas de revisión y 30 días de garantía técnica tras la publicación.</li><li>Al tratarse de un trabajo a medida, pierdes el derecho de desistimiento cuando empezamos con tu consentimiento.</li></ul>
 <label class="chk ac-chk"><input type="checkbox" id="ac-ok" onchange="document.getElementById('ac-si').disabled=!this.checked"><span>${textoAcepto()}</span></label>
