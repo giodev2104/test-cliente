@@ -884,7 +884,7 @@ dejarConstancia(s.caso_id);irAPagar({servicio_id:id})}
 async function volverDePago(q){if(q.pago=="cancelado")return toast("Pago cancelado. No se ha creado ningún pedido ni se te ha cobrado nada.",6000);
 if(q.pago!="ok"||!q.sesion)return;toast("Confirmando tu pago…",4000);
 for(let n=0;n<4;n++){try{const r=await fn("pago",{accion:"confirmar",token,sesion:q.sesion});
-if(!r.pendiente){await cargarCasos(false);go(perfil()=="puntual"?"Mis pedidos":"Servicios");return toast("¡Pago recibido! Ya tienes tu pedido en marcha.",6000)}}catch(err){return toast(err.message,7000)}
+if(!r.pendiente){await cargarCasos(false);traerFacturas(true);go(perfil()=="puntual"?"Mis pedidos":"Servicios");return toast("¡Pago recibido! Ya tienes tu pedido en marcha.",6000)}}catch(err){return toast(err.message,7000)}
 await new Promise(ok=>setTimeout(ok,2500))}
 toast("Stripe todavía está procesando el pago. Aparecerá aquí en cuanto se confirme.",7000)}
 async function bajaServicio(id){const s=SERV.find(x=>x.id==id);if(!s||!confirm("¿Pedir la baja de «"+s.nombre+"»?"))return;
@@ -1441,7 +1441,10 @@ async function avisoMovil(titulo,cuerpo){try{if(!document.hidden||!("Notificatio
 if(reg)reg.showNotification(titulo,{body:cuerpo,icon:"icon-192.png",badge:"icon-192.png",tag:"webcare"});else new Notification(titulo,{body:cuerpo,icon:"icon-192.png"})}catch(_){}}
 if("serviceWorker" in navigator&&location.protocol=="https:")addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 function openLg(){document.getElementById("lg").style.display="grid"}
-function go(k){cur=k;render(true);scrollTo(0,0)}
+function go(k){cur=k;render(true);scrollTo(0,0);if(k=="Facturación")traerFacturas()}
+// Las facturas (o recibos) de los pagos con tarjeta: la función «pago» las pide a Stripe y las guarda en tu ficha
+let facturasAl=0;async function traerFacturas(forzar){if(!token||(!forzar&&Date.now()-facturasAl<60000))return;facturasAl=Date.now();
+try{const r=await fn("pago",{accion:"facturas",token});if(r&&Array.isArray(r.facturas)){const antes=JSON.stringify((WEB||{}).facturas||[]);WEB=Object.assign(WEB||{},{facturas:r.facturas});if(cur=="Facturación"&&antes!=JSON.stringify(r.facturas))render()}}catch(_){}}
 // Comparador «antes / después» de la portada
 function baMover(r){const m=r.closest(".ba");if(m){m.style.setProperty("--x",r.value+"%");m.dataset.tocado="1"}}
 (function baDemo(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;let t0=null;
