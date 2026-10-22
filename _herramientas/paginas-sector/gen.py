@@ -6,6 +6,7 @@ B = "https://velority.es"
 WA = "34696273459"
 HOY = "2026-10-22"
 from extra import EXTRA
+from articulos import ART
 esc = html.escape
 
 P = [
@@ -161,6 +162,8 @@ details{background:var(--sf);border:1px solid var(--bd);border-radius:14px;paddi
 .band{text-align:center;background:linear-gradient(135deg,rgba(124,140,255,.18),rgba(167,139,250,.12));border:1px solid var(--bd);border-radius:22px;padding:36px 22px;margin:20px 0 40px}.band p{color:var(--mu);max-width:620px;margin:10px auto 20px}
 .otros{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.otros a{color:var(--mu);text-decoration:none;border:1px solid var(--bd);border-radius:99px;padding:6px 12px;font-size:14px}.otros a:hover{color:var(--tx);border-color:var(--ac)}
 footer{border-top:1px solid var(--bd);padding:26px 0 40px;color:var(--mu);font-size:14px}footer a{color:var(--mu)}
+.art{max-width:760px}.art h2{font-size:clamp(22px,3vw,28px);margin:34px 0 12px}.art p,.art li{font-size:17px;line-height:1.7}.art ul,.art ol{padding-left:22px}.art li{margin:6px 0}.art .ck{padding-left:0}
+.meta{color:var(--mu);font-size:14px;margin-top:14px}.lista{display:grid;gap:14px;margin-top:22px}.lista a{text-decoration:none;color:var(--tx)}.lista .c:hover{border-color:var(--ac)}
 @media(max-width:860px){.g,.stp{grid-template-columns:1fr 1fr}.nav a.o{display:none}}
 @media(max-width:560px){.g,.stp{grid-template-columns:1fr}.nav a:not(.btn){display:none}.btn{padding:10px 14px}.btn.xl{width:100%;text-align:center}.lead{font-size:17px}}"""
 
@@ -181,7 +184,7 @@ def pie(actual):
     otros = "".join(f'<a href="/{x["slug"]}/">{esc(x["corto"])}</a>' for x in P if x["slug"] != actual)
     return f"""<footer><div class="w"><p><b>Velority</b> · Diseño web para negocios y autónomos con precio cerrado y pago único.</p>
 <p>Diseño web por sector: {" · ".join(f'<a href="/{x["slug"]}/">{esc(x["corto"])}</a>' for x in P)}</p>
-<p><a href="/">Inicio</a> · <a href="/#faq">Preguntas frecuentes</a> · <a href="/legal/condiciones-pago-unico.pdf">Condiciones de pago único (PDF)</a> · <a href="https://wa.me/{WA}" rel="noopener">WhatsApp</a></p></div></footer>
+<p><a href="/">Inicio</a> · <a href="/blog/">Blog</a> · <a href="/#faq">Preguntas frecuentes</a> · <a href="/legal/condiciones-pago-unico.pdf">Condiciones de pago único (PDF)</a> · <a href="https://wa.me/{WA}" rel="noopener">WhatsApp</a></p></div></footer>
 <script src="/tema.js" defer></script>
 </body></html>
 """, otros
@@ -229,6 +232,53 @@ for x in P:
     os.makedirs(f"{R}/{x['slug']}", exist_ok=True)
     open(f"{R}/{x['slug']}/index.html", "w", encoding="utf-8").write(cab(x["title"], x["desc"], url, ld) + cuerpo + pie_html)
 
+# Blog: índice /blog/ y un artículo por página (no se enlazan desde la portada)
+MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"]
+fechaEs = lambda f: f"{int(f[8:])} de {MESES[int(f[5:7])-1]} de {f[:4]}"
+TITULOS = {x["slug"]: ("/" + x["slug"] + "/", x["h1"]) for x in P}
+TITULOS.update({a["slug"]: ("/blog/" + a["slug"] + "/", a["h1"]) for a in ART})
+AUTOR = {"@type": "Person", "name": "Hugo Vazquez", "url": B + "/"}
+for a in ART:
+    url = f"{B}/blog/{a['slug']}/"
+    post = {"@type": "BlogPosting", "@id": url + "#articulo", "headline": a["h1"], "description": a["desc"], "url": url, "mainEntityOfPage": url,
+            "datePublished": a["fecha"], "dateModified": a["fecha"], "inLanguage": "es-ES", "author": AUTOR, "image": B + "/og.jpg",
+            "publisher": {"@type": "Organization", "@id": B + "/#organization", "name": "Velority", "logo": {"@type": "ImageObject", "url": B + "/icon-512.png"}}}
+    bc = {"@type": "BreadcrumbList", "@id": url + "#migas", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": B + "/"},
+          {"@type": "ListItem", "position": 2, "name": "Blog", "item": B + "/blog/"}, {"@type": "ListItem", "position": 3, "name": a["h1"], "item": url}]}
+    graf = [post, bc] + ([{"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": r}} for q, r in a["faq"]]}] if a.get("faq") else [])
+    cuerpo = "".join(f"<h2>{esc(h)}</h2>{t}" for h, t in a["cuerpo"])
+    faq = "".join(f"<details><summary>{esc(q)}</summary><p>{esc(r)}</p></details>" for q, r in a.get("faq", []))
+    rel = "".join(f'<a href="{TITULOS[r][0]}"><div class="c"><h3 style="margin:0">{esc(TITULOS[r][1])}</h3></div></a>' for r in a["rel"])
+    html_a = cab(a["title"], a["desc"], url, [{"@context": "https://schema.org", "@graph": graf}]).replace('<meta property="og:type" content="website">', '<meta property="og:type" content="article">') + f"""
+<main><div class="w">
+<nav class="bc" aria-label="Migas de pan"><a href="/">Inicio</a> › <a href="/blog/">Blog</a> › <span>{esc(a['h1'])}</span></nav>
+<article class="art"><section class="hero" style="padding-bottom:10px"><span class="kick">Blog · Velority</span><h1 style="font-size:clamp(30px,4.4vw,44px)">{esc(a['h1'])}</h1>
+<p class="meta">Por Hugo Vazquez · {fechaEs(a['fecha'])} · {a['min']} min de lectura</p><p class="lead">{esc(a['lead'])}</p></section>
+{cuerpo}
+{('<h2>Preguntas frecuentes</h2>' + faq) if faq else ''}
+</article>
+<div class="band"><h2>¿Quieres ver cómo quedaría tu web?</h2><p>Te preparamos una demo gratuita con el nombre de tu negocio. Precio cerrado, pago único y dominio incluido. Si no te gusta, no pagas nada.</p><a class="btn xl" href="/?demo=1">Quiero mi demo gratuita</a></div>
+<section style="padding-top:0"><h2 style="font-size:22px">Sigue leyendo</h2><div class="lista">{rel}</div></section>
+</div></main>
+"""
+    os.makedirs(f"{R}/blog/{a['slug']}", exist_ok=True)
+    open(f"{R}/blog/{a['slug']}/index.html", "w", encoding="utf-8").write(html_a + pie("")[0])
+
+url = B + "/blog/"
+blog_ld = {"@context": "https://schema.org", "@graph": [{"@type": "Blog", "@id": url, "url": url, "name": "Blog de Velority", "inLanguage": "es-ES",
+           "publisher": {"@id": B + "/#organization"}, "blogPost": [{"@id": f"{B}/blog/{a['slug']}/#articulo"} for a in ART]},
+           {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": B + "/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": url}]}]}
+lista = "".join(f'<a href="/blog/{a["slug"]}/"><div class="c"><h3 style="margin:0 0 6px">{esc(a["h1"])}</h3><p>{esc(a["desc"])}</p><p class="meta" style="margin:8px 0 0">{fechaEs(a["fecha"])} · {a["min"]} min</p></div></a>' for a in ART)
+open(f"{R}/blog/index.html", "w", encoding="utf-8").write(cab("Blog de diseño web para negocios: guías y consejos | Velority",
+    "Guías prácticas para negocios: cuánto cuesta una página web, cómo aparecer en Google Maps, cómo elegir dominio y qué debe tener tu web.", url, [blog_ld]) + f"""
+<main><div class="w">
+<nav class="bc" aria-label="Migas de pan"><a href="/">Inicio</a> › <span>Blog</span></nav>
+<section class="hero" style="padding-bottom:10px"><span class="kick">Blog</span><h1>Guías para tener <span class="grad">una web que trae clientes</span></h1>
+<p class="lead">Consejos prácticos y sin tecnicismos para negocios y autónomos: precios, Google Maps, dominios y todo lo que necesita tu página web.</p></section>
+<section style="padding-top:0"><div class="lista">{lista}</div></section>
+</div></main>
+""" + pie("")[0])
+
 # 404
 c404 = cab("Página no encontrada | Velority", "Esta página no existe. Vuelve al inicio de Velority, diseño web para negocios con precio cerrado.", None, [], robots="noindex, follow")
 c404 = c404.replace('<link rel="icon" href="/favicon.ico"', '<base href="/"><link rel="icon" href="/favicon.ico"', 1) if False else c404
@@ -240,7 +290,7 @@ open(f"{R}/404.html", "w", encoding="utf-8").write(c404 + f"""
 """ + pie("")[0])
 
 # sitemap
-urls = [(B + "/", "1.0", "weekly")] + [(f"{B}/{x['slug']}/", "0.8", "monthly") for x in P] + [(B + "/legal/condiciones-pago-unico.pdf", "0.3", "yearly")]
+urls = [(B + "/", "1.0", "weekly")] + [(f"{B}/{x['slug']}/", "0.8", "monthly") for x in P] + [(B + "/blog/", "0.6", "weekly")] + [(f"{B}/blog/{a['slug']}/", "0.6", "monthly") for a in ART] + [(B + "/legal/condiciones-pago-unico.pdf", "0.3", "yearly")]
 open(f"{R}/sitemap.xml", "w", encoding="utf-8").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
     "".join(f"  <url><loc>{u}</loc><lastmod>{HOY}</lastmod><changefreq>{f}</changefreq><priority>{p}</priority></url>\n" for u, p, f in urls) + "</urlset>\n")
 print("ok", len(P))
