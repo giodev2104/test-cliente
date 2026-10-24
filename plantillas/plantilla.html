@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vista previa · Velority</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600;700&family=Nunito:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===================== Base común ===================== */
+:root{--c:#e8590c}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fb);color:var(--tx);background:var(--bg);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:clip}
+main{overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button,input,select,textarea{font:inherit;color:inherit}
+.w{max-width:1140px;margin:0 auto;padding:0 24px}
+h1,h2,h3,.fh{font-family:var(--fh);font-weight:var(--hw);text-transform:var(--tt);letter-spacing:var(--ls);line-height:1.08}
+h1{font-size:clamp(36px,6vw,var(--h1))}
+h2{font-size:clamp(28px,4vw,var(--h2));margin-bottom:12px}
+h3{font-size:20px;line-height:1.25;margin-bottom:6px}
+.acento{color:var(--c)}
+.mu{color:var(--mu)}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--c);margin-bottom:14px}
+section{padding:var(--sp) 0;position:relative}
+.alt{background:var(--sf)}
+.cab{max-width:640px;margin-bottom:40px}
+.cab.centro{margin-left:auto;margin-right:auto;text-align:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:var(--bw) solid var(--c);background:var(--c);color:var(--ctx);font-weight:700;padding:14px 26px;border-radius:var(--rb);cursor:pointer;transition:transform .15s,filter .15s,background .15s;text-transform:var(--btt);letter-spacing:var(--bls);font-size:15px;white-space:nowrap}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.07)}
+.btn.s{background:transparent;color:var(--tx);border-color:var(--bd2)}
+.btn.s:hover{border-color:var(--c);color:var(--c)}
+.ico{width:22px;height:22px;flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.grid{display:grid;gap:var(--gap)}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:28px;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s,border-color .2s}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--c) 40%,var(--bd))}
+.icb{width:52px;height:52px;border-radius:var(--ri);display:grid;place-items:center;background:color-mix(in srgb,var(--c) 13%,transparent);color:var(--c);margin-bottom:18px}
+.icb .ico{width:24px;height:24px}
+
+/* Cabecera */
+header{position:sticky;top:0;z-index:20;transition:background .2s,box-shadow .2s}
+.nav{display:flex;align-items:center;gap:26px;height:76px}
+.logo{display:flex;align-items:center;gap:12px;font-family:var(--fh);font-weight:var(--hw);font-size:21px;letter-spacing:var(--ls);text-transform:var(--tt);min-width:0;flex-shrink:1}
+.logo .marca{width:40px;height:40px;border-radius:var(--ri);background:var(--c);color:var(--ctx);display:grid;place-items:center;font-size:18px;flex-shrink:0;overflow:hidden}
+.logo .marca img{width:100%;height:100%;object-fit:contain;background:#fff}
+.logo span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.enlaces{display:flex;gap:26px;margin-left:auto;font-size:15px;font-weight:500}
+.enlaces a{opacity:.8;transition:opacity .15s,color .15s}.enlaces a:hover{opacity:1;color:var(--c)}
+.hamb{display:none;margin-left:auto;background:none;border:0;cursor:pointer;width:42px;height:42px;border-radius:10px}
+.hamb i{display:block;width:22px;height:2px;background:currentColor;margin:5px auto;transition:.2s}
+.movil{display:none}
+
+/* Héroe */
+.heroe{padding:var(--hp) 0}
+.heroe .lead{font-size:clamp(17px,1.6vw,20px);color:var(--mu);max-width:52ch;margin:22px 0 32px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.confianza{display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;font-size:14px;color:var(--mu)}
+.confianza b{color:var(--tx);font-size:22px;display:block;font-family:var(--fh);font-weight:var(--hw)}
+.arte{position:relative;border-radius:var(--rh);overflow:hidden;aspect-ratio:var(--ar);background:linear-gradient(140deg,color-mix(in srgb,var(--c) 85%,#fff),color-mix(in srgb,var(--c) 60%,#000))}
+.arte svg.ilu{position:absolute;inset:0;width:100%;height:100%}
+.chapa{position:absolute;background:var(--card);color:var(--tx);border-radius:var(--rb);padding:12px 16px;font-size:14px;font-weight:600;box-shadow:0 18px 40px -18px rgba(0,0,0,.45);display:flex;align-items:center;gap:10px}
+.chapa .ico{color:var(--c)}
+
+/* Franja de confianza / cinta */
+.cinta{overflow:hidden;white-space:nowrap;border-block:1px solid var(--bd);padding:18px 0;font-family:var(--fh);font-weight:var(--hw);text-transform:var(--tt);font-size:20px}
+.cinta div{display:inline-flex;gap:48px;animation:cinta 30s linear infinite;padding-left:48px}
+.cinta span{display:inline-flex;align-items:center;gap:48px}.cinta span::after{content:"✦";color:var(--c)}
+@keyframes cinta{to{transform:translateX(-50%)}}
+
+/* Cifras */
+.cifras{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.cifra b{display:block;font-family:var(--fh);font-weight:var(--hw);font-size:clamp(34px,4vw,48px);color:var(--c);line-height:1}
+.cifra span{color:var(--mu);font-size:15px}
+
+/* Proceso */
+.pasos{counter-reset:p;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.paso{position:relative;padding-top:58px}
+.paso::before{counter-increment:p;content:counter(p,decimal-leading-zero);position:absolute;top:0;left:0;font-family:var(--fh);font-weight:var(--hw);font-size:38px;color:var(--c);line-height:1}
+
+/* Galería */
+.gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:230px;gap:14px}
+.gal button{border:0;padding:0;border-radius:var(--r);overflow:hidden;position:relative;cursor:zoom-in;background:none}
+.gal button:nth-child(1){grid-row:span 2}
+.gal button:nth-child(6){grid-column:span 2}
+.foto{position:absolute;inset:0;transition:transform .5s}
+.gal button:hover .foto{transform:scale(1.05)}
+.gal figcaption{position:absolute;left:12px;bottom:12px;background:var(--card);color:var(--tx);font-size:13px;font-weight:600;padding:7px 12px;border-radius:var(--rb)}
+.visor{position:fixed;inset:0;z-index:60;background:rgba(5,6,10,.86);display:none;place-items:center;padding:24px}
+.visor.on{display:grid}
+.visor .marco{width:min(860px,100%);aspect-ratio:16/10;border-radius:var(--r);overflow:hidden;position:relative}
+.visor p{color:#fff;text-align:center;margin-top:14px;font-weight:600}
+.visor .cerrar{position:absolute;top:18px;right:22px;background:#fff;border:0;width:44px;height:44px;border-radius:50%;font-size:22px;cursor:pointer}
+
+/* Opiniones */
+.ops{position:relative}
+.op{display:none}.op.on{display:block;animation:entra .5s}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}}
+.op blockquote{font-family:var(--fq);font-size:clamp(22px,2.6vw,30px);line-height:1.35;max-width:820px}
+.op .quien{display:flex;align-items:center;gap:12px;margin-top:24px}
+.op .av{width:46px;height:46px;border-radius:50%;background:color-mix(in srgb,var(--c) 22%,var(--sf));color:var(--c);display:grid;place-items:center;font-weight:700}
+.estr{color:#f5a524;letter-spacing:3px;font-size:18px;margin-bottom:14px}
+.puntos{display:flex;gap:8px;margin-top:28px}
+.puntos button{width:10px;height:10px;border-radius:99px;border:0;background:var(--bd2);cursor:pointer;transition:width .2s}
+.puntos button.on{width:28px;background:var(--c)}
+
+/* Preguntas */
+.faq details{border-bottom:1px solid var(--bd);padding:20px 0}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;font-weight:600;font-size:18px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";color:var(--c);font-size:24px;line-height:1;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{color:var(--mu);margin-top:10px;max-width:70ch}
+
+/* Banda final y contacto */
+.banda{border-radius:var(--rh);padding:clamp(36px,6vw,64px);background:var(--c);color:var(--ctx);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.banda h2{margin:0;max-width:22ch}
+.banda .btn{background:var(--ctx);color:var(--c);border-color:var(--ctx)}
+.form{display:grid;gap:14px}
+.form label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.form input,.form select,.form textarea{border:1px solid var(--bd2);background:var(--card);border-radius:var(--rb);padding:13px 14px;font-weight:400;outline:none;transition:border-color .15s}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:var(--c)}
+.form .error{color:#dc2626;font-size:13px;min-height:18px}
+.ok{padding:16px;border-radius:var(--rb);background:color-mix(in srgb,var(--c) 14%,transparent);font-weight:600}
+.mapa{border-radius:var(--r);min-height:280px;background:
+  linear-gradient(90deg,color-mix(in srgb,var(--tx) 6%,transparent) 1px,transparent 1px) 0 0/40px 40px,
+  linear-gradient(color-mix(in srgb,var(--tx) 6%,transparent) 1px,transparent 1px) 0 0/40px 40px,var(--sf);position:relative;overflow:hidden;border:1px solid var(--bd)}
+.mapa::before{content:"";position:absolute;inset:auto -10% 30% -10%;height:18px;background:color-mix(in srgb,var(--c) 30%,transparent);transform:rotate(-8deg)}
+.mapa .pin{position:absolute;left:52%;top:42%;transform:translate(-50%,-100%);color:var(--c)}
+.mapa .pin .ico{width:44px;height:44px;fill:var(--c);stroke:var(--card)}
+.datos-c{display:grid;gap:14px;margin-top:22px}
+.datos-c div{display:flex;gap:12px;align-items:center}
+.datos-c .ico{color:var(--c)}
+footer{padding:56px 0 34px;border-top:1px solid var(--bd);font-size:14px;color:var(--mu)}
+footer .fcols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px}
+footer b{color:var(--tx);display:block;margin-bottom:10px}
+footer .legal{margin-top:36px;padding-top:20px;border-top:1px solid var(--bd);display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.wa{position:fixed;right:20px;bottom:20px;z-index:30;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);border:0;cursor:pointer}
+.wa .ico{width:28px;height:28px}
+.aviso{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#111;color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:.25s;pointer-events:none;z-index:70;max-width:90vw;text-align:center}
+.aviso.on{opacity:1;transform:translate(-50%,0)}
+.revela{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
+.revela.vista{opacity:1;transform:none}
+
+/* Herramientas por sector */
+.herr{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:28px;box-shadow:var(--sh)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--bd2);background:transparent;border-radius:var(--rb);padding:9px 14px;cursor:pointer;font-size:14px;font-weight:600;transition:.15s}
+.chip.on,.chip:hover{border-color:var(--c);color:var(--c)}
+.chip.on{background:color-mix(in srgb,var(--c) 12%,transparent)}
+.total{font-family:var(--fh);font-weight:var(--hw);font-size:40px;color:var(--c);line-height:1.1;margin:10px 0}
+input[type=range]{width:100%;accent-color:var(--c)}
+.dias{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.dias button,.horas button{border:1px solid var(--bd2);background:transparent;border-radius:var(--rb);padding:10px 2px;cursor:pointer;font-size:13px;line-height:1.3;transition:.15s}
+.dias button.on,.horas button.on{background:var(--c);border-color:var(--c);color:var(--ctx)}
+.dias button:disabled{opacity:.35;cursor:not-allowed}
+.horas{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.horas button{padding:9px 14px}
+.carta .fila{display:flex;align-items:baseline;gap:10px;padding:14px 0;border-bottom:1px dashed var(--bd2)}
+.carta .fila .lin{flex:1;border-bottom:1px dotted var(--bd2);transform:translateY(-4px)}
+.carta .fila small{display:block;color:var(--mu);font-size:13px}
+.carta .fila>b:last-child{white-space:nowrap}
+.ad{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;user-select:none}
+.ad .lado{position:absolute;inset:0;display:grid;place-items:end start;padding:14px}
+.ad .lado span{background:rgba(0,0,0,.6);color:#fff;font-size:12px;font-weight:700;padding:5px 10px;border-radius:6px;letter-spacing:.1em}
+.ad .despues{clip-path:inset(0 0 0 var(--x,50%))}
+.ad .despues span{justify-self:end}
+.ad .barra{position:absolute;top:0;bottom:0;left:var(--x,50%);width:3px;background:#fff;transform:translateX(-50%);pointer-events:none}
+.ad .barra::after{content:"⟷";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:#fff;color:#111;display:grid;place-items:center;font-weight:700;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.ad input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize}
+.prods{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+.prod{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:transform .2s}
+.prod:hover{transform:translateY(-4px)}
+.prod .img{aspect-ratio:1;position:relative;background:color-mix(in srgb,var(--c) 10%,var(--sf))}
+.prod .img svg{position:absolute;inset:12%;width:76%;height:76%}
+.prod .etq{position:absolute;top:10px;left:10px;background:var(--c);color:var(--ctx);font-size:12px;font-weight:700;padding:4px 9px;border-radius:var(--rb)}
+.prod .info{padding:16px;display:flex;flex-direction:column;gap:4px;flex:1}
+.prod .precio{font-weight:700;font-size:18px}
+.prod .btn{margin-top:auto;padding:10px 14px;font-size:14px}
+.cesta-b{position:fixed;right:20px;top:92px;z-index:25;background:var(--tx);color:var(--bg);border:0;border-radius:99px;padding:12px 18px;font-weight:700;cursor:pointer;display:flex;gap:8px;align-items:center;box-shadow:0 12px 26px -10px rgba(0,0,0,.4)}
+.cesta-b i{font-style:normal;background:var(--c);color:var(--ctx);border-radius:99px;min-width:22px;height:22px;display:grid;place-items:center;font-size:12px;padding:0 6px}
+.cesta{position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);background:var(--card);color:var(--tx);z-index:65;transform:translateX(105%);transition:transform .3s;box-shadow:-20px 0 50px rgba(0,0,0,.25);display:flex;flex-direction:column}
+.cesta.on{transform:none}
+.cesta header{position:static;display:flex;justify-content:space-between;align-items:center;padding:20px;border-bottom:1px solid var(--bd)}
+.cesta .lista{flex:1;overflow:auto;padding:8px 20px}
+.cesta .it{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 0;border-bottom:1px solid var(--bd)}
+.cesta .cant{display:flex;align-items:center;gap:8px}
+.cesta .cant button{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd2);background:transparent;cursor:pointer}
+.cesta footer{padding:20px;border-top:1px solid var(--bd);margin:0}
+.envio{height:8px;border-radius:99px;background:var(--sf);overflow:hidden;margin:8px 0 14px}.envio i{display:block;height:100%;background:var(--c);transition:width .3s}
+.quiz .opc{display:grid;gap:10px;margin-top:16px}
+.quiz .opc button{text-align:left;border:1px solid var(--bd2);background:transparent;border-radius:var(--rb);padding:14px 16px;cursor:pointer;font-weight:600;transition:.15s}
+.quiz .opc button:hover{border-color:var(--c);color:var(--c)}
+.barra-q{height:6px;background:var(--sf);border-radius:99px;overflow:hidden;margin-bottom:20px}.barra-q i{display:block;height:100%;background:var(--c);transition:width .3s}
+.precios{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.precio-c{display:flex;flex-direction:column;gap:12px}
+.precio-c.top{border-color:var(--c);box-shadow:0 0 0 2px var(--c),var(--sh)}
+.precio-c .cifra-p{font-family:var(--fh);font-weight:var(--hw);font-size:42px;line-height:1}
+.precio-c ul{list-style:none;display:grid;gap:8px;color:var(--mu);font-size:15px;margin-bottom:8px}
+.precio-c li::before{content:"✓ ";color:var(--c);font-weight:700}
+.qr{width:168px;height:168px;display:grid;grid-template-columns:repeat(21,1fr);background:#fff;padding:10px;border-radius:14px;flex-shrink:0}
+.qr i{background:#111}.qr i.v{background:transparent}
+
+/* ===================== Estilo 1 · Moderno ===================== */
+body.moderno{--fh:"Plus Jakarta Sans",system-ui,sans-serif;--fb:"Plus Jakarta Sans",system-ui,sans-serif;--fq:"Plus Jakarta Sans",sans-serif;--hw:800;--tt:none;--ls:-.03em;--h1:68px;--h2:46px;
+  --bg:#ffffff;--sf:#f5f7fb;--card:#ffffff;--tx:#0f172a;--mu:#5b6478;--bd:#e7eaf1;--bd2:#d5dae5;--ctx:#fff;
+  --r:22px;--rh:30px;--rb:14px;--ri:14px;--bw:2px;--btt:none;--bls:0;--sh:0 20px 45px -28px rgba(15,23,42,.35);--sp:104px;--hp:64px;--gap:22px;--ar:5/5.2}
+body.moderno header{background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--bd)}
+body.moderno .heroe{background:radial-gradient(1200px 500px at 85% -10%,color-mix(in srgb,var(--c) 20%,transparent),transparent),radial-gradient(800px 400px at -10% 110%,color-mix(in srgb,var(--c) 10%,transparent),transparent)}
+body.moderno .heroe .w{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+body.moderno .heroe h1 .acento{background:linear-gradient(90deg,var(--c),color-mix(in srgb,var(--c) 55%,#7c3aed));-webkit-background-clip:text;background-clip:text;color:transparent}
+body.moderno .kick{background:color-mix(in srgb,var(--c) 10%,#fff);border:1px solid color-mix(in srgb,var(--c) 25%,#fff);padding:7px 14px;border-radius:99px;letter-spacing:.02em;text-transform:none}
+body.moderno .chapa.c1{left:-18px;bottom:28px}body.moderno .chapa.c2{right:-10px;top:26px}
+body.moderno .arte{overflow:visible}body.moderno .arte .lienzo{position:absolute;inset:0;border-radius:inherit;overflow:hidden;background:inherit}
+body.moderno .cinta{display:none}
+
+/* ===================== Estilo 2 · Elegante ===================== */
+body.elegante{--fh:"Cormorant Garamond",Georgia,serif;--fb:"Inter",system-ui,sans-serif;--fq:"Cormorant Garamond",Georgia,serif;--hw:500;--tt:none;--ls:-.01em;--h1:84px;--h2:56px;
+  --bg:#fbf9f5;--sf:#f3efe8;--card:#fffdf9;--tx:#1d1a16;--mu:#6e675d;--bd:#e6dfd3;--bd2:#d6ccbc;--ctx:#fff;
+  --r:2px;--rh:2px;--rb:0;--ri:50%;--bw:1px;--btt:uppercase;--bls:.16em;--sh:none;--sp:120px;--hp:90px;--gap:30px;--ar:4/5}
+body.elegante header{background:var(--bg);border-bottom:1px solid var(--bd)}
+body.elegante .nav{height:auto;flex-direction:column;gap:12px;padding:20px 0 14px}
+body.elegante .logo{font-size:30px;font-style:italic}
+body.elegante .logo .marca{display:none}body.elegante .logo .marca.foto-logo{display:grid;width:46px;height:46px}
+body.elegante .enlaces{margin:0;gap:34px;font-size:12px;letter-spacing:.22em;text-transform:uppercase}
+body.elegante .nav>.btn{display:none}
+body.elegante .heroe{text-align:center}
+body.elegante .heroe .w{display:grid;gap:56px;justify-items:center}
+body.elegante .heroe h1{font-style:italic;max-width:16ch;margin:0 auto}
+body.elegante .heroe .acento{font-style:normal;color:var(--tx);border-bottom:1px solid var(--c)}
+body.elegante .heroe .lead{margin-left:auto;margin-right:auto}
+body.elegante .ctas,body.elegante .confianza{justify-content:center}
+body.elegante .arte{width:min(520px,100%);border:1px solid var(--bd2);padding:14px;background:var(--card);aspect-ratio:auto}
+body.elegante .arte .lienzo{aspect-ratio:16/10;position:relative;overflow:hidden;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 55%,#f3efe8),color-mix(in srgb,var(--c) 75%,#1d1a16))}
+body.elegante .arte figcaption{font-family:var(--fh);font-style:italic;font-size:18px;color:var(--mu);margin-top:10px}
+body.elegante .chapa{display:none}
+body.elegante .kick{color:var(--mu);letter-spacing:.3em;font-size:11px}
+body.elegante .kick::before,body.elegante .kick::after{content:"";width:28px;height:1px;background:var(--c)}
+body.elegante .cab{text-align:center;margin-left:auto;margin-right:auto}
+body.elegante .card{border-width:0;border-top:1px solid var(--c);background:transparent;padding:26px 6px 0}
+body.elegante .card:hover{transform:none}
+body.elegante .icb{background:transparent;border:1px solid var(--bd2)}
+body.elegante .cifra b{font-style:italic}
+body.elegante .cinta{font-style:italic;text-transform:none;font-size:26px;border-color:var(--bd2)}
+body.elegante .banda{background:var(--tx);color:var(--bg)}
+body.elegante .banda .btn{background:transparent;color:var(--bg);border-color:var(--bg)}
+body.elegante .op{text-align:center}body.elegante .op blockquote{margin:0 auto;font-style:italic}body.elegante .op .quien,body.elegante .puntos{justify-content:center}
+body.elegante .gal{grid-auto-rows:260px}
+
+/* ===================== Estilo 3 · Minimal ===================== */
+body.minimal{--fh:"Space Grotesk",system-ui,sans-serif;--fb:"Inter",system-ui,sans-serif;--fq:"Space Grotesk",sans-serif;--hw:500;--tt:none;--ls:-.045em;--h1:104px;--h2:60px;
+  --bg:#ffffff;--sf:#f4f4f2;--card:#ffffff;--tx:#0a0a0a;--mu:#5f5f5a;--bd:#0a0a0a;--bd2:#0a0a0a;--ctx:#fff;
+  --r:0;--rh:0;--rb:0;--ri:0;--bw:1px;--btt:none;--bls:0;--sh:none;--sp:96px;--hp:56px;--gap:0px;--ar:1/1}
+body.minimal header{background:var(--bg);border-bottom:1px solid var(--bd)}
+body.minimal .logo .marca{border-radius:0}
+body.minimal .enlaces a{counter-increment:n;opacity:1}
+body.minimal .enlaces{counter-reset:n}
+body.minimal .enlaces a::before{content:"0" counter(n) " ";color:var(--c);font-family:var(--fh);font-size:12px;vertical-align:top}
+body.minimal .btn{background:var(--tx);border-color:var(--tx)}
+body.minimal .btn.s{background:transparent;border-color:var(--tx)}
+body.minimal .btn:hover{transform:none;background:var(--c);border-color:var(--c);color:var(--ctx)}
+body.minimal .heroe .w{display:grid;grid-template-columns:1fr;gap:40px}
+body.minimal .heroe h1{max-width:12ch;line-height:.95}
+body.minimal .heroe h1 .acento{color:var(--tx);box-shadow:inset 0 -0.18em 0 var(--c)}
+body.minimal .heroe .fila-h{display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:end;border-top:1px solid var(--bd);padding-top:26px}
+body.minimal .arte{aspect-ratio:21/8;border-radius:0}
+body.minimal .chapa{border-radius:0;box-shadow:none;border:1px solid var(--bd)}
+body.minimal .chapa.c1{left:0;bottom:0}body.minimal .chapa.c2{display:none}
+body.minimal .kick{color:var(--tx);letter-spacing:.06em}
+body.minimal .kick::before{content:"■";color:var(--c)}
+body.minimal .grid.g3,body.minimal .grid.g4,body.minimal .grid.g2,body.minimal .cifras,body.minimal .pasos,body.minimal .prods,body.minimal .precios{border-top:1px solid var(--bd);border-left:1px solid var(--bd)}
+body.minimal .card,body.minimal .cifra,body.minimal .paso,body.minimal .prod,body.minimal .precio-c{border:0;border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);border-radius:0;padding:30px}
+body.minimal .card:hover{transform:none;background:var(--sf)}
+body.minimal .paso{padding-top:90px}body.minimal .paso::before{top:30px;left:30px}
+body.minimal .cifra b{color:var(--tx)}
+body.minimal .icb{background:transparent;border:1px solid var(--bd);color:var(--tx)}
+body.minimal .cinta{border-color:var(--bd);font-size:46px;letter-spacing:-.04em}
+body.minimal .banda{background:var(--tx);color:#fff;border-radius:0}
+body.minimal .banda .btn{background:var(--c);border-color:var(--c);color:var(--ctx)}
+body.minimal .gal{gap:0;border:1px solid var(--bd)}body.minimal .gal button{border-radius:0;outline:1px solid var(--bd)}
+body.minimal .gal figcaption{border-radius:0}
+body.minimal .panel{border-color:var(--bd)}
+body.minimal .herr{gap:30px}
+body.minimal .prod .img{border-bottom:1px solid var(--bd)}
+body.minimal .prods .prod{border-radius:0}
+body.minimal .prods .prod{padding:0}
+
+/* ===================== Estilo 4 · Oscuro ===================== */
+body.oscuro{--fh:"Archivo Black",system-ui,sans-serif;--fb:"Inter",system-ui,sans-serif;--fq:"Inter",sans-serif;--hw:400;--tt:uppercase;--ls:-.01em;--h1:88px;--h2:54px;
+  --bg:#09090d;--sf:#111118;--card:#14141c;--tx:#f4f4f7;--mu:#9a9aab;--bd:#24242f;--bd2:#33333f;--ctx:#09090d;
+  --r:22px;--rh:28px;--rb:99px;--ri:16px;--bw:2px;--btt:uppercase;--bls:.06em;--sh:none;--sp:110px;--hp:80px;--gap:18px;--ar:16/10}
+body.oscuro .w{max-width:1200px}
+body.oscuro header{top:14px;background:transparent}
+body.oscuro .nav{max-width:1100px;margin:0 auto;height:64px;padding:0 10px 0 22px;border-radius:99px;background:rgba(20,20,28,.72);backdrop-filter:blur(14px);border:1px solid var(--bd2)}
+body.oscuro .logo{font-size:17px}
+body.oscuro .logo .marca{border-radius:50%}
+body.oscuro .heroe{text-align:center;overflow:hidden}
+body.oscuro .heroe::before{content:"";position:absolute;width:820px;height:820px;left:50%;top:-360px;transform:translateX(-50%);background:radial-gradient(circle,color-mix(in srgb,var(--c) 55%,transparent),transparent 62%);filter:blur(30px);opacity:.75;pointer-events:none}
+body.oscuro .heroe .w{position:relative;display:grid;gap:56px;justify-items:center}
+body.oscuro .heroe h1{max-width:15ch;margin:0 auto;line-height:.98}
+body.oscuro .heroe .acento{color:var(--c);text-shadow:0 0 42px color-mix(in srgb,var(--c) 60%,transparent)}
+body.oscuro .heroe .lead{margin-left:auto;margin-right:auto}
+body.oscuro .ctas,body.oscuro .confianza{justify-content:center}
+body.oscuro .btn{box-shadow:0 0 34px -8px var(--c)}
+body.oscuro .btn.s{box-shadow:none;color:var(--tx)}
+body.oscuro .arte{width:100%;max-width:980px;border:1px solid var(--bd2);background:linear-gradient(140deg,color-mix(in srgb,var(--c) 40%,#09090d),#09090d 75%)}
+body.oscuro .chapa{background:#1b1b25;color:var(--tx);border:1px solid var(--bd2)}
+body.oscuro .chapa.c1{left:24px;bottom:24px}body.oscuro .chapa.c2{right:24px;top:24px}
+body.oscuro .kick{border:1px solid var(--bd2);padding:7px 14px;border-radius:99px;color:var(--tx)}
+body.oscuro .kick::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c)}
+body.oscuro .card{background:linear-gradient(180deg,#17171f,#111118)}
+body.oscuro .card:hover{border-color:var(--c);box-shadow:0 0 0 1px var(--c),0 20px 50px -30px var(--c)}
+body.oscuro .cinta{background:var(--c);color:var(--ctx);border:0;font-size:26px;transform:rotate(-1.5deg);margin:20px -20px}
+body.oscuro .cinta span::after{color:var(--ctx)}
+body.oscuro .banda{background:linear-gradient(120deg,var(--c),color-mix(in srgb,var(--c) 60%,#7c3aed))}
+body.oscuro .mapa{background-color:#111118}
+body.oscuro .form input,body.oscuro .form select,body.oscuro .form textarea{background:#0f0f15}
+body.oscuro .gal figcaption{background:#14141c;color:#fff}
+body.oscuro .prod .img{background:#1a1a24}
+body.oscuro .cesta-b{background:var(--c);color:var(--ctx)}body.oscuro .cesta-b i{background:var(--ctx);color:var(--c)}
+
+/* ===================== Estilo 5 · Cálido ===================== */
+body.calido{--fh:"Fraunces",Georgia,serif;--fb:"Nunito",system-ui,sans-serif;--fq:"Fraunces",Georgia,serif;--hw:700;--tt:none;--ls:-.02em;--h1:72px;--h2:48px;
+  --bg:#f7efe4;--sf:#efe3d3;--card:#fffaf3;--tx:#3a2c25;--mu:#7a675b;--bd:#e7d8c4;--bd2:#d9c5ab;--ctx:#fff;
+  --r:28px;--rh:36px;--rb:99px;--ri:50%;--bw:2px;--btt:none;--bls:0;--sh:0 18px 40px -26px rgba(90,56,30,.45);--sp:104px;--hp:60px;--gap:24px;--ar:4/5}
+body.calido header{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px)}
+body.calido .enlaces a{padding:8px 14px;border-radius:99px}
+body.calido .enlaces a:hover{background:var(--sf)}
+body.calido .heroe .w{display:grid;grid-template-columns:1fr .85fr;gap:60px;align-items:center}
+body.calido .heroe h1 .acento{font-style:italic;color:var(--c)}
+body.calido .arte{border-radius:999px 999px var(--rh) var(--rh);box-shadow:0 30px 60px -30px rgba(90,56,30,.6);outline:10px solid var(--card);outline-offset:-1px}
+body.calido .chapa{border-radius:20px}
+body.calido .chapa.c1{left:-26px;bottom:60px}body.calido .chapa.c2{right:-20px;bottom:150px;top:auto}
+body.calido .arte{overflow:visible}body.calido .arte .lienzo{position:absolute;inset:0;border-radius:inherit;overflow:hidden;background:inherit}
+body.calido .kick{text-transform:none;letter-spacing:0;font-family:var(--fh);font-style:italic;font-size:18px;font-weight:500}
+body.calido .kick::before{content:"~"}
+body.calido .alt{background:var(--sf)}
+body.calido .alt::before,body.calido .alt::after{content:"";position:absolute;left:0;right:0;height:40px;background:var(--sf);-webkit-mask:radial-gradient(28px 20px at 50% 0,#000 98%,transparent) 0 0/56px 40px repeat-x;mask:radial-gradient(28px 20px at 50% 0,#000 98%,transparent) 0 0/56px 40px repeat-x}
+body.calido .alt::before{top:-39px;transform:rotate(180deg)}
+body.calido .alt::after{bottom:-39px}
+body.calido .card{border:0}
+body.calido .cinta{display:none}
+body.calido .banda{background:var(--tx);color:var(--bg)}
+body.calido .banda .btn{background:var(--c);color:var(--ctx);border-color:var(--c)}
+body.calido .gal button{border-radius:var(--r)}
+
+/* ===================== Adaptación a pantallas ===================== */
+@media(max-width:960px){
+  .g3,.g4,.prods,.precios{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cifras,.pasos{grid-template-columns:repeat(2,1fr)}
+  .herr{grid-template-columns:1fr}
+  body.moderno .heroe .w,body.calido .heroe .w,body.minimal .heroe .fila-h{grid-template-columns:1fr}
+  footer .fcols{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  .enlaces,.nav>.btn{display:none}
+  .hamb{display:block}
+  body.elegante .nav{flex-direction:row;height:70px;padding:0}
+  body.elegante .logo{font-size:24px}
+  body.oscuro .nav{margin:0 12px}
+  .movil.on{display:grid;gap:4px;position:fixed;inset:76px 0 auto;z-index:19;background:var(--bg);padding:14px 24px 22px;border-bottom:1px solid var(--bd);box-shadow:0 20px 30px -20px rgba(0,0,0,.3)}
+  .movil a{padding:12px 0;font-size:18px;border-bottom:1px solid var(--bd)}
+  .g2,.g3,.g4,.precios{grid-template-columns:1fr}
+  .prods{grid-template-columns:repeat(2,1fr);gap:12px}
+  .gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}
+  .gal button:nth-child(6){grid-column:span 2}
+  footer .fcols{grid-template-columns:1fr}
+  .chapa.c2{display:none}
+  body.moderno .chapa.c1,body.calido .chapa.c1{left:10px;bottom:14px}
+  body.minimal .arte{aspect-ratio:4/3}
+  .cesta-b{top:auto;bottom:90px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.revela{opacity:1;transform:none}}
+</style>
+</head>
+<body class="moderno">
+<header><div class="w nav">
+  <a class="logo" href="#inicio"><span class="marca" id="marca"></span><span data-v="nombre"></span></a>
+  <nav class="enlaces" id="enlaces"></nav>
+  <a class="btn" href="#contacto" data-v="cta"></a>
+  <button class="hamb" aria-label="Abrir menú" onclick="document.getElementById('movil').classList.toggle('on')"><i></i><i></i><i></i></button>
+</div></header>
+<nav class="movil" id="movil" onclick="if(event.target.closest('a'))this.classList.remove('on')"></nav>
+<main id="main"></main>
+<footer id="pie"></footer>
+<button class="wa" aria-label="Escribir por WhatsApp" onclick="aviso('En tu web, este botón abre WhatsApp con tu número.')"><svg class="ico" viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.6A8.5 8.5 0 1 1 21 11.5z"/></svg></button>
+<div class="visor" id="visor" onclick="if(event.target===this||event.target.closest('.cerrar'))this.classList.remove('on')"><button class="cerrar" aria-label="Cerrar">×</button><div><div class="marco" id="visor-m"></div><p id="visor-t"></p></div></div>
+<div class="aviso" id="aviso" role="status"></div>
+<script>
+// Plantillas de demostración de Velority: 6 sectores × 5 estilos, personalizables en vivo desde el portal (postMessage).
+// ---------------------------------------------------------------------------------------------------------------
+const ICO = {
+  casa: '<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  llave: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
+  gota: '<path d="M12 2.7s-6 6.6-6 11a6 6 0 0 0 12 0c0-4.4-6-11-6-11z"/>',
+  brillo: '<path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M5.6 18.4l2.8-2.8M15.6 8.4l2.8-2.8"/>',
+  escudo: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  ok: '<path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><path d="M22 4 12 14l-3-3"/>',
+  reloj: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  cal: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  corazon: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>',
+  bolsa: '<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/>',
+  camion: '<path d="M1 3h15v13H1zM16 8h4l3 3v5h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',
+  chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  maletin: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  cubiertos: '<path d="M7 2v20M4 2v6a3 3 0 0 0 6 0V2M17 2c-2 2-3 5-3 8h3v12"/>',
+  copa: '<path d="M8 22h8M12 15v7M7 2h10l-1 7a4 4 0 0 1-8 0z"/>',
+  balanza: '<path d="M12 3v18M5 7h14M8 21h8"/><path d="M5 7l-3 7a3.5 3.5 0 0 0 6 0zM19 7l-3 7a3.5 3.5 0 0 0 6 0z"/>',
+  diente: '<path d="M7 3c-2 0-4 2-4 5 0 4 2 5 2 9s1 4 2 4 2-3 3-6c1 3 2 6 3 6s2 0 2-4 2-5 2-9c0-3-2-5-4-5-2 0-3 1-5 1S9 3 7 3z"/>',
+  hoja: '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/>',
+  tel: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+  pin: '<path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+  correo: '<path d="M3 6h18v12H3z"/><path d="m3 7 9 7 9-7"/>',
+  grafica: '<path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/>',
+  tarjeta: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+  vuelta: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
+  usuario: '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>',
+};
+const ico = (n, cls = "ico") => `<svg class="${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICO[n] || ICO.brillo}</svg>`;
+
+// Ilustraciones de cada sector (usan el color de la marca)
+const ILU = {
+  reformas: `<rect x="0" y="0" width="400" height="400" fill="url(#cielo)"/><circle cx="318" cy="92" r="40" fill="#fff" opacity=".25"/>
+    <path d="M70 330V196l130-92 130 92v134z" fill="#fff" opacity=".96"/><path d="M52 206 200 98l148 108" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="166" y="240" width="68" height="90" rx="6" fill="var(--c)"/><circle cx="220" cy="288" r="4" fill="#fff"/>
+    <rect x="94" y="222" width="48" height="44" rx="5" fill="color-mix(in srgb,var(--c) 30%,#fff)"/><rect x="258" y="222" width="48" height="44" rx="5" fill="color-mix(in srgb,var(--c) 30%,#fff)"/>
+    <path d="M118 222v44M94 244h48M282 222v44M258 244h48" stroke="#fff" stroke-width="3"/>
+    <rect x="300" y="250" width="56" height="20" rx="6" fill="#1f2937" transform="rotate(-38 328 260)"/><rect x="321" y="268" width="8" height="70" rx="4" fill="#1f2937" transform="rotate(-38 325 303)"/>
+    <rect x="30" y="330" width="340" height="12" rx="6" fill="#fff" opacity=".5"/>`,
+  estetica: `<rect width="400" height="400" fill="url(#cielo)"/><circle cx="200" cy="190" r="128" fill="#fff" opacity=".18"/>
+    <path d="M200 92c-52 0-82 40-82 92 0 62 38 112 82 112s82-50 82-112c0-52-30-92-82-92z" fill="#fff" opacity=".95"/>
+    <path d="M168 196c6 6 18 6 24 0M208 196c6 6 18 6 24 0" stroke="var(--c)" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M186 242c9 7 19 7 28 0" stroke="var(--c)" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M118 176c-30-50-6-98 40-112 30-9 66-6 90 8 40 22 58 66 34 104-6-34-30-58-62-66-36-8-82 20-102 66z" fill="color-mix(in srgb,var(--c) 70%,#000)" opacity=".85"/>
+    <path d="M300 296c20-36 52-46 70-40-8 30-36 52-70 40z" fill="#fff" opacity=".9"/><path d="M60 300c-16-30-8-58 10-70 14 26 12 56-10 70z" fill="#fff" opacity=".7"/>
+    <circle cx="96" cy="110" r="6" fill="#fff"/><circle cx="318" cy="132" r="9" fill="#fff" opacity=".8"/><circle cx="300" cy="96" r="4" fill="#fff"/>`,
+  hosteleria: `<rect width="400" height="400" fill="url(#cielo)"/><ellipse cx="200" cy="300" rx="150" ry="30" fill="#000" opacity=".15"/>
+    <circle cx="200" cy="222" r="122" fill="#fff"/><circle cx="200" cy="222" r="92" fill="none" stroke="color-mix(in srgb,var(--c) 25%,#fff)" stroke-width="6"/>
+    <circle cx="176" cy="206" r="26" fill="var(--c)"/><circle cx="226" cy="236" r="22" fill="color-mix(in srgb,var(--c) 60%,#111)"/><circle cx="214" cy="194" r="14" fill="#f5c542"/>
+    <path d="M150 248c20 14 56 18 82 4" stroke="#7cb342" stroke-width="10" stroke-linecap="round" fill="none"/>
+    <path d="M52 120v200M40 120v40a12 12 0 0 0 24 0v-40" stroke="#fff" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M350 120c-14 14-20 34-20 58h20v142" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M180 92c-8-14 8-22 0-38M210 92c-8-14 8-22 0-38M240 92c-8-14 8-22 0-38" stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity=".8"/>`,
+  clinica: `<rect width="400" height="400" fill="url(#cielo)"/><rect x="70" y="80" width="260" height="250" rx="40" fill="#fff" opacity=".18"/>
+    <path d="M156 110c-34 0-56 28-56 66 0 52 26 66 26 116 0 30 12 40 24 40 18 0 24-42 40-82 16 40 22 82 40 82 12 0 24-10 24-40 0-50 26-64 26-116 0-38-22-66-56-66-24 0-34 12-56 12s-34-12-56-12z" transform="translate(22 0)" fill="#fff"/>
+    <path d="M300 110h28v28h28v28h-28v28h-28v-28h-28v-28h28z" fill="var(--c)" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M150 170c10-18 30-24 46-16" stroke="color-mix(in srgb,var(--c) 40%,#fff)" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <circle cx="86" cy="300" r="10" fill="#fff" opacity=".7"/><circle cx="330" cy="290" r="6" fill="#fff"/>`,
+  tienda: `<rect width="400" height="400" fill="url(#cielo)"/><ellipse cx="200" cy="336" rx="140" ry="18" fill="#000" opacity=".15"/>
+    <path d="M110 140h180l20 196H90z" fill="#fff"/><path d="M160 140v-20a40 40 0 0 1 80 0v20" stroke="#fff" stroke-width="12" fill="none" stroke-linecap="round"/>
+    <path d="M150 168a50 50 0 0 0 100 0" stroke="var(--c)" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <rect x="262" y="210" width="96" height="58" rx="12" fill="color-mix(in srgb,var(--c) 70%,#111)" transform="rotate(14 310 239)"/><text x="292" y="252" font-family="system-ui" font-weight="800" font-size="24" fill="#fff" transform="rotate(14 310 239)">-20%</text>
+    <path d="M150 250l20 20 40-46" stroke="var(--c)" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="72" cy="120" r="8" fill="#fff" opacity=".8"/><circle cx="330" cy="120" r="12" fill="#fff" opacity=".5"/>`,
+  profesional: `<rect width="400" height="400" fill="url(#cielo)"/><rect x="60" y="270" width="280" height="16" rx="8" fill="#fff" opacity=".5"/>
+    <path d="M200 88v178" stroke="#fff" stroke-width="10" stroke-linecap="round"/><path d="M110 120h180" stroke="#fff" stroke-width="10" stroke-linecap="round"/>
+    <path d="M110 120 72 206h76z" fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round"/><path d="M72 206a38 22 0 0 0 76 0z" fill="#fff"/>
+    <path d="M290 120l-38 86h76z" fill="none" stroke="#fff" stroke-width="7" stroke-linejoin="round"/><path d="M252 206a38 22 0 0 0 76 0z" fill="#fff"/>
+    <circle cx="200" cy="82" r="14" fill="var(--c)" stroke="#fff" stroke-width="6"/><rect x="150" y="262" width="100" height="24" rx="8" fill="#fff"/>`,
+};
+const defs = `<defs><linearGradient id="cielo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="color-mix(in srgb,var(--c) 75%,#fff)"/><stop offset="1" stop-color="color-mix(in srgb,var(--c) 70%,#000)"/></linearGradient></defs>`;
+const ilustracion = (k, encaja) => `<svg class="ilu" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid ${encaja ? "meet" : "slice"}" aria-hidden="true">${defs}${ILU[k]}</svg>`;
+// Fotos de la galería: composiciones abstractas con el color de la marca
+function foto(semilla, k) {
+  const tonos = [0, 18, -24, 34, -10, 52], t = tonos[semilla % tonos.length];
+  return `<div class="foto" style="background:linear-gradient(${120 + semilla * 37}deg,color-mix(in srgb,var(--c) ${55 + (semilla % 3) * 12}%,#fff),color-mix(in srgb,var(--c) 70%,#000));filter:hue-rotate(${t}deg)">
+    <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style="position:absolute;inset:0;width:100%;height:100%;opacity:.9">
+      <circle cx="${60 + semilla * 50 % 280}" cy="${80 + semilla * 30 % 140}" r="${60 + semilla % 4 * 18}" fill="#fff" opacity=".18"/>
+      <rect x="${200 - semilla * 23 % 120}" y="${120 + semilla * 13 % 60}" width="${140 + semilla % 3 * 30}" height="${110 - semilla % 2 * 30}" rx="14" fill="#fff" opacity=".22"/>
+      <g transform="translate(170 100) scale(2.6)" stroke="#fff" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".95">${ICO[S[k].iconos[semilla % S[k].iconos.length]]}</g></svg></div>`;
+}
+
+// ------------------------------ Contenido de cada sector ------------------------------
+const S = {
+  reformas: {
+    tituloServ: "Reformas de principio a fin", nombre: "Reformas Martín", eslogan: "Reformas integrales con precio cerrado, plazos por escrito y un único responsable de obra.", cta: "Pedir presupuesto",
+    titulo: ["Reformas en {ciudad} con", "precio cerrado"], kick: "Empresa de reformas", iconos: ["casa", "llave", "gota", "brillo", "escudo"],
+    chapas: [["ok", "Cocina terminada en 12 días"], ["brillo", "4,9 en Google · 230 opiniones"]],
+    cinta: ["Cocinas", "Baños", "Reformas integrales", "Pintura", "Suelos", "Fachadas"],
+    secciones: [["Servicios", "servicios"], ["Trabajos", "trabajos"], ["Presupuesto", "herramienta"], ["Opiniones", "opiniones"], ["Contacto", "contacto"]],
+    servicios: [["casa", "Reforma integral", "De la demolición a la limpieza final, con un jefe de obra que te llama cada semana."], ["llave", "Cocinas a medida", "Diseño 3D, muebles, encimeras y electrodomésticos instalados."], ["gota", "Baños completos", "Platos de ducha, alicatado, fontanería y mamparas en 7 días."], ["brillo", "Pintura y alisado", "Interior y exterior, sin manchas ni olores, con protección total."], ["escudo", "Impermeabilización", "Terrazas, cubiertas y humedades resueltas con garantía."], ["ok", "Licencias y permisos", "Nos encargamos del papeleo con el ayuntamiento."]],
+    cifras: [["+300", "obras terminadas"], ["12", "años de experiencia"], ["4,9★", "valoración en Google"], ["2 años", "de garantía por escrito"]],
+    pasos: [["Visita gratuita", "Medimos y escuchamos lo que quieres, sin compromiso."], ["Presupuesto cerrado", "En 48 h, por partidas. El precio no cambia."], ["Obra con calendario", "Fechas por escrito y fotos de cada avance."], ["Entrega y garantía", "Limpieza final y 2 años de garantía."]],
+    galeria: ["Cocina abierta al salón", "Baño de 6 m²", "Salón con tarima", "Fachada restaurada", "Ático reformado", "Local comercial"],
+    opiniones: [["La cocina quedó perfecta y en el plazo que nos dijeron. Ni un euro más de lo presupuestado.", "María G.", "Reforma de cocina"], ["Muy limpios y puntuales. El jefe de obra nos mandaba fotos cada día.", "Javier R.", "Baño completo"], ["Precio cerrado de verdad. Repetiremos con el resto de la casa.", "Lucía P.", "Reforma integral"]],
+    faq: [["¿El presupuesto es cerrado?", "Sí. Te damos un presupuesto por partidas y ese es el precio final, salvo que tú pidas cambios."], ["¿Cuánto tarda una reforma de baño?", "Entre 7 y 10 días laborables, según el estado de las instalaciones."], ["¿Os encargáis de la licencia?", "Sí, gestionamos los permisos con el ayuntamiento y te avisamos de los plazos."], ["¿Puedo pagar a plazos?", "Sí, ofrecemos financiación hasta 24 meses."]],
+    herr: "presupuesto",
+  },
+  estetica: {
+    tituloServ: "Tratamientos pensados para ti", nombre: "Estudio Lúa", eslogan: "Tratamientos faciales y corporales personalizados. Reserva tu cita online en menos de un minuto.", cta: "Reservar cita",
+    titulo: ["Tu momento para", "cuidarte"], kick: "Centro de estética en {ciudad}", iconos: ["brillo", "hoja", "gota", "corazon", "reloj"],
+    chapas: [["cal", "Próximo hueco libre: hoy 17:30"], ["corazon", "+1.200 clientas felices"]],
+    cinta: ["Facial", "Corporal", "Manicura", "Láser", "Masajes", "Novias"],
+    secciones: [["Tratamientos", "servicios"], ["Carta", "herramienta"], ["Espacio", "trabajos"], ["Opiniones", "opiniones"], ["Contacto", "contacto"]],
+    servicios: [["brillo", "Facial", "Limpiezas, hidratación profunda y tratamientos antiedad."], ["hoja", "Corporal", "Masajes, drenaje linfático y tratamientos reafirmantes."], ["gota", "Manos y pies", "Manicura y pedicura semipermanente con productos veganos."], ["reloj", "Depilación láser", "Diodo de última generación, indoloro y rápido."], ["corazon", "Maquillaje y novias", "Prueba previa y servicio a domicilio."], ["ok", "Bonos y regalos", "Tarjetas regalo para cualquier tratamiento."]],
+    cifras: [["+1.200", "clientas"], ["9", "profesionales"], ["4,9★", "en Google"], ["35", "tratamientos"]],
+    pasos: [["Elige tu tratamiento", "Consulta la carta y los precios."], ["Reserva online", "Escoge día y hora en un minuto."], ["Disfruta", "Te esperamos con un té y sin prisas."], ["Seguimiento", "Te recordamos tu próxima sesión."]],
+    galeria: ["Sala de tratamientos", "Zona de manicura", "Recepción", "Cabina de láser", "Productos naturales", "Sala de relax"],
+    opiniones: [["Salgo siempre como nueva. Trato cercano y muy profesional.", "Ana M.", "Tratamiento facial"], ["Reservar online es comodísimo y nunca hay esperas.", "Carmen L.", "Manicura"], ["El mejor masaje que me han dado. Volveré seguro.", "Elena S.", "Masaje relajante"]],
+    faq: [["¿Puedo cambiar mi cita?", "Sí, hasta 24 h antes desde el enlace de tu confirmación."], ["¿Tenéis bonos?", "Sí, con un 15 % de descuento en paquetes de 5 sesiones."], ["¿Los productos son veganos?", "Trabajamos con marcas veganas y libres de crueldad animal."], ["¿Hacéis tarjetas regalo?", "Sí, de cualquier importe o tratamiento."]],
+    herr: "reserva",
+  },
+  hosteleria: {
+    tituloServ: "Mucho más que un restaurante", nombre: "Casa Paco", eslogan: "Cocina casera de mercado desde 1987. Menú del día de lunes a viernes y terraza todo el año.", cta: "Reservar mesa",
+    titulo: ["Comer bien,", "como en casa"], kick: "Restaurante en {ciudad}", iconos: ["cubiertos", "copa", "hoja", "reloj", "corazon"],
+    chapas: [["cubiertos", "Menú del día · 13,50 €"], ["brillo", "Recomendado por la Guía Repsol"]],
+    cinta: ["Menú del día", "Arroces", "Producto de mercado", "Terraza", "Vinos de la tierra", "Postres caseros"],
+    secciones: [["Carta", "herramienta"], ["La casa", "servicios"], ["Galería", "trabajos"], ["Opiniones", "opiniones"], ["Reservar", "contacto"]],
+    servicios: [["cubiertos", "Menú del día", "Tres platos, pan, bebida y postre casero por 13,50 €."], ["hoja", "Producto de mercado", "Compramos cada mañana en el mercado del barrio."], ["copa", "Bodega", "Más de 60 referencias de vinos de la tierra."], ["corazon", "Eventos y grupos", "Comuniones, cumpleaños y comidas de empresa."], ["reloj", "Para llevar", "Pide antes de las 13:00 y recógelo caliente."], ["ok", "Alérgenos", "Carta con alérgenos y opciones sin gluten."]],
+    cifras: [["1987", "abiertos desde"], ["60", "vinos en carta"], ["4,7★", "en Google"], ["120", "comensales"]],
+    pasos: [["Reserva", "Online o por teléfono, en un minuto."], ["Llega", "Te guardamos la mesa 15 minutos."], ["Disfruta", "Cocina casera hecha al momento."], ["Vuelve", "Con tu tarjeta de cliente, el postre lo pagamos nosotros."]],
+    galeria: ["Comedor principal", "Terraza", "Arroz del domingo", "Barra de tapas", "Bodega", "Postres caseros"],
+    opiniones: [["El mejor menú del día de la zona. Raciones generosas y trato familiar.", "Pedro A.", "Cliente habitual"], ["La tortilla es espectacular. Reservar por la web fue facilísimo.", "Sara T.", "Cena con amigos"], ["Celebramos la comunión aquí y todo salió perfecto.", "Familia Ruiz", "Evento"]],
+    faq: [["¿Tenéis opciones sin gluten?", "Sí, la carta indica los alérgenos y tenemos pan sin gluten."], ["¿Se puede reservar para grupos?", "Sí, hasta 40 personas en el salón privado."], ["¿Hay terraza?", "Sí, cubierta y climatizada todo el año."], ["¿Aceptáis mascotas?", "En la terraza, siempre."]],
+    herr: "carta",
+  },
+  clinica: {
+    tituloServ: "Tratamientos para toda la familia", nombre: "Clínica Sonríe", eslogan: "Odontología moderna sin miedo. Primera visita y diagnóstico gratis, con financiación al 0 %.", cta: "Pedir cita",
+    titulo: ["Tu sonrisa,", "en buenas manos"], kick: "Clínica dental en {ciudad}", iconos: ["diente", "escudo", "corazon", "brillo", "cal"],
+    chapas: [["ok", "Primera visita gratis"], ["tarjeta", "Financiación al 0 %"]],
+    cinta: ["Ortodoncia invisible", "Implantes", "Estética dental", "Higiene", "Urgencias", "Odontopediatría"],
+    secciones: [["Tratamientos", "servicios"], ["Pide cita", "herramienta"], ["Clínica", "trabajos"], ["Opiniones", "opiniones"], ["Contacto", "contacto"]],
+    servicios: [["diente", "Odontología general", "Revisiones, empastes y endodoncias sin dolor."], ["brillo", "Ortodoncia invisible", "Alineadores transparentes con seguimiento digital."], ["escudo", "Implantes", "Implantes de titanio con garantía de por vida."], ["corazon", "Estética dental", "Blanqueamiento y carillas para tu mejor sonrisa."], ["gota", "Higiene", "Limpieza profunda y prevención cada 6 meses."], ["reloj", "Urgencias", "Te atendemos el mismo día si te duele."]],
+    cifras: [["+8.000", "pacientes"], ["15", "años"], ["4,9★", "en Google"], ["0 %", "financiación"]],
+    pasos: [["Primera visita gratis", "Revisión, radiografía y diagnóstico."], ["Plan claro", "Presupuesto cerrado y opciones de pago."], ["Tratamiento", "Con la última tecnología y sin dolor."], ["Seguimiento", "Revisiones incluidas durante un año."]],
+    galeria: ["Recepción", "Gabinete 1", "Escáner 3D", "Sala de espera", "Zona infantil", "Esterilización"],
+    opiniones: [["Tenía pánico al dentista y aquí me lo han quitado. Gracias.", "Raúl D.", "Implante"], ["La ortodoncia invisible es comodísima y el seguimiento perfecto.", "Irene F.", "Ortodoncia"], ["Me atendieron el mismo día por una urgencia. Muy profesionales.", "Tomás G.", "Urgencia"]],
+    faq: [["¿La primera visita es gratis?", "Sí: revisión, radiografía panorámica y diagnóstico sin coste."], ["¿Puedo financiar el tratamiento?", "Sí, hasta 24 meses sin intereses."], ["¿Atendéis urgencias?", "Sí, el mismo día en horario de clínica."], ["¿Trabajáis con seguros?", "Con las principales aseguradoras."]],
+    herr: "cita",
+  },
+  tienda: {
+    tituloServ: "Compra fácil y segura", nombre: "Olivo & Co.", eslogan: "Aceites, conservas y dulces artesanos de pequeños productores. Envío en 24-48 h a toda España.", cta: "Ver tienda",
+    titulo: ["Sabores de aquí,", "en tu casa"], kick: "Tienda gourmet online", iconos: ["bolsa", "hoja", "camion", "corazon", "brillo"],
+    chapas: [["camion", "Envío gratis desde 49 €"], ["escudo", "Pago 100 % seguro"]],
+    cinta: ["Envío 24-48 h", "Pequeños productores", "Pago seguro", "Devolución 30 días", "Packs regalo"],
+    secciones: [["Tienda", "herramienta"], ["Ventajas", "servicios"], ["Opiniones", "opiniones"], ["Preguntas", "faq"], ["Contacto", "contacto"]],
+    servicios: [["camion", "Envío 24-48 h", "Gratis en pedidos desde 49 € a península."], ["escudo", "Pago seguro", "Tarjeta, Bizum o PayPal con cifrado bancario."], ["vuelta", "Devolución 30 días", "Si algo no te convence, te devolvemos el dinero."], ["hoja", "Productores locales", "Trabajamos directamente con 40 pequeños productores."], ["bolsa", "Packs regalo", "Cestas personalizadas con tarjeta."], ["chat", "Atención por WhatsApp", "Te ayudamos a elegir en minutos."]],
+    cifras: [["+15.000", "pedidos enviados"], ["40", "productores"], ["4,8★", "en Trustpilot"], ["24 h", "envío medio"]],
+    pasos: [["Elige", "Más de 200 productos seleccionados."], ["Paga seguro", "Tarjeta, Bizum o PayPal."], ["Recibe", "En 24-48 h en tu casa."], ["Disfruta", "Y si no te gusta, te devolvemos el dinero."]],
+    galeria: ["Aceites", "Conservas", "Dulces", "Packs regalo", "Productores", "Almacén"],
+    opiniones: [["El aceite es una maravilla y llegó al día siguiente.", "Isabel N.", "Compra verificada"], ["Regalé un pack por Navidad y fue un acierto total.", "Andrés V.", "Compra verificada"], ["Atención por WhatsApp de diez. Repetiré seguro.", "Marta C.", "Compra verificada"]],
+    faq: [["¿Cuánto tarda el envío?", "24-48 h laborables en península."], ["¿Puedo devolver un producto?", "Sí, en 30 días sin preguntas."], ["¿Cómo pago?", "Con tarjeta, Bizum o PayPal."], ["¿Hacéis envíos a Canarias?", "Sí, en 3-5 días con gastos especiales."]],
+    herr: "tienda",
+  },
+  profesional: {
+    tituloServ: "Áreas en las que te ayudamos", nombre: "Gómez & Asociados", eslogan: "Asesoría laboral, fiscal y jurídica para autónomos, empresas y familias. Primera consulta en 24 h.", cta: "Pedir consulta",
+    titulo: ["Asesoramiento claro,", "sin letra pequeña"], kick: "Despacho profesional en {ciudad}", iconos: ["balanza", "maletin", "grafica", "escudo", "usuario"],
+    chapas: [["reloj", "Respuesta en menos de 24 h"], ["ok", "+25 años de experiencia"]],
+    cinta: ["Laboral", "Fiscal", "Herencias", "Empresas", "Extranjería", "Mediación"],
+    secciones: [["Áreas", "servicios"], ["Evalúa tu caso", "herramienta"], ["Honorarios", "precios"], ["Opiniones", "opiniones"], ["Contacto", "contacto"]],
+    servicios: [["maletin", "Laboral", "Contratos, nóminas, despidos e inspecciones."], ["grafica", "Fiscal y contable", "IVA, IRPF, sociedades y contabilidad al día."], ["balanza", "Herencias", "Testamentos, particiones y declaraciones de herederos."], ["usuario", "Autónomos", "Alta, cuotas, facturación y Verifactu."], ["escudo", "Empresas", "Constitución, pactos de socios y compliance."], ["chat", "Mediación", "Acuerdos rápidos sin juicio."]],
+    cifras: [["+25", "años"], ["1.800", "clientes"], ["98 %", "casos resueltos"], ["24 h", "primera respuesta"]],
+    pasos: [["Cuéntanos tu caso", "Online o en el despacho."], ["Diagnóstico", "Te explicamos opciones y costes."], ["Nos ocupamos", "Con un abogado asignado."], ["Seguimiento", "Te informamos de cada paso."]],
+    galeria: ["Despacho", "Sala de reuniones", "Equipo", "Biblioteca", "Recepción", "Firma digital"],
+    opiniones: [["Me resolvieron la herencia en la mitad de tiempo de lo que esperaba.", "Concha R.", "Herencias"], ["Llevan mi contabilidad desde hace años. Siempre a tiempo.", "Diego M.", "Autónomo"], ["Muy claros con los honorarios desde el primer día.", "Laura V.", "Laboral"]],
+    faq: [["¿Cuánto cuesta la primera consulta?", "45 €, que se descuentan si contratas el servicio."], ["¿Atendéis online?", "Sí, por videollamada en todo el país."], ["¿Qué incluye la iguala de autónomos?", "Impuestos trimestrales, renta anual y consultas ilimitadas."], ["¿Os encargáis de Verifactu?", "Sí, te adaptamos la facturación a la nueva normativa."]],
+    herr: "quiz",
+  },
+};
+const EXTRA = {
+  presupuesto: { titulo: "Calcula tu presupuesto orientativo", sub: "En 30 segundos. Después lo cerramos sin compromiso." },
+  reserva: { titulo: "Carta y reserva online", sub: "Consulta precios y elige día y hora." },
+  carta: { titulo: "Nuestra carta", sub: "Actualizada cada semana, con precios y alérgenos." },
+  cita: { titulo: "Pide tu cita online", sub: "Elige tratamiento, día y hora. Primera visita gratis." },
+  tienda: { titulo: "Productos destacados", sub: "Añade a la cesta y comprueba cómo funciona la compra." },
+  quiz: { titulo: "Evalúa tu caso en 1 minuto", sub: "Responde 3 preguntas y te decimos cómo podemos ayudarte." },
+};
+
+// ------------------------------ Estado y personalización ------------------------------
+const q = new URLSearchParams(location.search);
+const E = {
+  sector: S[q.get("s")] ? q.get("s") : "reformas",
+  estilo: ["moderno", "elegante", "minimal", "oscuro", "calido"].includes(q.get("e")) ? q.get("e") : "moderno",
+  nombre: "", eslogan: "", telefono: "", ciudad: "", color: "", logo: "",
+  ocultas: [],
+};
+// Diseño guardado en el enlace que el cliente envía al pedir presupuesto
+for (const [k, c, n] of [["n", "nombre", 60], ["l", "eslogan", 160], ["t", "telefono", 20], ["c", "ciudad", 60]]) if (q.get(k)) E[c] = q.get(k).slice(0, n);
+if (/^#[0-9a-f]{6}$/i.test(q.get("col") || "")) E.color = q.get("col");
+if (q.get("o")) E.ocultas = q.get("o").split(",").filter(x => ["trabajos", "opiniones", "faq", "cifras", "proceso"].includes(x));
+const COLOR_DEF = { reformas: "#e8590c", estetica: "#c2185b", hosteleria: "#2e7d32", clinica: "#0e7490", tienda: "#7c5c2b", profesional: "#1e3a8a" };
+const esc = t => String(t ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const P = () => S[E.sector];
+const val = k => ({ nombre: E.nombre || P().nombre, eslogan: E.eslogan || P().eslogan, telefono: E.telefono || "600 123 456", ciudad: E.ciudad || "Madrid", cta: P().cta }[k] ?? "");
+const v = k => `<span data-v="${k}">${esc(val(k))}</span>`;
+const conCiudad = t => esc(t).replace("{ciudad}", v("ciudad"));
+const visible = id => !E.ocultas.includes(id);
+
+function aviso(t) { const a = document.getElementById("aviso"); a.textContent = t; a.classList.add("on"); clearTimeout(aviso.t); aviso.t = setTimeout(() => a.classList.remove("on"), 2800); }
+
+// ------------------------------ Secciones ------------------------------
+function heroe() {
+  const p = P(), t = p.titulo, minimal = E.estilo === "minimal", elegante = E.estilo === "elegante";
+  const arte = `<figure class="arte"><div class="lienzo">${ilustracion(E.sector, minimal)}</div>${p.chapas.map((c, i) => `<div class="chapa c${i + 1}">${ico(c[0])}${esc(c[1])}</div>`).join("")}${elegante ? `<figcaption>${esc(p.galeria[0])} · ${v("ciudad")}</figcaption>` : ""}</figure>`;
+  const texto = `<div><div class="kick">${conCiudad(p.kick)}</div><h1>${conCiudad(t[0])} <span class="acento">${esc(t[1])}</span></h1>
+    ${minimal ? "" : `<p class="lead">${v("eslogan")}</p>`}
+    ${minimal ? "" : `<div class="ctas"><a class="btn" href="#herramienta">${esc(p.cta)}</a><a class="btn s" href="#servicios">Saber más</a></div>`}
+    ${minimal || elegante ? "" : `<div class="confianza">${p.cifras.slice(0, 3).map(c => `<div><b>${esc(c[0])}</b>${esc(c[1])}</div>`).join("")}</div>`}</div>`;
+  if (minimal) return `<section class="heroe" id="inicio"><div class="w">${texto}<div class="fila-h"><p class="lead" style="margin:0">${v("eslogan")}</p><div class="ctas"><a class="btn" href="#herramienta">${esc(p.cta)} →</a><a class="btn s" href="#servicios">Servicios</a></div></div>${arte}</div></section>`;
+  return `<section class="heroe" id="inicio"><div class="w">${texto}${arte}</div></section>`;
+}
+const cinta = () => `<div class="cinta" aria-hidden="true"><div>${[0, 1].map(() => `<span>${P().cinta.map(esc).join("</span><span>")}</span>`).join("")}</div></div>`;
+function servicios() {
+  const p = P();
+  return `<section id="servicios"><div class="w"><div class="cab"><div class="kick">${E.sector === "tienda" ? "Por qué comprarnos" : "Qué hacemos"}</div><h2>${esc(p.tituloServ)}</h2><p class="mu">${v("eslogan")}</p></div>
+    <div class="grid g3">${p.servicios.map(s => `<article class="card revela"><div class="icb">${ico(s[0])}</div><h3>${esc(s[1])}</h3><p class="mu">${esc(s[2])}</p></article>`).join("")}</div></div></section>`;
+}
+const cifras = () => `<section class="alt"><div class="w"><div class="cifras">${P().cifras.map(c => `<div class="cifra revela"><b>${esc(c[0])}</b><span>${esc(c[1])}</span></div>`).join("")}</div></div></section>`;
+const proceso = () => `<section><div class="w"><div class="cab"><div class="kick">Cómo trabajamos</div><h2>Así de sencillo</h2></div><div class="pasos">${P().pasos.map(p => `<div class="paso revela"><h3>${esc(p[0])}</h3><p class="mu">${esc(p[1])}</p></div>`).join("")}</div></div></section>`;
+const galeria = () => `<section id="trabajos" class="alt"><div class="w"><div class="cab"><div class="kick">${E.sector === "reformas" ? "Trabajos recientes" : "Galería"}</div><h2>${E.sector === "reformas" ? "Antes y después de nuestras obras" : "Conócenos por dentro"}</h2><p class="mu">Pulsa una imagen para verla en grande. En tu web irán tus fotos reales.</p></div>
+  <div class="gal">${P().galeria.map((g, i) => `<button type="button" data-foto="${i}" aria-label="Ver ${esc(g)}">${foto(i, E.sector)}<figcaption>${esc(g)}</figcaption></button>`).join("")}</div></div></section>`;
+function opiniones() {
+  const o = P().opiniones;
+  return `<section id="opiniones"><div class="w"><div class="cab"><div class="kick">Opiniones</div><h2>Lo que dicen nuestros clientes</h2></div><div class="ops">
+    ${o.map((x, i) => `<div class="op${i ? "" : " on"}"><div class="estr">★★★★★</div><blockquote>«${esc(x[0])}»</blockquote><div class="quien"><span class="av">${esc(x[1][0])}</span><div><b>${esc(x[1])}</b><div class="mu" style="font-size:14px">${esc(x[2])}</div></div></div></div>`).join("")}
+    <div class="puntos">${o.map((_, i) => `<button type="button" aria-label="Opinión ${i + 1}" data-op="${i}" class="${i ? "" : "on"}"></button>`).join("")}</div></div></div></section>`;
+}
+const faq = () => `<section id="faq" class="alt"><div class="w" style="max-width:860px"><div class="cab"><div class="kick">Preguntas frecuentes</div><h2>Resolvemos tus dudas</h2></div><div class="faq">${P().faq.map((f, i) => `<details${i ? "" : " open"}><summary>${esc(f[0])}</summary><p>${esc(f[1])}</p></details>`).join("")}</div></div></section>`;
+function contacto() {
+  const p = P();
+  return `<section id="contacto"><div class="w"><div class="banda revela" style="margin-bottom:var(--sp)"><h2>¿Hablamos? Te respondemos en menos de 24 horas.</h2><a class="btn" href="#form-c">${esc(p.cta)}</a></div>
+    <div class="herr"><div><div class="kick">Contacto</div><h2>Estamos en ${v("ciudad")}</h2><p class="mu">Escríbenos, llámanos o pásate a vernos.</p>
+      <div class="datos-c"><div>${ico("tel")}${v("telefono")}</div><div>${ico("correo")}hola@${esc(val("nombre").toLowerCase().normalize("NFD").replace(/[^a-z0-9]/g, "").slice(0, 18) || "tunegocio")}.es</div><div>${ico("reloj")}Lunes a viernes, 9:00–19:00</div></div>
+      <div class="mapa" style="margin-top:24px"><span class="pin">${ico("pin")}</span></div></div>
+      <form class="panel form" id="form-c" novalidate><label>Nombre<input name="n" autocomplete="name"></label><label>Teléfono o correo<input name="c"></label>
+        <label>Mensaje<textarea name="m" rows="4" placeholder="Cuéntanos qué necesitas"></textarea></label><label style="display:flex;gap:10px;align-items:flex-start;font-weight:400"><input type="checkbox" name="p" style="margin-top:4px"> Acepto la política de privacidad</label>
+        <div class="error" id="err-c"></div><button class="btn" type="submit">Enviar mensaje</button></form></div></div></section>`;
+}
+function pie() {
+  const p = P();
+  return `<div class="w"><div class="fcols"><div><b class="fh" style="font-size:22px">${v("nombre")}</b><p>${v("eslogan")}</p></div>
+    <div><b>Secciones</b>${p.secciones.map(s => `<div><a href="#${s[1]}">${esc(s[0])}</a></div>`).join("")}</div>
+    <div><b>Contacto</b><div>${v("telefono")}</div><div>${v("ciudad")}</div></div></div>
+    <div class="legal"><span>© ${new Date().getFullYear()} ${v("nombre")}</span><span>Aviso legal · Privacidad · Cookies</span><span>Web creada por Velority</span></div></div>`;
+}
+
+// ------------------------------ Herramienta de cada sector ------------------------------
+function herramienta() {
+  const p = P(), x = EXTRA[p.herr];
+  const cab = `<div class="cab"><div class="kick">${esc(p.secciones.find(s => s[1] === "herramienta")?.[0] || "Pruébalo")}</div><h2>${esc(x.titulo)}</h2><p class="mu">${esc(x.sub)}</p></div>`;
+  let cuerpo = "";
+  if (p.herr === "presupuesto") cuerpo = `<div class="herr"><div class="panel form"><label>Tipo de obra<select id="obra"><option value="baño">Baño completo</option><option value="cocina">Cocina</option><option value="integral">Reforma integral</option><option value="pintura">Pintura</option></select></label>
+      <label><span>Metros cuadrados: <b id="m2v">12</b> m²</span><input id="m2" type="range" min="4" max="150" value="12"></label>
+      <div><div style="font-size:14px;font-weight:600;margin-bottom:8px">Calidades</div><div class="chips" id="cal">${["Básica", "Media", "Alta"].map((c, i) => `<button type="button" class="chip${i == 1 ? " on" : ""}" data-cal="${i}">${c}</button>`).join("")}</div></div>
+      <div><div class="mu" style="font-size:14px">Presupuesto orientativo</div><div class="total" id="total"></div><div class="mu" style="font-size:13px">IVA no incluido · El definitivo, tras la visita gratuita.</div></div>
+      <button type="button" class="btn" onclick="aviso('¡Hecho! En tu web, esta solicitud te llegará al correo.')">Quiero que me llaméis</button></div>
+      <div><div class="ad" id="ad"><div class="lado" style="background:repeating-linear-gradient(45deg,#8a8d93 0 16px,#7b7e84 16px 32px)"><span>ANTES</span></div><div class="lado despues" style="background:linear-gradient(135deg,color-mix(in srgb,var(--c) 70%,#fff),color-mix(in srgb,var(--c) 60%,#000))">${ilustracion("reformas")}<span>DESPUÉS</span></div><div class="barra"></div><input type="range" min="0" max="100" value="50" aria-label="Comparar antes y después" id="adr"></div>
+      <p class="mu" style="margin-top:12px;font-size:14px">Desliza para comparar. En tu web, con fotos de tus obras.</p></div></div>`;
+  if (p.herr === "reserva" || p.herr === "cita") {
+    const opts = p.herr === "reserva" ? { "Facial": [["Limpieza facial profunda", "60 min", "45 €"], ["Hidratación con ácido hialurónico", "50 min", "60 €"], ["Peeling suave", "45 min", "55 €"]], "Corporal": [["Masaje relajante", "60 min", "50 €"], ["Drenaje linfático", "50 min", "55 €"], ["Exfoliación", "40 min", "40 €"]], "Manos y pies": [["Manicura semipermanente", "45 min", "22 €"], ["Pedicura completa", "60 min", "30 €"], ["Uñas de gel", "75 min", "35 €"]] }
+      : { "General": [["Revisión y limpieza", "45 min", "Gratis 1.ª visita"], ["Empaste", "30 min", "desde 50 €"], ["Endodoncia", "60 min", "desde 180 €"]], "Ortodoncia": [["Estudio de ortodoncia", "40 min", "Gratis"], ["Alineadores invisibles", "Plan", "desde 79 €/mes"]], "Estética": [["Blanqueamiento", "60 min", "250 €"], ["Carillas", "Plan", "desde 290 €/ud."]] };
+    cuerpo = `<div class="herr"><div class="panel carta"><div class="chips" id="tabs">${Object.keys(opts).map((k, i) => `<button type="button" class="chip${i ? "" : " on"}" data-tab="${esc(k)}">${esc(k)}</button>`).join("")}</div><div id="lista-t" style="margin-top:8px"></div></div>
+      <div class="panel"><h3>Elige día y hora</h3><p class="mu" style="font-size:14px;margin-bottom:14px" id="sel-t">Pulsa un tratamiento de la lista.</p><div class="dias" id="dias"></div><div class="horas" id="horas"></div><div class="ok" id="ok-r" style="display:none;margin-top:16px"></div></div></div>`;
+    setTimeout(() => montarReserva(opts), 0);
+  }
+  if (p.herr === "carta") {
+    const carta = { "Entrantes": [["Croquetas caseras de jamón", "8 unidades", "8,50 €"], ["Ensalada de la huerta", "Tomate, ventresca y cebolleta", "9,90 €"], ["Pimientos de Padrón", "Unos pican y otros no", "6,50 €"]], "Principales": [["Arroz del senyoret", "Mínimo 2 personas · por persona", "16,00 €"], ["Merluza a la romana", "Con ensalada", "15,50 €"], ["Entrecot a la brasa", "300 g con patatas", "19,00 €"]], "Postres": [["Tarta de queso", "Receta de la abuela", "5,50 €"], ["Arroz con leche", "Con canela", "4,50 €"], ["Flan de huevo", "Con nata", "4,00 €"]] };
+    cuerpo = `<div class="herr"><div class="panel carta"><div class="chips" id="tabs">${Object.keys(carta).map((k, i) => `<button type="button" class="chip${i ? "" : " on"}" data-tab="${esc(k)}">${esc(k)}</button>`).join("")}</div><div id="lista-t" style="margin-top:8px"></div></div>
+      <div class="panel"><h3>Reserva tu mesa</h3><div class="form" style="margin-top:12px"><label>Personas<div class="chips" id="pers">${[2, 3, 4, 5, 6, "7+"].map((n, i) => `<button type="button" class="chip${i ? "" : " on"}">${n}</button>`).join("")}</div></label></div>
+        <div class="dias" id="dias" style="margin-top:14px"></div><div class="horas" id="horas"></div><div class="ok" id="ok-r" style="display:none;margin-top:16px"></div>
+        <div style="display:flex;gap:18px;align-items:center;margin-top:22px;flex-wrap:wrap"><div class="qr" id="qr" aria-label="Código QR de la carta"></div><p class="mu" style="font-size:14px;flex:1;min-width:160px">Carta en el móvil: tus clientes escanean el QR de la mesa y la ven siempre actualizada.</p></div></div></div>`;
+    setTimeout(() => { montarReserva(carta, true); qr(); }, 0);
+  }
+  if (p.herr === "tienda") {
+    const prods = [["Aceite de oliva virgen extra", "Aceites", 14.9, "Más vendido"], ["Aceite de arbequina", "Aceites", 12.5, ""], ["Anchoas del Cantábrico", "Conservas", 9.8, ""], ["Ventresca de bonito", "Conservas", 11.2, "Nuevo"], ["Turrón artesano", "Dulces", 8.5, ""], ["Mermelada de higo", "Dulces", 5.9, ""], ["Pack degustación", "Packs", 39, "-15 %"], ["Cesta gourmet", "Packs", 69, ""]];
+    cuerpo = `<div class="chips" id="fil" style="margin-bottom:22px">${["Todo", "Aceites", "Conservas", "Dulces", "Packs"].map((c, i) => `<button type="button" class="chip${i ? "" : " on"}" data-fil="${c}">${c}</button>`).join("")}</div>
+      <div class="prods" id="prods">${prods.map((x, i) => `<article class="prod revela" data-cat="${x[1]}"><div class="img">${x[3] ? `<span class="etq">${x[3]}</span>` : ""}${tarro(i)}</div><div class="info"><small class="mu">${x[1]}</small><b>${x[0]}</b><span class="precio">${eur(x[2])}</span><button type="button" class="btn" data-add="${i}">Añadir</button></div></article>`).join("")}</div>`;
+    setTimeout(() => montarTienda(prods), 0);
+  }
+  if (p.herr === "quiz") {
+    cuerpo = `<div class="herr"><div class="panel quiz" id="quiz"></div><div><div class="precios" id="precios" style="grid-template-columns:1fr">${[["Consulta", "45 €", "Una hora con un especialista", ["Análisis de tu caso", "Opciones y costes por escrito", "Se descuenta si contratas"]], ["Iguala autónomos", "59 €/mes", "Para olvidarte de los impuestos", ["Trimestrales y renta", "Consultas ilimitadas", "Adaptación a Verifactu"], 1]].map(x => `<div class="card precio-c${x[4] ? " top" : ""}"><div><b>${x[0]}</b><div class="mu" style="font-size:14px">${x[2]}</div></div><div class="cifra-p">${x[1]}</div><ul>${x[3].map(l => `<li>${l}</li>`).join("")}</ul><button type="button" class="btn${x[4] ? "" : " s"}" onclick="aviso('En tu web, este botón abre el formulario de contratación.')">Lo quiero</button></div>`).join("")}</div></div></div>`;
+    setTimeout(montarQuiz, 0);
+  }
+  return `<section id="herramienta"${p.herr === "tienda" ? "" : ' class="alt"'}><div class="w">${cab}${cuerpo}</div></section>`;
+}
+const eur = n => n.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+function tarro(i) {
+  const h = [0, 40, -30, 18, 60, -50, 95, 140][i], botella = i < 2, lata = i > 1 && i < 4;
+  return `<svg viewBox="0 0 100 100" aria-hidden="true" style="filter:hue-rotate(${h}deg)">${botella
+    ? `<rect x="40" y="6" width="20" height="16" rx="3" fill="color-mix(in srgb,var(--c) 60%,#000)"/><path d="M38 22h24v10c10 6 14 14 14 24v34a6 6 0 0 1-6 6H30a6 6 0 0 1-6-6V56c0-10 4-18 14-24z" fill="color-mix(in srgb,var(--c) 75%,#fff)"/><rect x="30" y="54" width="40" height="26" rx="4" fill="#fff"/><path d="M38 66h24M40 72h20" stroke="var(--c)" stroke-width="3"/>`
+    : lata ? `<rect x="14" y="34" width="72" height="44" rx="10" fill="color-mix(in srgb,var(--c) 70%,#fff)"/><rect x="14" y="34" width="72" height="12" rx="6" fill="color-mix(in srgb,var(--c) 50%,#000)"/><rect x="24" y="52" width="52" height="18" rx="4" fill="#fff"/><path d="M32 61h36" stroke="var(--c)" stroke-width="3"/>`
+    : `<rect x="26" y="12" width="48" height="14" rx="4" fill="color-mix(in srgb,var(--c) 55%,#000)"/><rect x="20" y="26" width="60" height="64" rx="12" fill="color-mix(in srgb,var(--c) 70%,#fff)"/><rect x="28" y="44" width="44" height="28" rx="5" fill="#fff"/><path d="M36 58h28" stroke="var(--c)" stroke-width="3"/>`}</svg>`;
+}
+function montarReserva(opts, mesa) {
+  const tabs = document.getElementById("tabs"), lista = document.getElementById("lista-t"), sel = document.getElementById("sel-t");
+  let elegido = mesa ? "mesa" : null;
+  const ver = k => { tabs.querySelectorAll("[data-tab]").forEach(b => b.classList.toggle("on", b.dataset.tab === k));
+    lista.innerHTML = opts[k].map(([n, d, pr]) => `<div class="fila"${mesa ? "" : ` role="button" tabindex="0" style="cursor:pointer" data-trat="${esc(n)}"`}><div><b>${esc(n)}</b><small>${esc(d)}</small></div><span class="lin"></span><b>${esc(pr)}</b></div>`).join("");
+    lista.querySelectorAll("[data-trat]").forEach(f => f.onclick = () => { elegido = f.dataset.trat; lista.querySelectorAll("[data-trat]").forEach(o => o.style.color = o === f ? "var(--c)" : ""); if (sel) sel.textContent = "Has elegido: " + elegido; }); };
+  tabs.onclick = e => { const b = e.target.closest("[data-tab]"); if (b) ver(b.dataset.tab); };
+  ver(Object.keys(opts)[0]);
+  const pers = document.getElementById("pers"); if (pers) pers.onclick = e => { const b = e.target.closest(".chip"); if (b) pers.querySelectorAll(".chip").forEach(o => o.classList.toggle("on", o === b)); };
+  const dias = document.getElementById("dias"), horas = document.getElementById("horas"), ok = document.getElementById("ok-r"), hoy = new Date();
+  dias.innerHTML = Array.from({ length: 7 }, (_, i) => { const d = new Date(hoy); d.setDate(hoy.getDate() + i); const cerrado = d.getDay() === 0;
+    return `<button type="button" ${cerrado ? "disabled" : ""} data-d="${d.toLocaleDateString("es-ES", { weekday: "long", day: "numeric", month: "long" })}">${d.toLocaleDateString("es-ES", { weekday: "short" })}<br><b>${d.getDate()}</b></button>`; }).join("");
+  dias.onclick = e => { const b = e.target.closest("button:not(:disabled)"); if (!b) return; dias.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b));
+    const hs = mesa ? ["13:30", "14:00", "14:30", "15:00", "20:30", "21:00", "21:30", "22:00"] : ["10:00", "11:00", "12:30", "16:00", "17:30", "19:00"];
+    horas.innerHTML = hs.map((h, i) => `<button type="button" ${(i * 7 + b.textContent.length) % 5 === 0 ? "disabled style='opacity:.35;text-decoration:line-through'" : ""}>${h}</button>`).join("");
+    horas.onclick = ev => { const h = ev.target.closest("button:not(:disabled)"); if (!h) return; horas.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === h));
+      if (!elegido) { aviso("Elige primero un tratamiento de la lista."); return; }
+      const pp = pers ? pers.querySelector(".on").textContent + " personas, " : "";
+      ok.style.display = "block"; ok.textContent = "✓ Reserva de prueba: " + (mesa ? pp : elegido + ", ") + b.dataset.d + " a las " + h.textContent + ". En tu web, el cliente recibirá la confirmación por correo o WhatsApp."; }; };
+}
+function qr() { const el = document.getElementById("qr"); if (!el) return; let s = 11, h = "";
+  for (let i = 0; i < 441; i++) { s = (s * 9301 + 49297) % 233280; const f = Math.floor(i / 21), c = i % 21, esq = (a, b) => f >= a && f < a + 7 && c >= b && c < b + 7, m = esq(0, 0) || esq(0, 14) || esq(14, 0);
+    let on = s / 233280 > .5; if (m) { const ff = f % 14 > 6 ? f - 14 : f % 14, cc = c % 14 > 6 ? c - 14 : c % 14, r = Math.max(Math.abs(ff - 3), Math.abs(cc - 3)); on = r !== 2; }
+    h += `<i class="${on ? "" : "v"}"></i>`; } el.innerHTML = h; }
+function montarTienda(prods) {
+  const cesta = {};
+  let b = document.querySelector(".cesta-b"); if (!b) { b = document.createElement("button"); b.className = "cesta-b"; b.type = "button"; document.body.appendChild(b); }
+  let c = document.querySelector(".cesta"); if (!c) { c = document.createElement("aside"); c.className = "cesta"; c.setAttribute("aria-label", "Cesta"); document.body.appendChild(c); }
+  const pintar = () => { const n = Object.values(cesta).reduce((a, x) => a + x, 0), tot = Object.entries(cesta).reduce((a, [i, x]) => a + prods[i][2] * x, 0), falta = Math.max(0, 49 - tot);
+    b.innerHTML = `${ico("bolsa")} Cesta <i>${n}</i>`;
+    c.innerHTML = `<header><b class="fh" style="font-size:20px">Tu cesta</b><button type="button" class="btn s" style="padding:8px 14px" data-cerrar>Cerrar</button></header>
+      <div class="lista">${n ? Object.entries(cesta).map(([i, x]) => `<div class="it"><div><b>${prods[i][0]}</b><div class="mu" style="font-size:14px">${eur(prods[i][2])}</div></div><div class="cant"><button type="button" data-menos="${i}">−</button><b>${x}</b><button type="button" data-mas="${i}">+</button></div></div>`).join("") : `<p class="mu" style="padding:30px 0;text-align:center">Tu cesta está vacía.</p>`}</div>
+      <footer><div style="font-size:14px">${falta ? `Te faltan <b>${eur(falta)}</b> para el envío gratis` : "🎉 ¡Envío gratis!"}</div><div class="envio"><i style="width:${Math.min(100, tot / 49 * 100)}%"></i></div>
+      <div style="display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin-bottom:14px"><span>Total</span><span>${eur(tot + (tot && falta ? 4.9 : 0))}</span></div>
+      <button type="button" class="btn" style="width:100%" ${n ? "" : "disabled"} data-pagar>Pagar de forma segura</button></footer>`; };
+  b.onclick = () => c.classList.add("on");
+  c.onclick = e => { const t = e.target;
+    if (t.closest("[data-cerrar]")) c.classList.remove("on");
+    if (t.closest("[data-mas]")) { cesta[t.closest("[data-mas]").dataset.mas]++; pintar(); }
+    if (t.closest("[data-menos]")) { const i = t.closest("[data-menos]").dataset.menos; if (--cesta[i] <= 0) delete cesta[i]; pintar(); }
+    if (t.closest("[data-pagar]")) aviso("En tu tienda, aquí se paga con tarjeta, Bizum o PayPal."); };
+  document.getElementById("prods").onclick = e => { const a = e.target.closest("[data-add]"); if (!a) return; cesta[a.dataset.add] = (cesta[a.dataset.add] || 0) + 1; pintar(); aviso("Añadido a la cesta: " + prods[a.dataset.add][0]); };
+  document.getElementById("fil").onclick = e => { const f = e.target.closest("[data-fil]"); if (!f) return; document.querySelectorAll("#fil .chip").forEach(o => o.classList.toggle("on", o === f));
+    document.querySelectorAll("#prods .prod").forEach(p => p.style.display = f.dataset.fil === "Todo" || p.dataset.cat === f.dataset.fil ? "" : "none"); };
+  pintar();
+}
+function montarQuiz() {
+  const preg = [["¿Sobre qué es tu consulta?", ["Trabajo o despido", "Impuestos o autónomos", "Herencia o familia", "Mi empresa"]], ["¿Es urgente?", ["Sí, tengo un plazo esta semana", "En las próximas semanas", "Solo quiero informarme"]], ["¿Cómo prefieres que te atendamos?", ["En el despacho", "Por videollamada", "Por teléfono"]]];
+  const r = [], el = document.getElementById("quiz");
+  const paso = () => { const i = r.length;
+    if (i === preg.length) { el.innerHTML = `<div class="barra-q"><i style="width:100%"></i></div><h3>Tu caso: ${esc(r[0])}</h3><p class="mu" style="margin:10px 0 18px">${r[1].startsWith("Sí") ? "Lo tratamos con prioridad: te llamamos hoy mismo." : "Te proponemos una primera consulta para estudiarlo con calma."} Atención: ${esc(r[2].toLowerCase())}.</p><div class="ok">Recomendación: <b>${r[0].includes("Impuestos") ? "Iguala autónomos" : "Consulta con un especialista"}</b></div><button type="button" class="btn" style="margin-top:18px" onclick="aviso('En tu web, el cliente reserva aquí su consulta.')">Reservar consulta</button> <button type="button" class="btn s" style="margin-top:18px" id="otra">Empezar de nuevo</button>`;
+      document.getElementById("otra").onclick = () => { r.length = 0; paso(); }; return; }
+    el.innerHTML = `<div class="barra-q"><i style="width:${i / preg.length * 100}%"></i></div><div class="mu" style="font-size:14px">Pregunta ${i + 1} de ${preg.length}</div><h3 style="margin-top:6px">${preg[i][0]}</h3><div class="opc">${preg[i][1].map(o => `<button type="button">${esc(o)}</button>`).join("")}</div>`;
+    el.querySelectorAll(".opc button").forEach(b => b.onclick = () => { r.push(b.textContent); paso(); }); };
+  paso();
+}
+
+// ------------------------------ Montaje ------------------------------
+function montar() {
+  const p = P();
+  document.body.className = E.estilo;
+  document.documentElement.style.setProperty("--c", /^#[0-9a-f]{6}$/i.test(E.color) ? E.color : COLOR_DEF[E.sector]);
+  const secs = p.secciones.filter(s => visible(s[1]));
+  document.getElementById("enlaces").innerHTML = secs.map(s => `<a href="#${s[1]}">${esc(s[0])}</a>`).join("");
+  document.getElementById("movil").innerHTML = secs.map(s => `<a href="#${s[1]}">${esc(s[0])}</a>`).join("");
+  const orden = E.sector === "tienda" ? [heroe, cinta, herramienta, servicios, cifras, proceso, opiniones, faq, contacto]
+    : E.sector === "hosteleria" ? [heroe, cinta, herramienta, servicios, galeria, cifras, opiniones, faq, contacto]
+    : [heroe, cinta, servicios, cifras, herramienta, proceso, galeria, opiniones, faq, contacto];
+  const ids = { galeria: "trabajos", opiniones: "opiniones", faq: "faq", proceso: "proceso", cifras: "cifras" };
+  document.querySelectorAll(".cesta,.cesta-b").forEach(x => x.remove());
+  document.getElementById("main").innerHTML = orden.filter(f => !ids[f.name] || visible(ids[f.name])).map(f => f()).join("");
+  document.getElementById("pie").innerHTML = pie();
+  pintarTextos(); revelar(); conectar();
+}
+function pintarTextos() {
+  document.querySelectorAll("[data-v]").forEach(e => { e.textContent = val(e.dataset.v); });
+  const m = document.getElementById("marca"), n = val("nombre");
+  m.className = "marca" + (E.logo ? " foto-logo" : "");
+  m.innerHTML = E.logo ? `<img src="${E.logo}" alt="">` : esc(n.trim().charAt(0).toUpperCase());
+  document.title = n + " · Vista previa";
+}
+function revelar() {
+  const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("vista"); io.unobserve(e.target); } }), { threshold: .12 }) : null;
+  document.querySelectorAll(".revela").forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + "ms"; io ? io.observe(el) : el.classList.add("vista"); });
+}
+function conectar() {
+  const ob = document.getElementById("obra");
+  if (ob) { const calc = () => { const m2 = +document.getElementById("m2").value, cal = +document.querySelector("#cal .on").dataset.cal, base = { "baño": 4200, cocina: 6800, integral: 380, pintura: 9 }[ob.value], k = [0.8, 1, 1.35][cal];
+      const total = ob.value === "baño" || ob.value === "cocina" ? base * k * Math.max(.8, m2 / 10) : base * k * m2;
+      document.getElementById("m2v").textContent = m2; document.getElementById("total").textContent = (Math.round(total / 50) * 50).toLocaleString("es-ES") + " €"; };
+    ob.onchange = calc; document.getElementById("m2").oninput = calc;
+    document.getElementById("cal").onclick = e => { const b = e.target.closest(".chip"); if (!b) return; document.querySelectorAll("#cal .chip").forEach(o => o.classList.toggle("on", o === b)); calc(); }; calc(); }
+  const adr = document.getElementById("adr"); if (adr) adr.oninput = () => document.getElementById("ad").style.setProperty("--x", adr.value + "%");
+  const ops = [...document.querySelectorAll(".op")], puntos = [...document.querySelectorAll("[data-op]")];
+  const verOp = i => { ops.forEach((o, j) => o.classList.toggle("on", j === i)); puntos.forEach((b, j) => b.classList.toggle("on", j === i)); conectar.op = i; };
+  puntos.forEach(b => b.onclick = () => { verOp(+b.dataset.op); clearInterval(conectar.t); });
+  clearInterval(conectar.t); if (ops.length) conectar.t = setInterval(() => verOp(((conectar.op || 0) + 1) % ops.length), 6000);
+  document.querySelectorAll("[data-foto]").forEach(b => b.onclick = () => { const i = +b.dataset.foto; document.getElementById("visor-m").innerHTML = foto(i, E.sector); document.getElementById("visor-t").textContent = P().galeria[i]; document.getElementById("visor").classList.add("on"); });
+  const f = document.getElementById("form-c");
+  if (f) f.onsubmit = e => { e.preventDefault(); const d = Object.fromEntries(new FormData(f)), err = document.getElementById("err-c");
+    if (!d.n.trim()) return err.textContent = "Escribe tu nombre.";
+    if (!/\S+@\S+\.\S+|^[0-9 +]{9,}$/.test(d.c.trim())) return err.textContent = "Escribe un teléfono o un correo válido.";
+    if (!d.p) return err.textContent = "Acepta la política de privacidad.";
+    f.innerHTML = `<div class="ok">✓ ¡Gracias, ${esc(d.n.trim())}! Mensaje de prueba enviado. En tu web te llegará al correo al momento.</div>`; };
+}
+// Sombra de la cabecera al bajar
+addEventListener("scroll", () => document.querySelector("header").style.boxShadow = scrollY > 10 && document.body.className !== "oscuro" ? "0 10px 30px -20px rgba(0,0,0,.35)" : "", { passive: true });
+
+// Personalización en vivo desde el portal
+addEventListener("message", e => {
+  const m = e.data;
+  if (!m || m.tipo !== "webcare-preview") return;
+  const d = m.datos || {}, antes = E.sector + E.estilo + E.ocultas.join();
+  for (const k of ["nombre", "eslogan", "telefono", "ciudad"]) if (typeof d[k] === "string") E[k] = d[k].slice(0, k === "eslogan" ? 160 : 60);
+  if (typeof d.color === "string") E.color = /^#[0-9a-f]{6}$/i.test(d.color) ? d.color : "";
+  if (typeof d.logo === "string") E.logo = /^data:image\/(png|jpe?g|webp|gif|svg\+xml);base64,/.test(d.logo) && d.logo.length < 600000 ? d.logo : "";
+  if (S[d.sector]) E.sector = d.sector;
+  if (["moderno", "elegante", "minimal", "oscuro", "calido"].includes(d.estilo)) E.estilo = d.estilo;
+  if (Array.isArray(d.ocultas)) E.ocultas = d.ocultas.filter(x => ["trabajos", "opiniones", "faq", "cifras", "proceso"].includes(x));
+  if (antes !== E.sector + E.estilo + E.ocultas.join()) { const y = scrollY; montar(); scrollTo(0, Math.min(y, document.body.scrollHeight)); }
+  else { document.documentElement.style.setProperty("--c", /^#[0-9a-f]{6}$/i.test(E.color) ? E.color : COLOR_DEF[E.sector]); pintarTextos(); }
+});
+montar();
+if (parent !== window) parent.postMessage({ tipo: "webcare-preview-lista" }, "*");
+</script>
+</body>
+</html>

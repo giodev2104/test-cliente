@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /plantillas/
+
+Sitemap: https://velority.es/sitemap.xml

@@ -1,0 +1,28 @@
+# Avisa a Bing (y a los demás buscadores de IndexNow) de las páginas del sitemap cada vez que se publica un cambio.
+# La clave es pública por diseño: es el archivo <clave>.txt de la raíz de la web.
+name: Avisar a Bing (IndexNow)
+on:
+  push:
+    branches: [claude/dreamy-albattani-j8rm9a, main]
+    paths: ["**.html", "sitemap.xml", ".github/workflows/indexnow.yml"]
+  workflow_dispatch:
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enviar las URL del sitemap
+        run: |
+          CLAVE=98081dd0a3101d2d40918561d1962120
+          # Espera a que GitHub Pages publique la clave (hasta 10 minutos)
+          for i in $(seq 1 20); do
+            [ "$(curl -s https://velority.es/$CLAVE.txt)" = "$CLAVE" ] && break
+            echo "Esperando a que se publique la web… ($i)"; sleep 30
+          done
+          URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g' | grep -v '\.pdf$' | jq -R . | jq -s -c .)
+          echo "URL: $URLS"
+          CODIGO=$(curl -s -o respuesta.txt -w '%{http_code}' -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"velority.es\",\"key\":\"$CLAVE\",\"keyLocation\":\"https://velority.es/$CLAVE.txt\",\"urlList\":$URLS}")
+          cat respuesta.txt; echo "Respuesta de IndexNow: $CODIGO"
+          [ "$CODIGO" = "200" ] || [ "$CODIGO" = "202" ]
