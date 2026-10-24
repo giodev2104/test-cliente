@@ -4,9 +4,9 @@
  *   <div data-velority-catalogo="CLAVE" data-whatsapp="34600000000"></div>
  *   <script src="https://velority.es/catalogo.js" defer></script>
  * Opciones del <div>: data-whatsapp (botón «Consultar» con el producto), data-destacados="1" (solo destacados),
- * data-max="6" (máximo de productos), data-filtros="0" (sin filtro de categorías), data-vacio="texto si no hay productos".
+ * data-ofertas="1" (solo productos con descuento), data-max="6" (máximo de productos), data-filtros="0" (sin filtro de categorías), data-vacio="texto si no hay productos".
  * Estilo: hereda la letra y el color de la web. Se ajusta con variables CSS en el <div> o en :root:
- *   --vc-acento, --vc-fondo, --vc-borde, --vc-texto-suave, --vc-radio, --vc-columnas-min
+ *   --vc-acento, --vc-oferta, --vc-fondo, --vc-borde, --vc-texto-suave, --vc-radio, --vc-columnas-min
  * Si no hay conexión, enseña la última copia guardada en el navegador.
  */
 (function () {
@@ -22,6 +22,8 @@
     ".vc-foto{position:relative;aspect-ratio:1;overflow:hidden;border-radius:var(--vc-radio);background:rgba(127,127,127,.08)}" +
     ".vc-foto img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}.vc-item:hover .vc-foto img{transform:scale(1.04)}" +
     ".vc-dest{position:absolute;top:10px;left:10px;font-size:.7em;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.92);color:#222;padding:.35em .8em;border-radius:999px}" +
+    ".vc-desc{position:absolute;top:10px;right:10px;font-size:.72em;font-weight:600;letter-spacing:.06em;background:var(--vc-oferta,#b42318);color:#fff;padding:.35em .75em;border-radius:999px}" +
+    ".vc-antes{text-decoration:line-through;opacity:.65;margin-right:.45em}.vc-rebaja{color:var(--vc-oferta,#b42318)}.vc-hasta{display:block;font-size:.85em;color:var(--vc-oferta,#b42318)}" +
     ".vc-nom{margin:.9em 0 .2em;font-size:1em;font-weight:500;line-height:1.35;overflow-wrap:anywhere}" +
     ".vc-pre{font-size:.92em;color:var(--vc-texto-suave)}" +
     ".vc-modal{position:fixed;inset:0;z-index:2147483000;background:rgba(10,10,12,.72);display:flex;align-items:center;justify-content:center;padding:16px}" +
@@ -41,6 +43,18 @@
     if (p.precio === null || p.precio === undefined) return "Precio bajo consulta";
     var n = Number(p.precio);
     return n.toLocaleString("es-ES", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + " €";
+  }
+  function euros(n) { n = Number(n); return n.toLocaleString("es-ES", { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 }) + " €"; }
+  function pct(p) { return Math.round((1 - p.precio / p.precio_antes) * 100); }
+  // Precio con el anterior tachado si hay descuento
+  function precioEl(p, cls, conFecha) {
+    var e = el("span", cls);
+    if (p.precio_antes) {
+      var a = el("span", "vc-antes", euros(p.precio_antes)); a.setAttribute("aria-label", "Antes " + euros(p.precio_antes));
+      e.appendChild(a); e.appendChild(el("span", "vc-rebaja", euros(p.precio)));
+      if (conFecha && p.oferta_hasta) e.appendChild(el("span", "vc-hasta", "Oferta hasta el " + new Date(p.oferta_hasta + "T12:00").toLocaleDateString("es-ES", { day: "numeric", month: "long" })));
+    } else e.textContent = precio(p);
+    return e;
   }
   function guardar(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} }
   function leer(k) { try { return JSON.parse(localStorage.getItem(k) || "null"); } catch (_) { return null; } }
@@ -63,7 +77,7 @@
     }
     if (p.categoria) info.appendChild(el("small", "", p.categoria));
     info.appendChild(el("h3", "", p.nombre));
-    info.appendChild(el("div", "vc-pre", precio(p)));
+    info.appendChild(precioEl(p, "vc-pre", true));
     if (p.descripcion) info.appendChild(el("p", "", p.descripcion));
     if (wa) {
       var a = el("a", "vc-wa", "Consultar por WhatsApp");
@@ -82,6 +96,7 @@
   function pintar(cont, lista) {
     var d = cont.dataset, wa = (d.whatsapp || "").replace(/\D/g, ""), max = parseInt(d.max, 10) || 0;
     if (d.destacados === "1") lista = lista.filter(function (p) { return p.destacado; });
+    if (d.ofertas === "1") lista = lista.filter(function (p) { return p.precio_antes; });
     if (max) lista = lista.slice(0, max);
     cont.textContent = ""; cont.classList.add("vc");
     if (!lista.length) { if (d.vacio) cont.appendChild(el("p", "vc-vacio", d.vacio)); return; }
@@ -92,10 +107,11 @@
       lista.forEach(function (p) {
         if (activa && p.categoria !== activa) return;
         var b = el("button", "vc-item"), f = el("div", "vc-foto");
-        b.type = "button"; b.setAttribute("aria-label", p.nombre + ", " + precio(p) + ". Ver detalles");
+        b.type = "button"; b.setAttribute("aria-label", p.nombre + ", " + (p.precio_antes ? euros(p.precio) + ", antes " + euros(p.precio_antes) : precio(p)) + ". Ver detalles");
         if (p.fotos.length) { var im = el("img"); im.src = p.fotos[0]; im.alt = ""; im.loading = "lazy"; im.decoding = "async"; f.appendChild(im); }
         if (p.destacado && d.destacados !== "1") f.appendChild(el("span", "vc-dest", "Destacado"));
-        b.appendChild(f); b.appendChild(el("span", "vc-nom", p.nombre)); b.appendChild(el("span", "vc-pre", precio(p)));
+        if (p.precio_antes) f.appendChild(el("span", "vc-desc", "−" + pct(p) + " %"));
+        b.appendChild(f); b.appendChild(el("span", "vc-nom", p.nombre)); b.appendChild(precioEl(p, "vc-pre"));
         b.onclick = function () { ficha(p, wa); };
         grid.appendChild(b);
       });
