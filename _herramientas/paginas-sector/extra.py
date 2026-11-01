@@ -7,7 +7,7 @@ EXTRA = {
        ("Un presupuesto fácil de pedir","Cuanto más fácil sea pedir presupuesto, más peticiones recibes. El formulario pregunta lo justo —qué quiere reformar, metros aproximados, zona y fotos si las tiene— y te llega directo al correo o al WhatsApp, listo para valorar."),
        ("Aparecer en tu zona","La mayoría busca «reformas en» + su ciudad o barrio. Preparamos la página web con tus zonas de trabajo, tu ficha de Google Maps y tus reseñas para que aparezcas en esas búsquedas locales y no solo en las de tu municipio.")],
  faq=[("¿Puedo mostrar los trabajos por zonas o por tipo de obra?","Sí. Podemos organizar la galería por tipo de reforma y añadir las localidades donde trabajas, algo que además ayuda a aparecer en Google en esas zonas."),
-      ("¿Sirve también para autónomos y pequeños oficios?","Sí. Muchos de nuestros clientes son autónomos: fontaneros, electricistas, pintores o carpinteros. Con una web sencilla de una página ya tienes presencia profesional en Google."),
+      ("¿Sirve también para autónomos y pequeños oficios?","Sí. Está pensada también para autónomos: fontaneros, electricistas, pintores o carpinteros. Con una web sencilla de una página ya tienes presencia profesional en Google."),
       DOM]),
 "diseno-web-peluquerias-estetica": dict(
  porque2="Una web propia también te hace menos dependiente de las redes sociales: tus tratamientos, precios y horarios están siempre ordenados en un solo sitio, y cualquiera que te busque en Google encuentra la información y reserva sin tener que escribirte.",
@@ -46,8 +46,7 @@ EXTRA = {
  guia=[("Un catálogo que se gestiona fácil","Productos con fotos, descripción, variantes (talla, color…), stock y categorías. Te dejamos la tienda preparada para que añadas productos y cambies precios tú mismo, y te enseñamos a hacerlo."),
        ("Pagos y envíos sin complicaciones","Pago con tarjeta, Bizum o PayPal, con los gastos de envío y las zonas que tú decidas. Tú y tus clientes recibís un correo automático con cada pedido."),
        ("Vender también fuera de tu zona","Una tienda online bien preparada para Google te permite vender a clientes de toda España. Cuidamos la velocidad, las fichas de producto y los textos para que tus productos aparezcan en las búsquedas.")],
- faq=[("¿Cobráis comisión por cada venta?","No. La tienda es un pago único y es tuya: nosotros no cobramos comisión por venta. Solo pagas las comisiones habituales del método de pago que uses (Stripe, PayPal…)."),
-      ("¿Puedo vender servicios o bonos además de productos?","Sí. Puedes vender productos físicos, bonos, tarjetas regalo o reservas de servicios."),
+ faq=[("¿Puedo vender servicios o bonos además de productos?","Sí. Puedes vender productos físicos, bonos, tarjetas regalo o reservas de servicios."),
       DOM]),
 "seo-local-google-maps": dict(
  porque2="Una ficha de Google bien trabajada es gratis de mantener y te trae llamadas, visitas a tu local y peticiones de ruta cada día. La mayoría de negocios la tienen incompleta, y ahí está tu oportunidad.",

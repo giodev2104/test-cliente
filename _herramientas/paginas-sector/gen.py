@@ -184,7 +184,7 @@ def pie(actual):
     otros = "".join(f'<a href="/{x["slug"]}/">{esc(x["corto"])}</a>' for x in P if x["slug"] != actual)
     return f"""<footer><div class="w"><p><b>Velority</b> · Diseño web para negocios y autónomos con precio cerrado y pago único.</p>
 <p>Diseño web por sector: {" · ".join(f'<a href="/{x["slug"]}/">{esc(x["corto"])}</a>' for x in P)}</p>
-<p><a href="/">Inicio</a> · <a href="/blog/">Blog</a> · <a href="/#faq">Preguntas frecuentes</a> · <a href="/legal/condiciones-pago-unico.pdf">Condiciones de pago único (PDF)</a> · <a href="https://wa.me/{WA}" rel="noopener">WhatsApp</a></p></div></footer>
+<p><a href="/">Inicio</a> · <a href="/blog/">Blog</a> · <a href="/#faq">Preguntas frecuentes</a> · <a href="/legal/condiciones-pago-unico.pdf">Condiciones de pago único (PDF)</a> · <a href="/legal/aviso-legal/">Aviso legal</a> · <a href="/legal/privacidad/">Privacidad</a> · <a href="/legal/cookies/">Cookies</a> · <a href="https://wa.me/{WA}" rel="noopener">WhatsApp</a></p></div></footer>
 <script src="/tema.js" defer></script>
 </body></html>
 """, otros
