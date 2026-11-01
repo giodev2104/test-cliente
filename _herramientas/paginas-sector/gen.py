@@ -114,7 +114,7 @@ P = [
        ("¿Qué métodos de pago puedo aceptar?","Tarjeta, Bizum, PayPal o Stripe. Si necesitas otra pasarela, la añadimos como servicio adicional.")]),
  dict(slug="seo-local-google-maps", sector=None, estilo=None, corto="SEO local",
   title="SEO local y ficha de Google Maps para negocios | Velority",
-  desc="Optimizamos tu ficha de Google Business Profile para salir en Google Maps cuando te buscan en tu zona. Desde 79 €, pago único y sin permanencia.",
+  desc="Optimizamos tu ficha de Google Business Profile para salir en Google Maps cuando te buscan en tu zona. Desde 45 €, pago único y sin permanencia.",
   h1="SEO local: aparece en Google Maps cuando te buscan", kick="SEO local y Google Business Profile",
   lead="Optimizamos tu ficha de Google para que salgas en el mapa al buscar tu servicio en tu zona. Vale tanto si tu web la hacemos nosotros como si ya tienes una.",
   porque=("Cuando alguien busca «fontanero», «peluquería» o «restaurante» cerca, Google enseña primero el mapa con tres negocios. Esos tres se llevan la mayoría de llamadas.",),
@@ -124,8 +124,8 @@ P = [
          ("🔗","Coherencia de datos","Mismo nombre, dirección y teléfono en tu web y en los directorios."),
          ("🧭","Search Console y sitemap","Para que Google indexe tu web correctamente (servicio adicional)."),
          ("🔎","Auditoría SEO","Revisión de tu web con mejoras concretas y priorizadas.")],
-  plan="Ficha Google Maps (SEO Local)", precio="79 €", nota="El Pack Presencia Local Total (119 €) añade 2 correos corporativos, el widget de reseñas de Google y el botón de WhatsApp.",
-  faq=[("¿Cuánto cuesta optimizar mi ficha de Google Maps?","La optimización completa de tu perfil de Google Business Profile cuesta 79 €, pago único. Con el Pack Presencia Local Total (119 €) añades correos corporativos, widget de reseñas y botón de WhatsApp."),
+  plan="Ficha Google Maps (SEO Local)", precio="45 €", nota="El Pack Presencia Local Total (119 €) añade 2 correos corporativos, el widget de reseñas de Google y el botón de WhatsApp.",
+  faq=[("¿Cuánto cuesta optimizar mi ficha de Google Maps?","La optimización completa de tu perfil de Google Business Profile cuesta 45 €, pago único. Con el Pack Presencia Local Total (119 €) añades correos corporativos, widget de reseñas y botón de WhatsApp."),
        ("¿Necesito tener web con vosotros?","No. El SEO local sirve tanto para la web que hacemos contigo como para una web externa que ya tengas."),
        ("¿En cuánto tiempo se notan los resultados?","Depende de la competencia de tu zona. Los cambios en la ficha se aplican en días, y la mejora en posiciones suele verse en las semanas siguientes. No prometemos posiciones concretas: nadie puede garantizarlas."),
        ("¿Hay permanencia?","No. Es un pago único, sin cuotas ni permanencia.")]),
@@ -218,12 +218,12 @@ for x in P:
 <nav class="bc" aria-label="Migas de pan"><a href="/">Inicio</a> › <span>{esc(x['corto'])}</span></nav>
 <section class="hero"><span class="kick">{esc(x['kick'])}</span><h1>{h1}</h1><p class="lead">{esc(x['lead'])}</p>
 <div class="cta"><a class="btn xl" href="/?demo=1">{"Quiero mi demo gratuita" if not es_seo else "Quiero salir en Google Maps"}</a>{f'<a class="btn s xl" href="{demo}" rel="nofollow">▶ Ver un diseño de ejemplo</a>' if demo else f'<a class="btn s xl" href="https://wa.me/{WA}?text=' + 'Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20SEO%20local' + '" rel="noopener">Escríbenos por WhatsApp</a>'}</div>
-<p class="desde">{"Tu web" if not es_seo else esc(x["plan"])} desde <b>{esc(x["precio"])}</b> · pago único, precio final · sin cuotas ni permanencia</p></section>
+<p class="desde">{"Tu web" if not es_seo else esc(x["plan"])} desde <b>{esc(x["precio"])}</b> · pago único, IVA incluido · sin cuotas ni permanencia</p></section>
 <section><h2>¿Por qué {"una web propia" if not es_seo else "el SEO local"}?</h2><div class="por"><p style="margin:0">{esc(x['porque'][0])}</p><p style="margin:12px 0 0">{esc(ex['porque2'])}</p></div></section>
 <section><h2>{"Qué incluye tu web" if not es_seo else "Qué hacemos por tu ficha"}</h2><p class="mu">Lo que solemos preparar para {esc(x['corto'].lower())}. Lo ajustamos a tu negocio y te damos el precio cerrado antes de empezar.</p><div class="g">{feats}</div></section>
 <section><h2>Cómo trabajamos</h2><div class="stp"><div class="c"><div class="n">1</div><h3>Nos cuentas tu negocio</h3><p>Por el chat o por WhatsApp, en unos minutos.</p></div><div class="c"><div class="n">2</div><h3>{paso2}</h3><p>{"Ves tu futura web con tu nombre, gratis y sin compromiso." if not es_seo else "Gratis y sin compromiso, con el precio cerrado."}</p></div><div class="c"><div class="n">3</div><h3>{"Recibes tu web" if not es_seo else "La optimizamos"}</h3><p>{"2 rondas de cambios incluidas, pago único y 30 días de garantía. La web y el dominio, a tu nombre." if not es_seo else "Pago único, sin permanencia. Te explicamos cómo mantenerla al día."}</p></div></div></section>
 <section><h2>{"Claves de una buena web para " + esc(x['corto'].lower()) if not es_seo else "Claves del SEO local"}</h2><div class="g">{"".join(f'<div class="c"><h3>{esc(t)}</h3><p>{esc(d)}</p></div>' for t, d in ex["guia"])}</div></section>
-<section><h2>Precio</h2><div class="precio"><div><small>{esc(x['plan'])}</small><b class="p">desde {esc(x['precio'])}</b><small>Pago único · precio final</small></div><div style="max-width:520px"><p class="mu" style="margin:0">{esc(x['nota'])}</p></div><a class="btn" href="/?demo=1">Pedir mi {"demo" if not es_seo else "revisión"} gratis</a></div></section>
+<section><h2>Precio</h2><div class="precio"><div><small>{esc(x['plan'])}</small><b class="p">desde {esc(x['precio'])}</b><small>Pago único · IVA incluido</small></div><div style="max-width:520px"><p class="mu" style="margin:0">{esc(x['nota'])}</p></div><a class="btn" href="/?demo=1">Pedir mi {"demo" if not es_seo else "revisión"} gratis</a></div></section>
 <section><h2>Preguntas frecuentes</h2>{faq}</section>
 <div class="band"><h2>¿Hablamos de tu {"web" if not es_seo else "ficha de Google"}?</h2><p>{"Te preparamos una primera versión gratis. Si te gusta, te damos el precio cerrado; si no, no pagas nada." if not es_seo else "Te decimos gratis qué mejorar en tu ficha y cuánto cuesta, sin compromiso."}</p><a class="btn xl" href="/?demo=1">{"Quiero mi demo gratuita" if not es_seo else "Quiero mi revisión gratuita"}</a></div>
 <section style="padding-top:0"><h2 style="font-size:22px">También hacemos webs para</h2><div class="otros">{otros}</div></section>
