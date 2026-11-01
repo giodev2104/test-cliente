@@ -134,7 +134,8 @@ P = [
 def iconos():
     return '<link rel="icon" href="/favicon.ico" sizes="48x48"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="manifest" href="/manifest.webmanifest">'
 
-FUENTES = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"></noscript>'
+FUENTES = '<link rel="preload" href="/fuentes/inter-latin-6ab57b.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="style" href="/fuentes/fuentes.css" onload="this.onload=null;this.rel=\'stylesheet\'"><noscript><link rel="stylesheet" href="/fuentes/fuentes.css"></noscript>'
 
 CSS = """:root{--bg:#0b0e1a;--sf:#121628;--sf2:#181d33;--tx:#e8ebf7;--mu:#a3abc8;--bd:#262c48;--ac:#7c8cff;--ac2:#a78bfa;--ac3:#2dd4bf}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
@@ -169,7 +170,7 @@ footer{border-top:1px solid var(--bd);padding:26px 0 40px;color:var(--mu);font-s
 
 def cab(title, desc, url, extra_ld, robots="index, follow, max-image-preview:large, max-snippet:-1"):
     return f"""<!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="es"><head><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' data: blob: https://ufwuvbjrgvphbggkfkuh.supabase.co wss://ufwuvbjrgvphbggkfkuh.supabase.co; frame-src 'self' https:; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(desc)}"><meta name="robots" content="{robots}">
 {'<link rel="canonical" href="'+url+'">' if url else ''}<meta name="theme-color" content="#0b0e1a">
 <meta property="og:type" content="website"><meta property="og:site_name" content="Velority"><meta property="og:locale" content="es_ES">{'<meta property="og:url" content="'+url+'">' if url else ''}
