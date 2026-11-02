@@ -1414,7 +1414,8 @@ const ico=d=>"<svg width='22' height='22' viewBox='0 0 24 24' fill='none' stroke
 // 1. Planes base de creación web (pago único)
 const WP=[{e:"🚀",n:"Plan Lanzamiento",s:"Landing / One-Page",p:"190 € – 250 €",d:"Pago único",t:"Ideal para marcas personales o servicios rápidos.",f:["Dominio personalizado incluido","Diseño One-Page en scroll largo","Formulario de contacto directo","Botón flotante de WhatsApp","Responsive (móvil/PC)","SEO básico de inicio"]},
 {e:"💼",n:"Plan Negocio",s:"Web Corporativa",p:"390 € – 490 €",d:"Pago único",t:"Ideal para PYMEs.",f:["Dominio personalizado incluido","Hasta 5 secciones (Inicio, Nosotros, Servicios, Blog, Contacto)","Ficha Google Maps (SEO Local)","Catálogo de productos en tu web (lo actualizamos nosotros)","CMS autogestionable","Google Analytics","Configuración legal RGPD"]},
-{e:"🛒",n:"Plan Ecommerce / Citas",s:"Tienda u Online Booking",p:"690 € – 890 €",d:"Pago único",t:"",f:["Dominio personalizado incluido","Catálogo de productos que gestionas tú desde tu panel","Gestión de pedidos: carrito en tu web y pedidos en tu panel","Motor de reservas (si vendes citas en lugar de productos)","Integración de pasarelas de pago (Bizum, Stripe, PayPal)","Correos automáticos de pedido/cita","1 hora de formación"]}];
+{e:"🛒",n:"Plan Ecommerce / Citas",s:"Tienda u Online Booking",p:"690 € – 890 €",d:"Pago único",t:"",f:["Dominio personalizado incluido","Catálogo de productos que gestionas tú desde tu panel","Gestión de pedidos: carrito en tu web y pedidos en tu panel","Motor de reservas (si vendes citas en lugar de productos)","Integración de pasarelas de pago (Bizum, Stripe, PayPal)","Correos automáticos de pedido/cita","1 hora de formación"]},
+{e:"🔁",n:"Plan Rediseño",s:"Renueva la web que ya tienes",p:"desde 150 €",d:"Pago único",t:"Para quien ya tiene una web anticuada o lenta y quiere renovarla sin empezar de cero.",f:["Nuevo diseño moderno con tus textos y fotos","Se ve perfecta en móvil y ordenador","Más rápida y con SEO básico","Mantenemos tu dominio y tu posicionamiento","Aunque la hiciera otra persona"]}];
 // 2. Planes de mantenimiento y soporte recurrente (n = nombre exacto del plan, el que se guarda en la ficha)
 const PD=[{n:"Mantenimiento Esencial",c:"Esencial",p:"19 €",a:"190 €/año",f:["Actualizaciones semanales del núcleo/plugins","Copias de seguridad externas mensuales","Monitorización de seguridad contra vulnerabilidades","Soporte por email"]},
 {n:"Mantenimiento Pro",c:"Pro",p:"39 €",a:"390 €/año",f:["Todo lo del Esencial","Copias de seguridad semanales","2 tokens/mes de cambios de contenido","Optimización de velocidad (WPO)","Atención prioritaria por WhatsApp"]},
@@ -1440,10 +1441,18 @@ const EX=[{c:"EXT-01",g:0,k:"Redacción Persuasiva (Copywriting)",p:"120 €",t:
 {c:"EXT-09",g:1,k:"Asistente Chatbot IA / WhatsApp",p:"99 €",t:"Respuestas automáticas inteligentes a clientes 24/7."},
 {c:"EXT-10",g:1,k:"Carga Masiva de Productos",p:"69 €",t:"Importación de catálogo inicial (bloque de 25 u.)."},
 {c:"EXT-11",g:1,k:"Panel de gestión de productos",p:"99 €",t:"Catálogo en tu web que gestionas tú desde tu panel: fotos, precios, descuentos y categorías, al momento y sin cuotas."},
+{c:"EXT-13",g:1,k:"Página o sección extra",p:"35 €",t:"Una sección o página más en tu web, con su diseño y sus textos."},
+{c:"EXT-14",g:1,k:"Optimización de velocidad (WPO)",p:"49 €",t:"Tu web carga más rápido: imágenes, código y caché optimizados. También para webs hechas por otros."},
+{c:"EXT-18",g:1,k:"Reservas o cita online",p:"39 €",t:"Botón de reserva conectado a tu agenda para que te pidan cita desde la web."},
+{c:"EXT-20",g:1,k:"Carta digital con QR",p:"49 €",t:"Tu carta o lista de precios en la web, con código QR para las mesas o el mostrador."},
+{c:"EXT-23",g:1,k:"Adaptación a la Ley de Accesibilidad",p:"79 €",t:"Revisamos y adaptamos tu web para que la pueda usar todo el mundo. Desde junio de 2025 es obligatoria para muchas tiendas online."},
+{c:"EXT-25",g:1,k:"Cambios sueltos (1 hora)",p:"25 €",t:"Una hora de cambios en tu web sin plan de mantenimiento: textos, fotos, precios o secciones."},
 {c:"EXT-12",g:1,k:"Panel de gestión de pedidos",p:"149 €",t:"Tus clientes hacen pedidos desde tu web (carrito, recogida o envío) y tú los gestionas desde tu panel: avisos por correo, estados y contacto por WhatsApp. Necesita el catálogo de productos."},
 {c:"EXT-15",g:2,k:"Ficha Google Maps (SEO Local)",p:"45 €",t:"Optimización completa de perfil Google Business Profile."},
 {c:"EXT-16",g:2,k:"Google Search Console & Sitemap",p:"29 €",t:"Indexación oficial de la web en Google y envío de mapa."},
 {c:"EXT-17",g:2,k:"Píxeles Meta (FB/IG) y TikTok",p:"39 €",t:"Instalación de código de seguimiento para campañas de anuncios."},
+{c:"EXT-22",g:2,k:"Kit de reseñas (QR + tarjeta)",p:"19 €",t:"Código QR y tarjeta para imprimir que llevan directamente a dejarte una reseña en Google."},
+{c:"EXT-24",g:2,k:"Puesta en marcha de anuncios",p:"99 €",t:"Creamos tu primera campaña en Meta (Facebook e Instagram) o en Google, lista para empezar."},
 {c:"EXT-19",g:2,k:"Gestión de Blog Mensual",p:"59 € / mes",t:"Redacción de 2 artículos SEO optimizados al mes."},
 {c:"EXT-21",g:2,k:"Auditoría SEO Trimestral",p:"49 € / trim.",t:"Informe de rendimiento, posicionamiento y competencia."}];
 // 8. Packs promocionales de cierre (bundles ahorro)
