@@ -1176,10 +1176,21 @@ m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="op
 <div class="estrellas" role="radiogroup" aria-label="Valoración de 1 a 5">${[1,2,3,4,5].map(k=>`<button class="${k<=n?"on":""}" role="radio" aria-checked="${k==n}" aria-label="${k} de 5" onclick="abrirOpinion(${caso},'${esc(nombre||"").replace(/'/g,"")}',${k})">★</button>`).join("")}</div>
 <label>Cuéntanos qué tal (opcional)<textarea id="op-c" rows="3" maxlength="1000" placeholder="¿Qué es lo que más te ha gustado?">${esc(abrirOpinion.txt||"")}</textarea></label>
 <label class="chk"><input type="checkbox" id="op-p" ${abrirOpinion.pub?"checked":""}><span>${PUB_TXT}.</span></label>
-<button class="btn" style="width:100%;margin-top:6px" onclick="enviarOpinion(${caso},${n})">Enviar mi opinión</button><p style="text-align:center;margin-top:10px"><button class="lk" onclick="try{localStorage.setItem('webcare-noval-${caso}','1')}catch(_){};closePlan()">Ahora no</button></p></div>`;m.style.display="grid";
+<button class="btn" style="width:100%;margin-top:6px" onclick="enviarOpinion(${caso},${n})">Enviar mi opinión</button><p style="text-align:center;margin-top:10px"><button class="lk" onclick="posponerResena(${caso});closePlan()">Ahora no</button></p></div>`;m.style.display="grid";
 const t=document.getElementById("op-c");t.oninput=()=>abrirOpinion.txt=t.value;document.getElementById("op-p").onchange=e=>abrirOpinion.pub=e.target.checked}
 async function enviarOpinion(caso,n){if(!n)return toast("Elige de 1 a 5 estrellas.");const com=document.getElementById("op-c").value,pub=document.getElementById("op-p").checked;
 try{await rpc("cliente_opinar",{p_token:token,p_caso:caso,p_estrellas:n,p_comentario:com,p_publica:pub});VAL=VAL.filter(v=>v.caso_id!=caso).concat([{caso_id:caso,estrellas:n}]);abrirOpinion.txt="";abrirOpinion.pub=false;OPS=null;closePlan();render();toast(pub?"¡Gracias! Tu opinión aparecerá en nuestra web.":"¡Gracias por tu opinión!",4000)}catch(err){toast(err.message,5000)}}
+// Petición automática de reseña: 3 días después de entregar y cobrar un proyecto, el portal la pide al entrar.
+// «Ahora no» la pospone 7 días; tras dos «Ahora no» ya no se vuelve a pedir sola (sigue el enlace «⭐ Valorar el proyecto»).
+const RESENA_DIAS=3,RESENA_POSPONER=7;
+const resenaEstado=id=>{try{return JSON.parse(localStorage.getItem("velority-resena-"+id)||"{}")}catch(_){return {}}};
+function posponerResena(id){const e=resenaEstado(id),n=(e.n||0)+1;try{localStorage.setItem("velority-resena-"+id,JSON.stringify({n,hasta:Date.now()+RESENA_POSPONER*864e5}));if(n>=2)localStorage.setItem("webcare-noval-"+id,"1")}catch(_){}}
+function pedirResena(){if(VISTA||INV||pedirResena.hecho||!SERV.length)return;const ahora=Date.now();
+const s=SERV.find(s=>{if(!s.caso_id||!s.pagado_en||valDe(s.caso_id)||noValorar(s.caso_id))return false;
+const l=ENTR.filter(e=>e.servicio_id==s.id);if(!l.length&&s.tipo!="web")return false;
+const ref=Math.max(new Date(s.pagado_en).getTime(),...l.map(e=>e.descargado_en?new Date(e.descargado_en).getTime():0));
+const e=resenaEstado(s.caso_id);return ahora-ref>=RESENA_DIAS*864e5&&!(e.hasta>ahora)});
+if(!s)return;pedirResena.hecho=true;if(document.getElementById("md").style.display=="grid")return;abrirOpinion(s.caso_id,s.nombre)}
 // Opiniones públicas para la portada (se cargan una vez; no necesitan sesión)
 let OPS=null;
 async function cargarOpiniones(){if(cargarOpiniones.ya)return;cargarOpiniones.ya=true;if(!db&&!await dbListo()){cargarOpiniones.ya=false;return}try{const{data,error}=await db.rpc("valoraciones_publicas",{});if(!error&&data){OPS=data;if(!auth)render(true)}else OPS={total:0}}catch(_){}finally{cargarOpiniones.ya=false}}
@@ -1305,7 +1316,7 @@ function escucharCanal(id){if(!db||!id||id===canalId||!db.channel)return;if(cana
 canalRT=db.channel("portal-"+id).on("broadcast",{event:"cambio"},()=>{clearTimeout(escucharCanal.t);escucharCanal.t=setTimeout(()=>sondear.tick&&sondear.tick(),300)}).subscribe()}
 async function entrarCliente(r,vista,inv){token=r.token;if(vista)VISTA=true;else if(!inv)guardarTk(token);
 try{await cargarCasos(false)}catch(err){if(!token)return;toast("No se pudieron cargar tus datos: "+err.message,6000)}
-const m=CASOS.find(c=>CUOTAS[c.plan||""]);if(!(WEB&&WEB.plan)&&m)plan=m.plan;auth=true;sondear();go(perfil()=="puntual"?"Mis pedidos":lockeado()?"Chat":"Mi web")}
+const m=CASOS.find(c=>CUOTAS[c.plan||""]);if(!(WEB&&WEB.plan)&&m)plan=m.plan;auth=true;sondear();go(perfil()=="puntual"?"Mis pedidos":lockeado()?"Chat":"Mi web");setTimeout(pedirResena,2500)}
 // Sin Supabase Auth no hay tiempo real: se consulta cada pocos segundos mientras la pestaña está a la vista
 function sondear(){clearInterval(sondeo);const tick=()=>{if(token&&!document.hidden)cargarCasos(true).then(c=>{if(c)render()}).catch(()=>{})};sondeo=setInterval(tick,SONDEO_MS);sondear.tick=tick}
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&sondear.tick)sondear.tick()});
@@ -1338,7 +1349,7 @@ function pedirClaveNueva(t){const m=document.getElementById("md");m.innerHTML=`<
 async function guardarClaveNueva(t){const a=document.getElementById("nc1").value,b=document.getElementById("nc2").value,x=document.getElementById("ncx");if(a.length<8)return x.textContent="La contraseña debe tener al menos 8 caracteres.";if(a!==b)return x.textContent="Las dos contraseñas no coinciden.";
 x.textContent="Guardando…";try{const r=await rpc("cliente_restablecer_clave",{p_token:t,p_clave:a});closePlan();await entrarCliente(r);toast("Contraseña cambiada. ¡Bienvenido de nuevo!",4000)}catch(err){x.textContent=err.message}}
 function out(caducada){const t=token,eraVista=VISTA,eraInv=!!INV;token=null;INV=null;INVS.lista=[];INVS.nuevo=null;if(eraInv){try{localStorage.removeItem(TKI)}catch(_){}if(t&&!caducada)rpc("invitado_salir",{p_token:t}).catch(()=>{})}else if(!eraVista)guardarTk(null);clearInterval(sondeo);if(canalRT&&db){db.removeChannel(canalRT);canalRT=null;canalId=null}ADJ=null;ADJT=null;CATA=null;Object.assign(PRODS,{cargado:false,lista:[],edit:null,error:""});Object.assign(BOV,{cargado:false,lista:[],accesos:[],visto:{},error:""});if(t&&!caducada&&db&&!eraVista&&!eraInv)db.rpc("cliente_salir",{p_token:t}).then(()=>{},()=>{});
-auth=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];WEB=null;HIST=[];VAL=[];RENOV=[];SERV=[];ENTR=[];VISTA=false;plan="Mantenimiento Pro";U={n:"",d:""};render(true);scrollTo(0,0);if(caducada)toast("Tu sesión ha caducado. Vuelve a iniciar sesión.",4000)}
+auth=false;pedirResena.hecho=false;cur="Inicio";casoSel=null;CASOS=[];MSGS=[];WEB=null;HIST=[];VAL=[];RENOV=[];SERV=[];ENTR=[];VISTA=false;plan="Mantenimiento Pro";U={n:"",d:""};render(true);scrollTo(0,0);if(caducada)toast("Tu sesión ha caducado. Vuelve a iniciar sesión.",4000)}
 function closePlan(){document.getElementById("md").style.display="none"}
 addEventListener("keydown",e=>{if(e.key=="Escape")closePlan()});
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]);
