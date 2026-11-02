@@ -1064,7 +1064,10 @@ const NAV_PERFIL={mensual:["Mi web","Servicios","Soporte","SEO","Facturación","
 const demoCaso=()=>CASOS.find(c=>c.titulo=="Demo gratuita"),demoLista=()=>{const d=demoCaso();return !!d&&!!d.demo_enviada_en&&!d.demo_aceptada_en};
 // «Demo» desaparece cuando la web está pagada al 100 % (empieza la garantía)
 const webPagada=()=>(INV&&INV.webPagada)||SERV.some(s=>s.tipo=="web"&&s.pagado_en);
-const navDe=()=>{const d=demoCaso()&&!webPagada()?["Demo"]:[];let nv=perfil()=="puntual"?[NAV_PERFIL.puntual[0],...d,...NAV_PERFIL.puntual.slice(1)]:(lead()?["Chat"]:[]).concat(d,NAV_PERFIL.mensual);
+// Con un plan de web ya asignado (en la ficha o como servicio), la pestaña «Demo» sobra
+const PLANES_WEB=["Plan Lanzamiento","Plan Negocio","Plan Ecommerce / Citas","Plan Rediseño"];
+const tienePlanWeb=()=>PLANES_WEB.includes((WEB&&WEB.plan)||"")||SERV.some(s=>PLANES_WEB.includes(s.nombre)&&!["baja","rechazado"].includes(s.estado));
+const navDe=()=>{const d=demoCaso()&&!webPagada()&&!tienePlanWeb()?["Demo"]:[];let nv=perfil()=="puntual"?[NAV_PERFIL.puntual[0],...d,...NAV_PERFIL.puntual.slice(1)]:(lead()?["Chat"]:[]).concat(d,NAV_PERFIL.mensual);
 if(CATA){const i=nv.indexOf(perfil()=="puntual"?"Mis pedidos":"Mi web");nv=[...nv.slice(0,i+1),...(CATA.autogestion!==false?["Catálogo"]:[]),...(CATA.pedidos?["Ventas"]:[]),...nv.slice(i+1)]}return INV?nv.filter(k=>!PERM_TAB[k]||puede(PERM_TAB[k])):nv};
 // Pedidos de pago único (web, extras y packs) con el caso que los sigue
 function pedidos(){let l=SERV.filter(s=>["web","extra","pack"].includes(s.tipo)&&s.estado!="rechazado");
