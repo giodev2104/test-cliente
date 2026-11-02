@@ -1179,7 +1179,14 @@ m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="op
 <button class="btn" style="width:100%;margin-top:6px" onclick="enviarOpinion(${caso},${n})">Enviar mi opinión</button><p style="text-align:center;margin-top:10px"><button class="lk" onclick="posponerResena(${caso});closePlan()">Ahora no</button></p></div>`;m.style.display="grid";
 const t=document.getElementById("op-c");t.oninput=()=>abrirOpinion.txt=t.value;document.getElementById("op-p").onchange=e=>abrirOpinion.pub=e.target.checked}
 async function enviarOpinion(caso,n){if(!n)return toast("Elige de 1 a 5 estrellas.");const com=document.getElementById("op-c").value,pub=document.getElementById("op-p").checked;
-try{await rpc("cliente_opinar",{p_token:token,p_caso:caso,p_estrellas:n,p_comentario:com,p_publica:pub});VAL=VAL.filter(v=>v.caso_id!=caso).concat([{caso_id:caso,estrellas:n}]);abrirOpinion.txt="";abrirOpinion.pub=false;OPS=null;closePlan();render();toast(pub?"¡Gracias! Tu opinión aparecerá en nuestra web.":"¡Gracias por tu opinión!",4000)}catch(err){toast(err.message,5000)}}
+try{await rpc("cliente_opinar",{p_token:token,p_caso:caso,p_estrellas:n,p_comentario:com,p_publica:pub});VAL=VAL.filter(v=>v.caso_id!=caso).concat([{caso_id:caso,estrellas:n}]);abrirOpinion.txt="";abrirOpinion.pub=false;OPS=null;render();graciasOpinion(pub)}catch(err){toast(err.message,5000)}}
+// Tras valorar: gracias + invitación a dejar la reseña también en Google (se ofrece a todos, sin filtrar por estrellas, como exige Google)
+const GOOGLE_RESENA="https://g.page/r/CV-p1iv_EoLuEBM/review";
+function graciasOpinion(pub){const m=document.getElementById("md");
+m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="gr-h"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><span class="tag">¡Gracias!</span>
+<h2 id="gr-h" style="margin:12px 0 6px;font-size:22px">Gracias por tu opinión</h2><p class="mu" style="margin-bottom:14px">${pub?"Aparecerá en nuestra web en unos minutos. ":""}¿Nos ayudas a que otros negocios nos encuentren? Dejar tu reseña en Google te lleva menos de un minuto.</p>
+<a class="btn" style="display:block;width:100%;text-align:center;text-decoration:none" href="${GOOGLE_RESENA}" target="_blank" rel="noopener" onclick="setTimeout(closePlan,300)">⭐ Dejar mi reseña en Google</a>
+<p style="text-align:center;margin-top:10px"><button class="lk" onclick="closePlan()">Ahora no</button></p></div>`;m.style.display="grid"}
 // Petición automática de reseña: 3 días después de entregar y cobrar un proyecto, el portal la pide al entrar.
 // «Ahora no» la pospone 7 días; tras dos «Ahora no» ya no se vuelve a pedir sola (sigue el enlace «⭐ Valorar el proyecto»).
 const RESENA_DIAS=3,RESENA_POSPONER=7;
