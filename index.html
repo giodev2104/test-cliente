@@ -1198,7 +1198,7 @@ const juntar=t=>String(t).replace(/(\d) (%|€)/g,"$1&nbsp;$2");
 // Cuotas que se activan solas al pagar (hosting, gestión de pedidos y asistente IA), con su periodo gratis.
 // Si ya las cubre su mantenimiento o renting, el servidor no las crea (por eso se avisa).
 function cuotasAviso(nombre,webFinal){if(!SUSCRIPCIONES_ACTIVAS)return "";const l=[];
-if(webFinal){l.push(["Hosting","el primer mes","EXT-28"]);if(/^Plan Ecommerce/.test(nombre))l.push(["Gestión de pedidos","los 3 primeros meses","EXT-26"])}
+if(webFinal){if(!(WEB&&WEB.hosting_externo))l.push(["Hosting","el primer mes","EXT-28"]);if(/^Plan Ecommerce/.test(nombre))l.push(["Gestión de pedidos","los 3 primeros meses","EXT-26"])}
 if(/^EXT-12 ·/.test(nombre)||nombre=="Pack Tienda Lista")l.push(["Gestión de pedidos","los 3 primeros meses","EXT-26"]);
 if(/^EXT-09 ·/.test(nombre)||nombre=="Pack Citas")l.push(["Asistente IA","los 3 primeros meses","EXT-27"]);
 if(!l.length)return "";const pr=c=>{const x=EX.find(e=>e.c==c);return x?x.p.replace(" / mes","/mes"):""};
