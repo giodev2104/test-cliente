@@ -1226,7 +1226,7 @@ function precioBase(t){t=String(t||"");if(/\/\s*(mes|trim|año)/i.test(t))return
 // TAE con la primera cuota hoy (rentas prepagables): se busca el interés mensual que iguala cuotas y precio
 function taePlazo(n,r){if(!r)return 0;const c=(1+r)/n;let lo=0,hi=1;for(let k=0;k<100;k++){const i=(lo+hi)/2;let v=0;for(let t=0;t<n;t++)v+=c/Math.pow(1+i,t);if(v>1)lo=i;else hi=i}return (Math.pow(1+(lo+hi)/2,12)-1)*100}
 const eur2=n=>n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
-const financiable=p=>{if(!SUSCRIPCIONES_ACTIVAS)return false;const c=catDe(p.nombre)||{};return precioBase(p.precio||c.pr)>=FINANCIACION.minimo};
+const financiable=p=>{if(!SUSCRIPCIONES_ACTIVAS||(p.tipo=="web"&&p.anticipo_en))return false;const c=catDe(p.nombre)||{};return precioBase(p.precio||c.pr)>=FINANCIACION.minimo};
 let FIN_SEL=null;
 function abrirFinanciar(id){const p=pedidos().find(x=>(x.id||x.caso_id)==id);if(!p)return;const c=catDe(p.nombre)||{},txt=p.precio||c.pr||"",base=precioBase(txt),rango=/–|-/.test(txt.replace(/ · .*/,""));
 FIN_SEL=FIN_SEL&&FIN_SEL.id==id?FIN_SEL:{id,n:FINANCIACION.plazos[1].n};
@@ -1234,7 +1234,7 @@ const op=FINANCIACION.plazos.map(o=>{const total=Math.round(base*(1+o.r)*100)/10
 const m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="fi-h"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><span class="tag">Financiación</span>
 <h2 id="fi-h" style="margin:12px 0 4px;font-size:22px">Paga «${esc(p.nombre)}» a plazos</h2><p class="mu" style="margin-bottom:12px">${rango?"Desde ":""}${eur2(base)}${rango?" (el importe final depende de tu presupuesto; las cuotas se ajustan en la misma proporción)":""}. Pagas la primera cuota hoy y el resto, una al mes.</p>
 <div class="fin-op" role="radiogroup" aria-label="Número de plazos">${op.map(o=>`<button type="button" role="radio" aria-checked="${FIN_SEL.n==o.n}" class="fin ${FIN_SEL.n==o.n?"on":""}" onclick="FIN_SEL.n=${o.n};abrirFinanciar(${id})">
-<b>${o.n} plazos de ${eur2(o.cuota)}</b><small>${o.r?`Total ${eur2(o.total)} · recargo ${String(o.r*100).replace(".",",")} % · TAE ${o.tae.toFixed(1).replace(".",",")} %`:"Sin intereses · TAE 0 %"}</small>${o.r?"":'<span class="tag">Recomendado</span>'}</button>`).join("")}</div>
+<b>${o.n} plazos de ${eur2(o.cuota)}</b><small>${o.r?`Total ${eur2(o.total)} · recargo ${String(o.r*100).replace(".",",")} % · TAE ${o.tae.toFixed(1).replace(".",",")} %`:"Sin intereses · TAE 0 %"}</small></button>`).join("")}</div>
 <p class="mu" style="font-size:12px;margin:10px 0 14px">Sin comisiones de apertura ni de cancelación: puedes pagar lo que quede cuando quieras sin coste extra. Las cuotas se cobran solas cada mes con tu tarjeta y la entrega se libera al cobrarse la última.</p>
 <button class="btn" style="width:100%" onclick="pedirFinanciacion(${id})">Pagar a plazos</button>${modalPie}`;m.style.display="grid"}
 async function pedirFinanciacion(id){const p=pedidos().find(x=>(x.id||x.caso_id)==id);if(!p)return;
