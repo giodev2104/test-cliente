@@ -1127,14 +1127,19 @@ ${c.demo_nota?`<div class="c" style="margin-top:14px"><p style="margin:0">${esc(
 ${c.demo_url?`<div class="demo-mk"><div class="demo-bar"><i></i><i></i><i></i><span>${esc(host)}</span><a href="${esc(c.demo_url)}" target="_blank" rel="noopener">Abrir a pantalla completa ↗</a></div><iframe class="demo-if" src="${esc(c.demo_url)}" title="Demo de tu web" loading="lazy" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe></div><p class="mu" style="font-size:13px;margin-top:6px">¿No se ve bien aquí? <a href="${esc(c.demo_url)}" target="_blank" rel="noopener">Ábrela a pantalla completa</a>.</p>`:""}
 ${adj.length?`<h2>${c.demo_url?"Más imágenes":"Imágenes de tu demo"}</h2><div class="demo-gal">${adj.map(x=>/^image\//.test(x.adjunto_tipo||"")?`<button class="demo-im" onclick="verAdj(${x.id})" aria-label="Ver ${esc(x.adjunto_nombre||"imagen")}"><img data-adj="${x.id}" alt="${esc(x.adjunto_nombre||"")}"></button>`:`<button class="btn s" onclick="verAdj(${x.id})">📄 ${esc(x.adjunto_nombre||"Archivo")}</button>`).join("")}</div>`:""}
 ${c.demo_aceptada_en&&s?`<h2>Tu proyecto</h2><div class="c"><p class="mu" style="margin:0">Aprobaste la demo el ${fechaLarga(c.demo_aceptada_en)}. Estos son los siguientes pasos:</p>${fasesHTML(s)}</div>`
-:`<div class="c demo-dec"><div><small class="mu">Precio cerrado de tu web</small><b class="precio">${c.demo_importe?eur(c.demo_importe):"Te lo enviamos por el chat"}</b>${m?`<small class="mu">${PRECIO_FINAL} · ${eur(m.a)} para empezar y ${eur(m.f)} al aprobar el diseño final</small>`:""}</div>
-<div class="demo-bt">${ro?"":`<button class="btn s" onclick="demoCambios(${c.id})">✏️ Quiero cambios</button><button class="btn" onclick="demoAceptar(${c.id})" ${c.demo_importe?"":"disabled"}>✅ Me gusta, quiero mi web</button>`}</div></div>`}`}
+:`<div class="c demo-dec"><div><small class="mu">Precio cerrado de tu web</small><b class="precio">${c.demo_importe?eur(c.demo_importe):"Te lo enviamos por el chat"}</b>${m?`<small class="mu">${PRECIO_FINAL} · ${eur(m.a)} para empezar y ${eur(m.f)} al aprobar el diseño final</small>`:""}${demoFinanciable(c)?`<small class="mu">O en 3, 6 o 12 plazos sin intereses, desde ${eur2(Math.round(c.demo_importe/12*100)/100)}/mes</small>`:""}</div>
+<div class="demo-bt">${ro?"":`<button class="btn s" onclick="demoCambios(${c.id})">✏️ Quiero cambios</button>${demoFinanciable(c)?`<button class="btn s" onclick="demoFinanciar(${c.id})">💳 Financiar</button>`:""}<button class="btn" onclick="demoAceptar(${c.id})" ${c.demo_importe?"":"disabled"}>✅ Me gusta, quiero mi web</button>`}</div></div>`}`}
 const MINI={};
 async function miniaturasDemo(){for(const im of document.querySelectorAll("img[data-adj]")){const id=+im.dataset.adj,msg=MSGS.find(x=>x.id==id);if(!msg)continue;
 try{if(!MINI[id])MINI[id]=(await fn("adjuntos",{accion:"ver",token,ruta:msg.adjunto_ruta})).url;im.src=MINI[id]}catch(_){}}}
 async function demoCambios(id){if(VISTA)return toast("Estás viendo el portal como el cliente.");
 const t=prompt("¿Qué cambiarías de la demo? Textos, colores, imágenes, secciones…");if(t===null)return;if(t.trim().length<5)return toast("Cuéntanos un poco más.");
 try{await rpc("cliente_demo",{p_token:token,p_caso:id,p_accion:"cambios",p_texto:t});await cargarCasos();render();toast("¡Recibido! Te respondemos por el chat con la demo actualizada.",5000)}catch(err){toast(err.message,6000)}}
+// Financiar la web directamente desde la demo: se acepta la demo y se paga a plazos (la 1.ª cuota hace de anticipo)
+let FIN_DEMO=null;
+const demoFinanciable=c=>SUSCRIPCIONES_ACTIVAS&&!!c&&+c.demo_importe>=FINANCIACION.minimo;
+function demoFinanciar(id){if(VISTA)return toast("Estás viendo el portal como el cliente: no se puede pagar.");const c=demoCaso();if(!c||c.id!=id||!demoFinanciable(c))return;
+FIN_DEMO={key:-id,caso:id,p:{id:null,caso_id:id,nombre:"Creación de tu web",precio:eur(c.demo_importe)+" (precio cerrado)",tipo:"web",importe:+c.demo_importe}};abrirFinanciar(-id)}
 async function demoAceptar(id){if(VISTA)return toast("Estás viendo el portal como el cliente: no se puede pagar.");
 try{const s=await rpc("cliente_demo",{p_token:token,p_caso:id,p_accion:"aceptar",p_texto:""});await cargarCasos();render();pagarPedido(s.id)}catch(err){toast(err.message,6000)}}
 function pedidosHTML(){const l=pedidos();
@@ -1228,7 +1233,7 @@ function taePlazo(n,r){if(!r)return 0;const c=(1+r)/n;let lo=0,hi=1;for(let k=0;
 const eur2=n=>n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
 const financiable=p=>{if(!SUSCRIPCIONES_ACTIVAS||(p.tipo=="web"&&p.anticipo_en))return false;const c=catDe(p.nombre)||{};return precioBase(p.precio||c.pr)>=FINANCIACION.minimo};
 let FIN_SEL=null;
-function abrirFinanciar(id){const p=pedidos().find(x=>(x.id||x.caso_id)==id);if(!p)return;const c=catDe(p.nombre)||{},txt=p.precio||c.pr||"",base=precioBase(txt),rango=/–|-/.test(txt.replace(/ · .*/,""));
+function abrirFinanciar(id){const p=FIN_DEMO&&FIN_DEMO.key==id?FIN_DEMO.p:pedidos().find(x=>(x.id||x.caso_id)==id);if(!p)return;const c=catDe(p.nombre)||{},txt=p.precio||c.pr||"",base=precioBase(txt),rango=/–|-/.test(txt.replace(/ · .*/,""));
 FIN_SEL=FIN_SEL&&FIN_SEL.id==id?FIN_SEL:{id,n:FINANCIACION.plazos[1].n};
 const op=FINANCIACION.plazos.map(o=>{const total=Math.round(base*(1+o.r)*100)/100,cuota=Math.round(total/o.n*100)/100;return {...o,total,cuota,tae:taePlazo(o.n,o.r)}});
 const m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="fi-h"><button class="x" onclick="closePlan()" aria-label="Cerrar">×</button><span class="tag">Financiación</span>
@@ -1237,7 +1242,11 @@ const m=document.getElementById("md");m.innerHTML=`<div class="mb" role="dialog"
 <b>${o.n} plazos de ${eur2(o.cuota)}</b><small>${o.r?`Total ${eur2(o.total)} · recargo ${String(o.r*100).replace(".",",")} % · TAE ${o.tae.toFixed(1).replace(".",",")} %`:"Sin intereses · TAE 0 %"}</small></button>`).join("")}</div>
 <p class="mu" style="font-size:12px;margin:10px 0 14px">Sin comisiones de apertura ni de cancelación: puedes pagar lo que quede cuando quieras sin coste extra. Las cuotas se cobran solas cada mes con tu tarjeta y la entrega se libera al cobrarse la última.</p>
 <button class="btn" style="width:100%" onclick="pedirFinanciacion(${id})">Pagar a plazos</button>${modalPie}`;m.style.display="grid"}
-async function pedirFinanciacion(id){const p=pedidos().find(x=>(x.id||x.caso_id)==id);if(!p)return;
+async function pedirFinanciacion(id){
+if(FIN_DEMO&&FIN_DEMO.key==id){if(VISTA)return toast("Estás viendo el portal como el cliente: no se puede pagar.");const d=FIN_DEMO,o=FINANCIACION.plazos.find(x=>x.n==FIN_SEL.n),total=Math.round(d.p.importe*(1+o.r)*100)/100,cuota=Math.round(total/o.n*100)/100;
+if(!await aceptarCondiciones({n:d.p.nombre+" · "+o.n+" plazos",pr:o.n+" × "+eur2(cuota)+" (total "+eur2(total)+")",fin:true,boton:"Pagar la primera cuota"}))return;closePlan();toast("Abriendo el pago seguro de Stripe…",4000);
+try{const s=await rpc("cliente_demo",{p_token:token,p_caso:d.caso,p_accion:"aceptar",p_texto:""});const r=await fn("pago",{accion:"financiar",token,servicio_id:s.id,plazos:o.n,acepta:VERSION_SUS});location.href=r.url}catch(err){await cargarCasos().catch(()=>{});render();toast(err.message,7000)}return}
+const p=pedidos().find(x=>(x.id||x.caso_id)==id);if(!p)return;
 if(p.id&&SUSCRIPCIONES_ACTIVAS){if(VISTA)return toast("Estás viendo el portal como el cliente: no se puede pagar.");const c=catDe(p.nombre)||{},base=p.tipo=="web"&&p.importe?+p.importe:precioBase(p.precio||c.pr),o=FINANCIACION.plazos.find(x=>x.n==FIN_SEL.n),total=Math.round(base*(1+o.r)*100)/100,cuota=Math.round(total/o.n*100)/100;
 if(!await aceptarCondiciones({n:p.nombre+" · "+o.n+" plazos",pr:o.n+" × "+eur2(cuota)+" (total "+eur2(total)+")",fin:true,boton:"Pagar la primera cuota"}))return;closePlan();toast("Abriendo el pago seguro de Stripe…",4000);
 try{const r=await fn("pago",{accion:"financiar",token,servicio_id:p.id,plazos:o.n,acepta:VERSION_SUS});location.href=r.url}catch(err){toast(err.message,7000)}return}
