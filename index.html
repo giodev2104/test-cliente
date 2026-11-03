@@ -1013,7 +1013,7 @@ if(!CASOS.some(x=>x.id==r.caso.id))CASOS.unshift(r.caso);SERV.unshift(r.servicio
 toast("Hemos recibido tu petición. Te enviaremos el presupuesto por el chat.",5000)}
 catch(err){toast(err.message,5000)}}
 async function irAPagar(datos){if(VISTA)return toast("Estás viendo el portal como el cliente: no se puede pagar.");toast("Abriendo el pago seguro de Stripe…",4000);
-try{const r=await fn("pago",{accion:"crear",token,acepta:"condiciones-pago-unico-2026-11-v3",...datos});location.href=r.url}catch(err){toast(err.message,7000)}}
+try{const r=await fn("pago",{accion:"crear",token,acepta:"condiciones-pago-unico-2026-11-v4",...datos});location.href=r.url}catch(err){toast(err.message,7000)}}
 async function pagarPedido(id,yaAcepto){const s=SERV.find(x=>x.id==id);if(!s)return;
 if(s.tipo=="web"){if(!s.importe){toast("Primero te enviamos el precio cerrado por el chat.",5000);return s.caso_id&&verCaso(s.caso_id)}
 if(s.anticipo_en&&!s.aprobado_en)return toast("El 50 % restante se paga cuando apruebes el diseño final en la demo.",5000);
@@ -1198,7 +1198,7 @@ ${o.pago&&token&&!VISTA?`<div class="ac-cod"><input id="ac-cod" placeholder="¿T
 <label class="chk ac-chk"><input type="checkbox" id="ac-ok" onchange="document.getElementById('ac-si').disabled=!this.checked"><span>${textoAcepto()}</span></label>
 <button class="btn" id="ac-si" style="width:100%;margin-top:12px" disabled onclick="acFin(true)">${o.boton||"Continuar al pago seguro"}</button><p style="text-align:center;margin-top:10px"><button class="lk" onclick="acFin(false)">Cancelar</button></p></div>`;m.style.display="grid"})}
 // Queda constancia en el caso (fecha, hora y versión) de que el cliente aceptó las condiciones; solo lo ve el equipo
-const dejarConstancia=c=>c&&token&&!VISTA?rpc("cliente_aceptar_condiciones",{p_token:token,p_caso:c,p_version:"condiciones-pago-unico-2026-11-v3"}).catch(()=>{}):null;
+const dejarConstancia=c=>c&&token&&!VISTA?rpc("cliente_aceptar_condiciones",{p_token:token,p_caso:c,p_version:"condiciones-pago-unico-2026-11-v4"}).catch(()=>{}):null;
 function acFin(si){if(si&&!document.getElementById("ac-ok").checked)return;
 const ic=document.getElementById("ac-cod");if(si&&ic&&ic.value.trim()&&CODIGO_OK!=ic.value.trim().toUpperCase())return probarCodigo().then(()=>{if(CODIGO_OK)acFin(true)});
 const r=aceptarCondiciones.r;aceptarCondiciones.r=null;closePlan();if(r)r(!!si)}
@@ -1447,7 +1447,7 @@ const EX=[{c:"EXT-01",g:0,k:"Redacción Persuasiva (Copywriting)",p:"90 €",t:"
 {c:"EXT-06",g:1,k:"Pasarela de Pago Adicional",p:"35 €",t:"Integración extra de Bizum, Stripe o PayPal."},
 {c:"EXT-07",g:1,k:"Web Multidioma",p:"89 €",t:"Estructura y traducción para 1 idioma adicional."},
 {c:"EXT-08",g:1,k:"Widget Reseñas de Google",p:"50 €",t:"Mapeo e inserción de reseñas en vivo en la web."},
-{c:"EXT-09",g:1,k:"Asistente Chatbot IA / WhatsApp",p:"99 €",t:"Respuestas automáticas a tus clientes 24/7. Incluye la puesta en marcha y 3 meses de uso; después, 19 €/mes (hasta 500 conversaciones al mes)."},
+{c:"EXT-09",g:1,k:"Asistente Chatbot IA / WhatsApp",p:"99 €",t:"Respuestas automáticas a tus clientes 24/7. Incluye la puesta en marcha y el primer mes de uso gratis; después, 19 €/mes (hasta 500 conversaciones al mes)."},
 {c:"EXT-10",g:1,k:"Carga Masiva de Productos",p:"40 €",t:"Importación de catálogo inicial (bloque de 25 u.)."},
 {c:"EXT-11",g:1,k:"Panel de gestión de productos",p:"99 €",t:"Catálogo en tu web que gestionas tú desde tu panel: fotos, precios, descuentos y categorías, al momento y sin cuotas."},
 {c:"EXT-13",g:1,k:"Página o sección extra",p:"35 €",t:"Una sección o página más en tu web, con su diseño y sus textos."},
@@ -1464,7 +1464,7 @@ const EX=[{c:"EXT-01",g:0,k:"Redacción Persuasiva (Copywriting)",p:"90 €",t:"
 {c:"EXT-24",g:2,k:"Puesta en marcha de anuncios",p:"99 €",t:"Creamos tu primera campaña en Meta (Facebook e Instagram) o en Google, lista para empezar."},
 {c:"EXT-26",g:1,k:"Mantenimiento de pedidos online",p:"9 € / mes",t:"Mantiene activo tu sistema de pedidos (carrito, avisos y panel) a partir del 4.º mes. También 90 €/año. Incluido en Mantenimiento Tienda y en Renting Ecommerce."},
 {c:"EXT-28",g:1,k:"Alojamiento web (hosting)",p:"5 € / mes",t:"Tu web siempre online en nuestros servidores, con certificado de seguridad (https). El primer mes es gratis; también 50 €/año. Incluido en cualquier plan de mantenimiento y en el renting."},
-{c:"EXT-27",g:1,k:"Asistente IA (cuota mensual)",p:"19 € / mes",t:"Mantiene activo tu asistente con IA a partir del 4.º mes, con hasta 500 conversaciones al mes."},
+{c:"EXT-27",g:1,k:"Asistente IA (cuota mensual)",p:"19 € / mes",t:"Mantiene activo tu asistente con IA a partir del 2.º mes, con hasta 500 conversaciones al mes."},
 {c:"EXT-19",g:2,k:"Gestión de Blog Mensual",p:"59 € / mes",t:"Redacción de 2 artículos SEO optimizados al mes."},
 {c:"EXT-21",g:2,k:"Auditoría SEO Trimestral",p:"49 € / trim.",t:"Informe de rendimiento, posicionamiento y competencia."}];
 // 8. Packs promocionales de cierre (bundles ahorro)
@@ -1472,7 +1472,7 @@ const PK=[{e:"📍",n:"Pack Presencia Local",p:"109 €",f:["Ficha de Google Map
 {e:"🎨",n:"Pack Arranque de Marca",p:"239 €",f:["Diseño de logo e identidad de marca básica","Redacción persuasiva (copywriting hasta 5 secciones)","Textos legales adaptados (aviso legal, privacidad y cookies)","2 cuentas de correo con tu dominio"]},
 {e:"🛒",n:"Pack Tienda Lista",p:"259 €",f:["Panel de gestión de productos","Panel de gestión de pedidos: carrito en tu web (3 meses incluidos; después 9 €/mes)","Carga inicial de 25 productos","Pasarela de pago extra (Bizum, Stripe o PayPal)"]},
 {e:"🍽️",n:"Pack Hostelería",p:"119 €",f:["Carta digital con QR para mesas o mostrador","Reservas online desde tu web","Ficha de Google Maps optimizada (SEO local)","Kit de reseñas: QR y tarjeta para pedirlas"]},
-{e:"💅",n:"Pack Citas",p:"189 €",f:["Reserva o cita online conectada a tu agenda","Ficha de Google Maps optimizada (SEO local)","Widget con tus reseñas de Google en la web","Asistente con IA / WhatsApp 24/7 (3 meses incluidos; después 19 €/mes)"]}];
+{e:"💅",n:"Pack Citas",p:"189 €",f:["Reserva o cita online conectada a tu agenda","Ficha de Google Maps optimizada (SEO local)","Widget con tus reseñas de Google en la web","Asistente con IA / WhatsApp 24/7 (1.er mes gratis; después 19 €/mes)"]}];
 // Packs retirados: solo para mostrar el detalle a quien ya los contrató
 const PK_ANTIGUOS=[{e:"📍",n:"Pack Presencia Local Total",p:"119 €",f:["Ficha Google Maps optimizada (SEO Local)","2 Cuentas de Correo Corporativo personalizadas","Widget integrador de Reseñas de Google","Botón flotante de WhatsApp directo"]},
 {e:"🚀",n:"Pack Despegue Marca & Web",p:"239 €",f:["Diseño de Logo y Identidad de Marca Básico","Redacción Persuasiva (Copywriting hasta 5 pág.)","Textos Legales Adaptados (LOPD/RGPD/Cookies)","Optimización de velocidad y carga WPO"]},
