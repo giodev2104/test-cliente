@@ -1344,7 +1344,7 @@ function pedirPlan(i){return pedirServicio("m",i)}
 // Botón de pago de Stripe con los datos del cliente (para identificar el pago en Stripe)
 // Pagos pendientes del cliente, cada uno con su importe exacto (precio cerrado / precio del servicio). Se cobran con
 // pagarPedido → Stripe Checkout creado en el servidor (función «pago»), nunca con un enlace donde el cliente elige el importe.
-const pagosPendientes=()=>SERV.filter(x=>["web","extra","pack"].includes(x.tipo)&&!x.pagado_en&&!x.plazos_total&&!["baja","rechazado"].includes(x.estado));
+const pagosPendientes=()=>SERV.filter(x=>(["web","extra","pack"].includes(x.tipo)||(SUSCRIPCIONES_ACTIVAS&&["mantenimiento","renting"].includes(x.tipo)&&x.estado=="pendiente"))&&!x.pagado_en&&!x.plazos_total&&!["baja","rechazado"].includes(x.estado));
 function pagarHTML(){const l=pagosPendientes();
 if(!l.length)return `<div class="c"><b style="font-size:16px">No tienes pagos pendientes</b><p class="mu" style="font-size:14px">Cuando tengas un pedido o tu precio cerrado, aparecerá aquí con su importe exacto. Pago seguro con Stripe: tu tarjeta nunca pasa por nuestra web.</p></div>`;
 return l.map(x=>{let t="",btn="";const pagar=(txt)=>VISTA?"":`<button class="btn" onclick="pagarPedido(${x.id})">${txt}</button>`;
@@ -1353,6 +1353,7 @@ if(!x.importe)t="Te enviamos el precio cerrado por el chat antes de empezar.";
 else if(!x.anticipo_en){t=`Anticipo del 50 %: <b>${eur(m.a)}</b> de ${eur(x.importe)}`;btn=pagar("Pagar "+eur(m.a))}
 else if(!x.aprobado_en)t=`Anticipo pagado ✔ · El 50 % restante (<b>${eur(m.f)}</b>) se paga cuando apruebes el diseño final.`;
 else{t=`Pago final del 50 %: <b>${eur(m.f)}</b> de ${eur(x.importe)}`;btn=pagar("Pagar "+eur(m.f))}}
+else if(x.tipo=="mantenimiento"||x.tipo=="renting"){t=esc(x.precio||"")+" · sin permanencia, baja cuando quieras";btn=(x.caso_id?`<button class="btn s" onclick="verCaso(${x.caso_id})">Ir al chat</button> `:"")+pagar("Contratar")}
 else{const c=catDe(x.nombre)||{};t=esc(x.precio||c.pr||"");btn=pagar("Pagar")}
 return `<div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:10px"><div><b style="font-size:16px">${esc(x.nombre)}</b><p class="mu" style="font-size:14px">${t}</p></div>${btn}</div>`}).join("")+`<p class="mu" style="font-size:13px">Pago seguro con Stripe: tu tarjeta nunca pasa por nuestra web.</p>`}
 function LAND(){const S=[[ico("M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"),"Creación web","Planes Lanzamiento, Negocio y Ecommerce / Citas. Pago único."],[ico("M4 5h16v14H4zM4 9h16"),"Landing pages","Una página enfocada en vender un servicio o captar contactos. Pago único."],[ico("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"),"Desarrollo a medida","Tiendas online, reservas y citas, integraciones y funciones a medida. Pago único."],[ico("M4 19V5M4 19h16M8 15l3-4 3 2 5-6"),"Branding, marketing y SEO","Servicios extra, herramientas y packs para captar más clientes online."]];
