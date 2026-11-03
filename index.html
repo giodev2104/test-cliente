@@ -593,7 +593,7 @@ const FAQ=[
 {p:"Mi web no carga o va muy lenta",r:"Vigilamos tu web cada hora: si se cae, abrimos una incidencia automáticamente. Si notas algo raro, envíanos una solicitud «Algo no funciona» con una captura.",k:"caida caída carga lenta no funciona error 500 abre"},
 {p:"¿Cómo cambio la contraseña de mi correo profesional?",r:"Envíanos una solicitud «Tengo una duda» indicando el buzón y te mandamos los pasos o la cambiamos nosotros.",k:"correo email contraseña buzon buzón clave"},
 {p:"¿Puedo cambiar de plan o añadir extras?",r:"Sí. En «Servicios» ves tu plan de web, tu plan de mantenimiento y tus extras. Desde ahí puedes cambiar de plan, añadir extras o packs y pedir la baja. Cuando el equipo lo apruebe, verás el cambio en tu panel.",k:"plan cambiar mejorar subir bajar precio extra pack servicio añadir"},
-{p:"¿Puedo pagar a plazos?",r:"Sí, en los pedidos de pago único desde 150 €: en 3, 6 o 12 plazos sin intereses ni recargo. Pulsa «Financiar» en tu pedido.",k:"plazos financiar financiacion aplazar cuotas pagar meses"},
+{p:"¿Puedo pagar a plazos?",r:"Sí, en los pedidos de pago único desde 100 €: en 3, 6 o 12 plazos sin intereses ni recargo. Pulsa «Financiar» en tu pedido.",k:"plazos financiar financiacion aplazar cuotas pagar meses"},
 {p:"¿Cómo pago o consulto mis facturas?",r:"En «Facturación» tienes el botón de pago seguro con Stripe y la lista de tus facturas.",k:"pago pagar factura tarjeta stripe recibo"},
 {p:"¿Qué son los tokens de mi plan?",r:"Son el saldo de cambios de contenido de tu plan: 2 tokens al mes con el Mantenimiento Pro y 3 con el Mantenimiento Tienda. Además, ganas 1 token de regalo por cada amigo que recomiendes y contrate. Cada tarea consume tokens según su tamaño y te decimos cuántos antes de empezar. En «Mi web» y en «Soporte» ves cuántos llevas usados; se renuevan el día 1 de cada mes.",k:"tokens saldo horas incluye plan mes consumo quedan"},
 {p:"¿La web es mía?",r:"Sí. Con pago único es tuya desde el primer día. Con renting pasa a ser tuya al completar 24 cuotas; si te das de baja antes, puedes quedártela pagando las cuotas que falten hasta 24. El dominio siempre está a tu nombre.",k:"mia mía propiedad dueño llevar baja renting cuotas dominio codigo"},
@@ -1161,7 +1161,7 @@ async function descargarEntrega(id){if(VISTA)return toast("En la vista del equip
 // ---------- Financiar un pedido de pago único (aplazamiento ofrecido por la propia empresa) ----------
 // r = recargo total sobre el precio. Ahora todos los plazos van sin intereses (r = 0). La primera cuota se paga hoy.
 // Ojo: cobrar intereses a particulares puede entrar en la Ley 16/2011 de crédito al consumo; consúltalo con tu gestoría.
-const FINANCIACION={minimo:150,plazos:[{n:3,r:0},{n:6,r:0},{n:12,r:0}]};
+const FINANCIACION={minimo:100,plazos:[{n:3,r:0},{n:6,r:0},{n:12,r:0}]};
 // Por ahora solo se contratan servicios de PAGO ÚNICO. Las suscripciones (mantenimiento, renting, extras mensuales) y la
 // financiación se muestran en «Próximamente» sin poder contratarse. Para activarlas de nuevo basta con poner true.
 const SUSCRIPCIONES_ACTIVAS=true;
