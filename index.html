@@ -1215,11 +1215,40 @@ if(/^EXT-12 ·/.test(nombre)||nombre=="Pack Tienda Lista")l.push(["Gestión de p
 if(/^EXT-09 ·/.test(nombre)||nombre=="Pack Citas")l.push(["Asistente IA","el primer mes","EXT-27"]);
 if(!l.length)return "";const pr=c=>{const x=EX.find(e=>e.c==c);return x?x.p.replace(" / mes","/mes"):""};
 return `<strong>🔁 Al pagar se activa también:</strong><ul>${l.map(x=>`<li>${x[0]}: gratis ${x[1]}, después ${pr(x[2])}</li>`).join("")}</ul><small>Se cobra solo con esta tarjeta. Sin permanencia: lo das de baja cuando quieras desde tu portal. Si ya lo incluye tu mantenimiento o renting, no se cobra.</small>`}
+// Condiciones propias de cada servicio en la ventana «Antes de pagar» (las comunes van aparte)
+const GAR="30 días de garantía técnica tras la entrega.";
+const COND_SERV={
+"EXT-01":["Textos de venta para hasta 5 secciones de tu web.","Antes de empezar te pedimos por el chat la información de tu negocio.","2 rondas de revisión."],
+"EXT-02":["Logo en formato vectorial, paleta de colores y tipografías.","2 rondas de revisión del diseño.","Al terminar recibes todos los archivos."],
+"EXT-03":["Aviso legal, privacidad y cookies adaptados a tu negocio a partir de plantillas.","Son orientativos: no sustituyen el asesoramiento de un abogado."],
+"EXT-04":["Seleccionamos de 10 a 15 fotografías profesionales según tu sector."],
+"EXT-05":["Hasta 2 cuentas de correo con tu dominio.","Necesitamos acceso a la configuración (DNS) de tu dominio.","Si el proveedor de correo tiene cuota, se paga aparte."],
+"EXT-06":["Integramos 1 pasarela: Bizum, Stripe o PayPal.","Necesitas una cuenta a tu nombre en la pasarela; sus comisiones las cobra el proveedor.",GAR],
+"EXT-07":["Estructura y traducción de tu web a 1 idioma más.","Revisas los textos traducidos antes de publicarlos.",GAR],
+"EXT-08":["Tus reseñas reales de Google en tu web, actualizadas solas.","Necesitas una ficha de Google con reseñas.",GAR],
+"EXT-09":["Incluye la puesta en marcha y el primer mes de uso gratis.","Después, 19 €/mes con hasta 500 conversaciones al mes, sin permanencia.","Lo configuramos con la información que nos des; como toda IA, puede equivocarse.",GAR],
+"EXT-10":["Importamos hasta 25 productos con los datos y fotos que nos envíes."],
+"EXT-11":["Catálogo en tu web que gestionas tú desde tu panel, sin cuotas.",GAR],
+"EXT-12":["Incluye 3 meses de uso; después, 9 €/mes (o 90 €/año), sin permanencia.","Necesita el panel de gestión de productos (catálogo).",GAR],
+"EXT-13":["Una sección o página más, con su diseño y sus textos.","2 rondas de revisión.",GAR],
+"EXT-14":["Optimizamos imágenes, código y caché, también en webs hechas por otros (necesitamos acceso).","La mejora depende de tu alojamiento y de cómo está hecha la web: no garantizamos una puntuación concreta."],
+"EXT-15":["Optimizamos tu ficha de Google Business Profile (necesitamos acceso).","El posicionamiento lo decide Google: no garantizamos puestos concretos."],
+"EXT-16":["Damos de alta tu web en Google Search Console y enviamos el mapa del sitio.","Cuándo y cómo aparece la web lo decide Google."],
+"EXT-17":["Instalamos los píxeles de Meta (Facebook e Instagram) y TikTok en tu web.","Necesitas tus cuentas publicitarias; no incluye gestionar campañas."],
+"EXT-18":["Botón de reserva conectado a tu agenda.","Si la herramienta de agenda tiene cuota propia, se paga aparte.",GAR],
+"EXT-20":["Tu carta o lista de precios en la web y el código QR listo para imprimir.","La impresión va aparte."],
+"EXT-22":["Código QR y tarjeta en PDF listos para imprimir; la impresión va aparte.","El QR lleva a todos tus clientes a dejar su reseña en Google, sin filtrar opiniones."],
+"EXT-23":["Revisamos tu web con las pautas WCAG y corregimos lo que encontremos.","No es una certificación ni una auditoría oficial."],
+"EXT-24":["Creamos tu primera campaña en Meta o Google, lista para empezar.","El dinero de los anuncios lo pagas tú a la plataforma, aparte; no garantizamos resultados."],
+"EXT-25":["Una hora de cambios: textos, fotos, precios o secciones.","Si lo que pides necesita más tiempo, te lo decimos antes de hacerlo."]};
+function condicionesServicio(n){n=n||"";const c=(n.match(/^EXT-\d+/)||[])[0];if(c)return COND_SERV[c]||[GAR];
+const pk=(typeof PK!="undefined"?PK:[]).find(x=>x.n==n);if(pk)return ["Incluye: "+pk.f.map(esc).join(", ")+".","2 rondas de revisión y "+GAR.charAt(0).toLowerCase()+GAR.slice(1)];
+return ["Incluye 2 rondas de revisión y 30 días de garantía técnica tras la publicación."]}
 function aceptarCondiciones(o){CODIGO_OK=null;return new Promise(ok=>{const m=document.getElementById("md");aceptarCondiciones.r=ok;aceptarCondiciones.o=o;
 m.innerHTML=`<div class="mb" role="dialog" aria-modal="true" aria-labelledby="ac-h"><button class="x" onclick="acFin(false)" aria-label="Cerrar">×</button><h2 id="ac-h" style="margin:0 0 12px;font-size:22px">${o.presu?"Antes de pedir tu presupuesto":"Antes de pagar"}</h2>
 <div class="ac-res"><span>${juntar(esc(o.n))}</span><b id="ac-pr">${juntar(esc(o.pr))}</b></div>${o.cuotas?`<div class="ac-cuotas">${o.cuotas}</div>`:""}
 ${o.pago&&token&&!VISTA?`<div class="ac-cod"><input id="ac-cod" placeholder="¿Tienes un código promocional?" aria-label="Código promocional" maxlength="30" autocomplete="off" autocapitalize="characters" onkeydown="if(event.key=='Enter'){event.preventDefault();probarCodigo()}"><button type="button" class="btn s" onclick="probarCodigo()">Aplicar</button></div><p id="ac-cod-msg" class="ac-cod-msg" role="status"></p>`:""}
-<ul class="ac-info">${o.sus||o.fin?condicionesSusHTML(o):`<li>${o.presu?"<strong>Pago único con precio cerrado</strong>: te enviamos el importe final exacto por el chat antes de empezar. Lo pagas en dos partes: 50 % al empezar y 50 % al aprobar el diseño final.":o.cuotas?"<strong>Pago único</strong> de este importe. Las cuotas de arriba se cobran aparte cada mes cuando termina su periodo gratis.":"<strong>Pago único</strong>: este es el importe final que pagarás, sin cuotas ni costes añadidos."}</li><li>Precios con ${PRECIO_FINAL}.</li><li>Incluye 2 rondas de revisión y 30 días de garantía técnica tras la publicación.</li><li>Al tratarse de un trabajo a medida, pierdes el derecho de desistimiento cuando empezamos con tu consentimiento.</li>`}</ul>
+<ul class="ac-info">${o.sus||o.fin?condicionesSusHTML(o):`<li>${o.presu?"<strong>Pago único con precio cerrado</strong>: te enviamos el importe final exacto por el chat antes de empezar. Lo pagas en dos partes: 50 % al empezar y 50 % al aprobar el diseño final.":o.cuotas?"<strong>Pago único</strong> de este importe. Las cuotas de arriba se cobran aparte cada mes cuando termina su periodo gratis.":"<strong>Pago único</strong>: este es el importe final que pagarás, sin cuotas ni costes añadidos."}</li>${condicionesServicio(o.n).map(x=>`<li>${x}</li>`).join("")}<li>Precios con ${PRECIO_FINAL}.</li><li>Al tratarse de un trabajo a medida, pierdes el derecho de desistimiento cuando empezamos con tu consentimiento.</li>`}</ul>
 <label class="chk ac-chk"><input type="checkbox" id="ac-ok" onchange="document.getElementById('ac-si').disabled=!this.checked"><span>${textoAcepto(o)}</span></label>
 <button class="btn" id="ac-si" style="width:100%;margin-top:12px" disabled onclick="acFin(true)">${o.boton||"Continuar al pago seguro"}</button><p style="text-align:center;margin-top:10px"><button class="lk" onclick="acFin(false)">Cancelar</button></p></div>`;m.style.display="grid"})}
 // Queda constancia en el caso (fecha, hora y versión) de que el cliente aceptó las condiciones; solo lo ve el equipo
