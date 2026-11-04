@@ -24,6 +24,8 @@
   if (!P || document.getElementById("vm-raiz")) return;
 
   /* Personaje: carpa dorada con gorra (SVG propio) */
+  var nCarpa = 0;
+  var carpa = function () { var id = "vmg" + (++nCarpa); return CARPA.replace(/vmg/g, id); };
   var CARPA = '<svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">' +
     '<defs><linearGradient id="vmg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f3d77e"/><stop offset=".55" stop-color="#cda951"/><stop offset="1" stop-color="#9c7a2f"/></linearGradient></defs>' +
     '<path class="vm-cola" d="M18 60 L2 40 Q8 60 2 80 Z" fill="#9c7a2f"/>' +
@@ -54,7 +56,7 @@
     "@keyframes vm-entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}" +
     ".vm-panel{position:absolute;bottom:0;" + (IZQ ? "left" : "right") + ":0;width:min(380px,calc(100vw - 24px));height:min(580px,calc(100vh - 36px));background:#fff;border-radius:18px;box-shadow:0 18px 50px rgba(0,0,0,.35);display:flex;flex-direction:column;overflow:hidden;animation:vm-entra .25s ease}" +
     ".vm-cab{display:flex;align-items:center;gap:12px;padding:14px 16px;background:" + P.oscuro + ";color:#fff}" +
-    ".vm-cab .vm-av{width:46px;height:46px;flex:none;border-radius:50%;background:#222;display:grid;place-items:center}.vm-cab .vm-av svg{width:40px;height:40px}" +
+    ".vm-cab .vm-av{width:48px;height:48px;flex:none;border-radius:50%;background:#fbf3d8;border:2px solid " + P.color + ";display:grid;place-items:center;overflow:hidden}.vm-cab .vm-av svg{width:42px;height:42px;display:block}" +
     ".vm-cab b{display:block;font-weight:700;font-size:16px;color:" + P.color + "}.vm-cab small{display:block;font-size:12px;opacity:.8}" +
     ".vm-cab button{all:unset;cursor:pointer;margin-left:auto;width:34px;height:34px;border-radius:50%;text-align:center;line-height:34px;font-size:22px;color:#fff}.vm-cab button:hover{background:rgba(255,255,255,.12)}" +
     ".vm-lista{flex:1;overflow-y:auto;padding:16px;background:" + P.claro + ";display:flex;flex-direction:column;gap:10px;overscroll-behavior:contain}" +
@@ -93,7 +95,7 @@
   var guardar = function () { try { sessionStorage.setItem(K, JSON.stringify(H.slice(-20))); } catch (e) {} };
 
   var boton = document.createElement("button");
-  boton.className = "vm-boton"; boton.type = "button"; boton.setAttribute("aria-label", "Hablar con " + P.nombre); boton.innerHTML = CARPA;
+  boton.className = "vm-boton"; boton.type = "button"; boton.setAttribute("aria-label", "Hablar con " + P.nombre); boton.innerHTML = carpa();
   raiz.appendChild(boton);
 
   var globo = null;
@@ -114,7 +116,7 @@
     quitarGlobo();
     if (abierto) return; abierto = true; boton.style.display = "none";
     panel = document.createElement("div"); panel.className = "vm-panel"; panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "Chat con " + P.nombre);
-    panel.innerHTML = '<div class="vm-cab"><div class="vm-av">' + CARPA + '</div><div><b>' + esc(P.nombre) + '</b><small>' + esc(P.subtitulo) + '</small></div><button type="button" aria-label="Cerrar chat">×</button></div>' +
+    panel.innerHTML = '<div class="vm-cab"><div class="vm-av">' + carpa() + '</div><div><b>' + esc(P.nombre) + '</b><small>' + esc(P.subtitulo) + '</small></div><button type="button" aria-label="Cerrar chat">×</button></div>' +
       '<div class="vm-lista" aria-live="polite"></div><div class="vm-sug"></div>' +
       '<div class="vm-pie"><textarea rows="1" maxlength="1000" placeholder="Escribe tu pregunta…" aria-label="Tu mensaje"></textarea><button type="button" aria-label="Enviar"><svg width="20" height="20" viewBox="0 0 24 24" fill="#111"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z"/></svg></button></div>' +
       '<div class="vm-legal">Asistente con IA: puede equivocarse. No compartas datos personales.</div>';
