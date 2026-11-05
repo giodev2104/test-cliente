@@ -12,7 +12,7 @@
     var h = "", i;
     if (cls === "th-bf") {
       for (i = 0; i < 16; i++) h += '<i class="bfc' + (i % 3 === 1 ? ' b' : i % 5 === 2 ? ' n' : '') + '" style="left:' + (i * 41 + 5) % 100 + '%;animation-duration:' + (7 + (i * 5) % 8) + 's;animation-delay:-' + (i * 11) % 15 + 's;--dx:' + (((i * 31) % 70) - 35) + 'px"></i>';
-      return '<i class="foco f1"></i><i class="foco f2"></i>' + h;
+      return '<div class="bf-rejilla"></div><div class="bf-txt">BLACK<br>FRIDAY</div><i class="bf-tag g1">−50 %</i><i class="bf-tag g2">SALE</i><i class="bf-tag g4">OFERTA</i><i class="foco f1"></i><i class="foco f2"></i>' + h;
     }
     if (cls === "th-hw") {
       for (i = 0; i < 14; i++) h += '<i class="ch" style="left:' + (i * 53 + 11) % 100 + '%;animation-duration:' + (8 + (i * 7) % 9) + 's;animation-delay:-' + (i * 13) % 14 + 's;--dx:' + (((i * 37) % 80) - 40) + 'px"></i>';
