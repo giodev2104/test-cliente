@@ -49,3 +49,29 @@ html.th-bf a{color:#F5C542}html.th-bf .btn,html.th-bf .nav a,html.th-bf .brand,h
 @media(max-width:700px){#th-escena.bf .f2{display:none}#th-escena.bf .foco{width:80vw}}
 @media(prefers-reduced-motion:reduce){#th-escena.bf .bfc{display:none}}
 html.th-bf .tg.of{background:#F5C542;color:#16130b;border-color:#F5C542}
+
+/* ---------- Black Friday en toda la página ---------- */
+html.th-bf{--bg:#080807;--sf:#13120f;--sf2:#191712;--bd:#2c2716;--mu:#a7a08c}
+html.th-bf body{background:radial-gradient(900px 600px at 85% 8%,rgba(245,197,66,.07),transparent 70%),radial-gradient(800px 700px at 0% 50%,rgba(255,138,61,.05),transparent 70%),radial-gradient(900px 700px at 100% 90%,rgba(245,197,66,.06),transparent 70%),#080807;background-attachment:fixed}
+html.th-bf ::selection{background:#F5C542;color:#16130b}
+html.th-bf .top{background:rgba(8,8,7,.88);border-bottom-color:rgba(245,197,66,.25)}
+html.th-bf .c,html.th-bf details,html.th-bf .it,html.th-bf .por{background:linear-gradient(180deg,rgba(245,197,66,.06),rgba(0,0,0,0) 45%),#121110;border-color:rgba(245,197,66,.16)}
+html.th-bf a.c:hover,html.th-bf .it:hover{border-color:rgba(245,197,66,.55);box-shadow:0 18px 40px -20px rgba(245,197,66,.35)}
+html.th-bf details[open]{border-color:rgba(245,197,66,.5)}
+html.th-bf .por{border-left-color:#F5C542}
+html.th-bf .stp .n{background:linear-gradient(135deg,#FFE8A3,#F5C542);color:#16130b}
+html.th-bf .ck li:before{color:#F5C542}
+html.th-bf .precio{background:linear-gradient(135deg,rgba(245,197,66,.14),rgba(255,138,61,.06));border-color:rgba(245,197,66,.35)}
+html.th-bf .band{position:relative;overflow:hidden;background:radial-gradient(500px 220px at 85% 0,rgba(245,197,66,.25),transparent 70%),linear-gradient(135deg,#17140a,#0b0a07);border-color:rgba(245,197,66,.45);box-shadow:0 0 60px -10px rgba(245,197,66,.25)}
+html.th-bf .band::before{content:"BLACK FRIDAY · BLACK FRIDAY · BLACK FRIDAY · BLACK FRIDAY · BLACK FRIDAY · BLACK FRIDAY · BLACK FRIDAY";position:absolute;left:-10%;right:-10%;top:12px;white-space:nowrap;overflow:hidden;font:800 12px/1 Inter,system-ui,sans-serif;letter-spacing:.2em;color:#16130b;background:#F5C542;padding:6px 0;transform:rotate(-2deg)}
+html.th-bf .band h2{margin-top:24px}
+html.th-bf .otros a{border-color:rgba(245,197,66,.25)}html.th-bf .otros a:hover{border-color:#F5C542}
+html.th-bf h2::after{content:"";display:block;width:56px;height:3px;margin-top:10px;border-radius:2px;background:linear-gradient(90deg,#F5C542,#FF8A3D)}
+html.th-bf .band h2::after{margin-left:auto;margin-right:auto}
+html.th-bf footer{border-top-color:rgba(245,197,66,.35)}
+#th-lluvia{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+#th-lluvia i{position:absolute;top:-14px;width:5px;height:8px;border-radius:1px;background:#F5C542;opacity:.35;animation:thLluvia linear infinite}
+#th-lluvia i.b{background:#FFF1C9;opacity:.25}#th-lluvia i.n{background:#FF8A3D;opacity:.28}
+@keyframes thLluvia{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--dx,20px),105vh) rotate(540deg)}}
+@media(max-width:700px){#th-lluvia i:nth-child(n+9){display:none}}
+@media(prefers-reduced-motion:reduce){#th-lluvia{display:none}}

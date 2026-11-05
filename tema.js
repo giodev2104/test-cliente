@@ -31,6 +31,12 @@
     var e = document.getElementById("th-escena");
     if (e && e.dataset.cls !== cls) { e.remove(); e = null; }
     if (cls && !e) { e = document.createElement("div"); e.id = "th-escena"; e.dataset.cls = cls; if (cls === "th-bf") e.className = "bf"; e.setAttribute("aria-hidden", "true"); e.innerHTML = escena(cls); document.body.appendChild(e); }
+    var ll = document.getElementById("th-lluvia");
+    if (cls === "th-bf" && !ll) {
+      ll = document.createElement("div"); ll.id = "th-lluvia"; ll.setAttribute("aria-hidden", "true");
+      for (var j = 0, h2 = ""; j < 16; j++) h2 += '<i class="' + (j % 3 === 1 ? 'b' : j % 5 === 2 ? 'n' : '') + '" style="left:' + (j * 37 + 11) % 100 + '%;animation-duration:' + (14 + (j * 7) % 12) + 's;animation-delay:-' + (j * 13) % 24 + 's;--dx:' + (((j * 29) % 80) - 40) + 'px"></i>';
+      ll.innerHTML = h2; document.body.insertBefore(ll, document.body.firstChild);
+    } else if (cls !== "th-bf" && ll) ll.remove();
     alto();
     var img = document.querySelector(".brand img");
     if (img) { if (!img.dataset.orig) img.dataset.orig = img.getAttribute("src"); img.setAttribute("src", cls ? LOGO[cls] : img.dataset.orig); }
