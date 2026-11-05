@@ -39,7 +39,8 @@
     } else if (cls !== "th-bf" && ll) ll.remove();
     var tira = document.getElementById("th-tira");
     if (cls === "th-bf") {
-      if (!tira) { tira = document.createElement("div"); tira.id = "th-tira"; tira.setAttribute("role", "note"); document.body.insertBefore(tira, document.body.firstChild); }
+      if (!tira) { tira = document.createElement("div"); tira.id = "th-tira"; tira.setAttribute("role", "note"); }
+      var cab = document.querySelector("header.top, header"); if (cab) { if (tira.previousElementSibling !== cab) cab.after(tira); } else if (!tira.parentNode) document.body.insertBefore(tira, document.body.firstChild);
       var pct = t.descuentos || forzar ? (+t.descuento_max || 50) : 0, esc = function (x) { return String(x).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
       var msg = t.franja_activa && t.franja ? esc(t.franja) : pct ? "Hasta <b>−" + pct + " %</b> en mejoras para tu web" : "Pide tu demo gratuita y sin compromiso";
       var dest = pct ? "/servicios/conweb/" : "/?demo=1";
