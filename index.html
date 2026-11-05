@@ -518,6 +518,18 @@ body:not(.pub) #th-gorro{display:none}
 @keyframes thCinta{to{transform:translateX(-50%)}}
 @media(max-width:700px){#th-escena.bf .f2{display:none}#th-escena.bf .foco{width:80vw}#th-escena.bf .cinta{bottom:60px;height:32px}#th-escena.bf .cinta span{font-size:13px}}
 @media(prefers-reduced-motion:reduce){#th-escena.bf .bfc{display:none}#th-escena.bf .foco,#th-escena.bf .cinta span{animation:none}}
+/* ---------- Portada en móvil: menos texto (no afecta a ordenador) ---------- */
+.lead-c{display:none}
+@media(max-width:700px){
+body.pub .hx .lead .lead-l{display:none}body.pub .hx .lead .lead-c{display:inline}
+body.pub .hx .trust{display:none!important}
+body.pub #srv + .sec + .mu{display:none!important}
+body.pub .camino > p{display:none!important}
+body.pub .dominio .dm-tx > p{display:none!important}
+body.pub .sv > p{display:none!important}
+body.pub .sect-l{display:none!important}
+body.pub .quien-l{display:none!important}
+}
 body:not(.pub) #th-escena,body:not(.pub) #th-franja,body.menu-on #th-franja,body.menu-on #th-gorro{display:none}
 #th-franja{position:absolute;left:0;right:0;top:100%;display:flex;align-items:center;justify-content:center;gap:10px 14px;flex-wrap:wrap;padding:7px 44px 7px 16px;background:linear-gradient(90deg,#2b1648,#6b2a0c 50%,#2b1648);color:#FFE3C4;font-size:13.5px;font-weight:600;text-align:center;border-bottom:1px solid rgba(255,138,61,.35)}
 #th-franja .d{background:#6D28D9;color:#fff;border:0;border-radius:99px;padding:4px 12px;font:inherit;font-weight:700;cursor:pointer}#th-franja .d:hover{filter:brightness(1.08)}
@@ -534,7 +546,7 @@ body:not(.pub) #th-escena,body:not(.pub) #th-franja,body.menu-on #th-franja,body
 <header><b class="brand" onclick="go('Mi web')"><span class="logo" aria-hidden="true"></span>Velority</b><nav id="nav"></nav><div class="usr" id="usr"></div><div class="st"><span class="dot"></span>Tu web está online</div><button class="lk out" onclick="out()">Cerrar sesión</button></header><main id="v">
 <section class="hx"><div>
 <h1><span class="eyebrow"><span class="pulse"></span>Diseño web para negocios y autónomos</span><span class="h1t">Tu web profesional,<br><span class="grad"><span class="h1n">a precio cerrado.</span></span></span></h1>
-<p class="lead"><strong>Primero la ves gratis, luego decides.</strong> Creamos la página web de tu negocio: webs, landing pages y desarrollos a medida con un único pago, rápidos, atractivos y pensados para captar clientes. Sin permanencia: la web es tuya y la publicas en tu propio hosting.</p>
+<p class="lead"><strong>Primero la ves gratis, luego decides.</strong> <span class="lead-l">Creamos la página web de tu negocio: webs, landing pages y desarrollos a medida con un único pago, rápidos, atractivos y pensados para captar clientes. Sin permanencia: la web es tuya y la publicas en tu propio hosting.</span><span class="lead-c">Tu web con pago único y sin permanencia.</span></p>
 <div class="cta"><button class="btn xl" onclick="pedirDemo()">Quiero mi demo gratuita</button></div><p class="desde">Tu web desde <strong>100 €</strong> · pago único, IVA incluido</p>
 <ul class="trust"><li>Demo gratis y sin compromiso</li><li>Pago único: la web es tuya</li><li>Precio cerrado antes de empezar</li><li>Dominio personalizado incluido</li></ul></div>
 <div class="mock ba" style="--x:50%"><div class="mock-top"><i></i><i></i><i></i><span>panaderialuz.es</span><em class="ba-et">Antes</em><em class="ba-et nw">Después</em></div>
@@ -1412,7 +1424,7 @@ return `<div class="c" style="display:flex;justify-content:space-between;align-i
 function LAND(){const S=[[ico("M8 8l-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"),"Creación web","Planes Lanzamiento, Negocio y Ecommerce / Citas. Pago único."],[ico("M4 5h16v14H4zM4 9h16"),"Landing pages","Una página enfocada en vender un servicio o captar contactos. Pago único."],[ico("M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"),"Desarrollo a medida","Tiendas online, reservas y citas, integraciones y funciones a medida. Pago único."],[ico("M4 19V5M4 19h16M8 15l3-4 3 2 5-6"),"Branding, marketing y SEO","Servicios extra, herramientas y packs para captar más clientes online."]];
 return `<section class="hx"><div>
 <h1><span class="eyebrow"><span class="pulse"></span>Diseño web para negocios y autónomos</span><span class="h1t">Tu web profesional,<br><span class="grad"><span class="h1n">a precio cerrado.</span></span></span></h1>
-<p class="lead"><strong>Primero la ves gratis, luego decides.</strong> Creamos la página web de tu negocio: webs, landing pages y desarrollos a medida con un único pago, rápidos, atractivos y pensados para captar clientes. Sin permanencia: la web es tuya y la publicas en tu propio hosting.</p>
+<p class="lead"><strong>Primero la ves gratis, luego decides.</strong> <span class="lead-l">Creamos la página web de tu negocio: webs, landing pages y desarrollos a medida con un único pago, rápidos, atractivos y pensados para captar clientes. Sin permanencia: la web es tuya y la publicas en tu propio hosting.</span><span class="lead-c">Tu web con pago único y sin permanencia.</span></p>
 <div class="cta"><button class="btn xl" onclick="pedirDemo()">Quiero mi demo gratuita</button></div><p class="desde">Tu web desde <strong>${eur(precioMinWeb())}</strong> · pago único, ${PRECIO_FINAL}</p>
 <ul class="trust"><li>Demo gratis y sin compromiso</li><li>Pago único: la web es tuya</li><li>Precio cerrado antes de empezar</li><li>Dominio personalizado incluido</li></ul></div>
 <div class="mock ba" style="--x:50%"><div class="mock-top"><i></i><i></i><i></i><span>panaderialuz.es</span><em class="ba-et">Antes</em><em class="ba-et nw">Después</em></div>
