@@ -48,3 +48,4 @@ html.th-bf a{color:#F5C542}html.th-bf .btn,html.th-bf .nav a,html.th-bf .brand,h
 @keyframes thConf{from{transform:translate(0,0) rotate(0)}to{transform:translate(var(--dx,20px),calc(var(--esc-h,760px) + 20px)) rotate(540deg)}}
 @media(max-width:700px){#th-escena.bf .f2{display:none}#th-escena.bf .foco{width:80vw}}
 @media(prefers-reduced-motion:reduce){#th-escena.bf .bfc{display:none}}
+html.th-bf .tg.of{background:#F5C542;color:#16130b;border-color:#F5C542}
