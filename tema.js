@@ -1,15 +1,19 @@
 // Velority · tema de temporada en las páginas por sector. Lee el tema activo del panel (tema_publico) y
-// decora la página igual que la portada. ?tema=halloween o ?tema=navidad lo enseña como vista previa.
+// decora la página igual que la portada. ?tema=halloween, ?tema=navidad o ?tema=blackfriday lo enseña como vista previa.
 (function () {
   if (/bot|crawl|spider|slurp|mediapartners|inspectiontool/i.test(navigator.userAgent)) return;   // Google ve siempre la página normal
   var URL_SB = "https://ufwuvbjrgvphbggkfkuh.supabase.co", CLAVE = "sb_publishable_qxIupQGDLTM9ZXf4uAB60A_FHyRBws_";
-  var CLASE = { halloween: "th-hw", navidad: "th-nv" };
-  var LOGO = { "th-hw": "/logo-halloween.svg", "th-nv": "/logo-navidad.webp" };
-  var FAV = { "th-hw": ["/logo-halloween.svg", "image/svg+xml"], "th-nv": ["/favicon-navidad.png", "image/png"] };
+  var CLASE = { halloween: "th-hw", navidad: "th-nv", blackfriday: "th-bf" };
+  var LOGO = { "th-hw": "/logo-halloween.svg", "th-nv": "/logo-navidad.webp", "th-bf": "/logo-blackfriday.svg" };
+  var FAV = { "th-hw": ["/logo-halloween.svg", "image/svg+xml"], "th-nv": ["/favicon-navidad.png", "image/png"], "th-bf": ["/logo-blackfriday.svg", "image/svg+xml"] };
   var q = new URLSearchParams(location.search).get("tema");
   function vigente(t) { var n = Date.now(); return !!t && !!CLASE[t.tema] && (!t.desde || n >= Date.parse(t.desde)) && (!t.hasta || n <= Date.parse(t.hasta)); }
   function escena(cls) {
     var h = "", i;
+    if (cls === "th-bf") {
+      for (i = 0; i < 16; i++) h += '<i class="bfc' + (i % 3 === 1 ? ' b' : i % 5 === 2 ? ' n' : '') + '" style="left:' + (i * 41 + 5) % 100 + '%;animation-duration:' + (7 + (i * 5) % 8) + 's;animation-delay:-' + (i * 11) % 15 + 's;--dx:' + (((i * 31) % 70) - 35) + 'px"></i>';
+      return '<i class="foco f1"></i><i class="foco f2"></i>' + h;
+    }
     if (cls === "th-hw") {
       for (i = 0; i < 14; i++) h += '<i class="ch" style="left:' + (i * 53 + 11) % 100 + '%;animation-duration:' + (8 + (i * 7) % 9) + 's;animation-delay:-' + (i * 13) % 14 + 's;--dx:' + (((i * 37) % 80) - 40) + 'px"></i>';
       return '<div class="luna"></div><i class="rama r1"></i><i class="rama r3"></i><i class="mu m1"></i><i class="mu m2"></i><i class="mu m4"></i>' + h + '<div class="niebla"></div>';
@@ -26,7 +30,7 @@
     Object.keys(CLASE).forEach(function (k) { raiz.classList.toggle(CLASE[k], CLASE[k] === cls); });
     var e = document.getElementById("th-escena");
     if (e && e.dataset.cls !== cls) { e.remove(); e = null; }
-    if (cls && !e) { e = document.createElement("div"); e.id = "th-escena"; e.dataset.cls = cls; e.setAttribute("aria-hidden", "true"); e.innerHTML = escena(cls); document.body.appendChild(e); }
+    if (cls && !e) { e = document.createElement("div"); e.id = "th-escena"; e.dataset.cls = cls; if (cls === "th-bf") e.className = "bf"; e.setAttribute("aria-hidden", "true"); e.innerHTML = escena(cls); document.body.appendChild(e); }
     alto();
     var img = document.querySelector(".brand img");
     if (img) { if (!img.dataset.orig) img.dataset.orig = img.getAttribute("src"); img.setAttribute("src", cls ? LOGO[cls] : img.dataset.orig); }
