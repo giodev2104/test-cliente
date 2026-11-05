@@ -37,6 +37,17 @@
       for (var j = 0, h2 = ""; j < 16; j++) h2 += '<i class="' + (j % 3 === 1 ? 'b' : j % 5 === 2 ? 'n' : '') + '" style="left:' + (j * 37 + 11) % 100 + '%;animation-duration:' + (14 + (j * 7) % 12) + 's;animation-delay:-' + (j * 13) % 24 + 's;--dx:' + (((j * 29) % 80) - 40) + 'px"></i>';
       ll.innerHTML = h2; document.body.insertBefore(ll, document.body.firstChild);
     } else if (cls !== "th-bf" && ll) ll.remove();
+    var tira = document.getElementById("th-tira");
+    if (cls === "th-bf") {
+      if (!tira) { tira = document.createElement("div"); tira.id = "th-tira"; tira.setAttribute("role", "note"); document.body.insertBefore(tira, document.body.firstChild); }
+      var pct = t.descuentos || forzar ? (+t.descuento_max || 50) : 0, esc = function (x) { return String(x).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+      var msg = t.franja_activa && t.franja ? esc(t.franja) : pct ? "Hasta <b>−" + pct + " %</b> en mejoras para tu web" : "Pide tu demo gratuita y sin compromiso";
+      var dest = pct ? "/servicios/conweb/" : "/?demo=1";
+      tira.innerHTML = '<div class="tt-in"><span class="tt-tag">BLACK FRIDAY</span><span class="tt-msg">' + msg + '</span><span class="tt-cd"></span><a class="tt-btn" href="' + dest + '">' + (pct ? "Ver ofertas →" : "Pedir mi demo") + '</a></div>';
+      tira.onclick = function (e) { if (matchMedia("(max-width:700px)").matches && !e.target.closest(".tt-btn")) location.href = dest; };
+      var cd = tira.querySelector(".tt-cd"), fin = Date.parse(t.hasta || ""); clearInterval(window.__ttCd);
+      if (fin) { var pinta = function () { var r = Math.max(0, fin - Date.now()), d = Math.floor(r / 864e5), h = Math.floor(r / 36e5) % 24, m = Math.floor(r / 6e4) % 60, sg = Math.floor(r / 1e3) % 60, z = function (n) { return (n < 10 ? "0" : "") + n; }; cd.textContent = r ? "⏳ Termina en " + (d ? d + " d " : "") + z(h) + ":" + z(m) + ":" + z(sg) : ""; }; pinta(); window.__ttCd = setInterval(pinta, 1000); }
+    } else if (tira) { tira.remove(); clearInterval(window.__ttCd); }
     alto();
     var img = document.querySelector(".brand img");
     if (img) { if (!img.dataset.orig) img.dataset.orig = img.getAttribute("src"); img.setAttribute("src", cls ? LOGO[cls] : img.dataset.orig); }
